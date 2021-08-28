@@ -1,0 +1,6 @@
+{
+    "require": {
+        "aferrandini/phpqrcode": "^1.0",
+        "zendframework/zend-barcode": "^2.8"
+    }
+}

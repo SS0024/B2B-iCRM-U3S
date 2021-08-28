@@ -1,0 +1,130 @@
+DB Changes Query
+
+1.
+ALTER TABLE `tblproposals` ADD `servicecharge` DECIMAL(15,2) NULL DEFAULT '0.00' AFTER `signature`, ADD `service_charge_tax_rate` DECIMAL(15,2) NULL DEFAULT NULL AFTER `servicecharge`, ADD `packing_and_forwarding` DECIMAL(15,2) NULL DEFAULT '0.00' AFTER `service_charge_tax_rate`, ADD `devide_gst` TINYINT(2) NOT NULL DEFAULT '0' AFTER `packing_and_forwarding`;
+
+
+
+
+2.
+ALTER TABLE `tblinvoices` ADD `servicecharge` DECIMAL(15,2) NULL DEFAULT '0.0' AFTER `subscription_id`, ADD `service_charge_tax_rate` DECIMAL(15,2) NULL DEFAULT NULL AFTER `servicecharge`, ADD `packing_and_forwarding` DECIMAL(15,2) NULL DEFAULT '0.00' AFTER `service_charge_tax_rate`, ADD `devide_gst` TINYINT(2) NOT NULL DEFAULT '0' AFTER `packing_and_forwarding`;
+
+3.
+CREATE TABLE `tblfilestemp` (
+  `id` int(11) NOT NULL,
+  `rel_id` int(11) DEFAULT 0,
+  `rel_type` varchar(20) NOT NULL,
+  `file_name` varchar(600) NOT NULL,
+  `filetype` varchar(40) DEFAULT NULL,
+  `visible_to_customer` int(11) NOT NULL DEFAULT 0,
+  `attachment_key` varchar(32) DEFAULT NULL,
+  `external` varchar(40) DEFAULT NULL,
+  `external_link` text DEFAULT NULL,
+  `thumbnail_link` text DEFAULT NULL COMMENT 'For external usage',
+  `staffid` int(11) NOT NULL,
+  `contact_id` int(11) DEFAULT 0,
+  `task_comment_id` int(11) NOT NULL DEFAULT 0,
+  `dateadded` datetime NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `tblfilestemp`
+--
+ALTER TABLE `tblfilestemp`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `tblfilestemp`
+--
+ALTER TABLE `tblfilestemp`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+4.
+ALTER TABLE `tblestimates` ADD `servicecharge` DECIMAL(15,2) NULL DEFAULT '0.00' AFTER `signature`, ADD `service_charge_tax_rate` DECIMAL(15,2) NULL DEFAULT NULL AFTER `servicecharge`, ADD `packing_and_forwarding` DECIMAL(15,2) NULL DEFAULT '0.00' AFTER `service_charge_tax_rate`, ADD `devide_gst` TINYINT(2) NOT NULL DEFAULT '0' AFTER `packing_and_forwarding`;
+
+
+
+5.
+
+CREATE TABLE `tbldeliverymodulestatus` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbldeliverymodulestatus`
+--
+
+INSERT INTO `tbldeliverymodulestatus` (`id`, `name`) VALUES
+(1, 'Transit'),
+(2, 'Delivered'),
+(3, 'Received'),
+(4, 'Utilized'),
+(5, 'Payment Deposited');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `tbldeliverymodulestatus`
+--
+ALTER TABLE `tbldeliverymodulestatus`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `tbldeliverymodulestatus`
+--
+ALTER TABLE `tbldeliverymodulestatus`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+COMMIT;
+
+
+6.
+CREATE TABLE `tbldeliverymodules` (
+  `id` int(11) NOT NULL,
+  `invoice_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `status_id` int(11) NOT NULL,
+  `delivery_reference_no` varchar(255) NOT NULL,
+  `delivered_by` int(11) DEFAULT 0,
+  `sale_reference_no` varchar(255) DEFAULT NULL,
+  `received_by` varchar(255) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `note` text DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `tbldeliverymodules`
+--
+ALTER TABLE `tbldeliverymodules`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `tbldeliverymodules`
+--
+ALTER TABLE `tbldeliverymodules`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
