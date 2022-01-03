@@ -97,6 +97,9 @@ if(isset($_POST['contact_person']) && !empty($_POST['contact_person'])){
         array_push($where, 'AND tblinquiries.id IN (0)');
     }
 }
+if(isset($_POST['customer']) && !empty($_POST['customer'])){
+    array_push($where, 'AND tblinquiries.rel_id = "'.$_POST['customer'].'" ');
+}
 
 $join          = [];
 $custom_fields = get_table_custom_fields('proposal');

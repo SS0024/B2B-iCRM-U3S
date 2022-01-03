@@ -109,8 +109,7 @@
                                  <div class="form-group">
                                      <label for="contact_person"><?php echo _l('Contact Person'); ?></label>
                                      <select name="contact_persons[]" id="contact_person" onchange="" class="selectpicker" multiple data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('Contact person'); ?>">
-                                         <?php foreach($estimates_contact_persons as $contact_person){
-                                             ?>
+                                         <?php foreach($estimates_contact_persons as $contact_person){  ?>
                                              <option value="<?php echo $contact_person['con']; ?>"><?php echo $contact_person['contact_name']; ?></option>
                                          <?php } ?>
                                      </select>
@@ -129,6 +128,21 @@
                                          <option value="6" data-subtext="<?php echo _d(date('Y-m-01', strtotime("-5 MONTH"))); ?> - <?php echo _d(date('Y-m-t')); ?>"><?php echo _l('report_sales_months_six_months'); ?></option>
                                          <option value="12" data-subtext="<?php echo _d(date('Y-m-01', strtotime("-11 MONTH"))); ?> - <?php echo _d(date('Y-m-t')); ?>"><?php echo _l('report_sales_months_twelve_months'); ?></option>
                                          <option value="custom"><?php echo _l('period_datepicker'); ?></option>
+                                     </select>
+                                 </div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="form-group">
+                                     <label for="customer_"><?php echo _l('Customer'); ?></label>
+                                     <select name="customer" id="customer_" onchange="" class="selectpicker" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('Customer'); ?>">
+                                        <option value=""><?php echo _l('select'); ?></option>
+                                         <?php $customer_id = get_relation_data('customer');
+                                        
+                                            if(!empty($customer_id)){
+                                            foreach($customer_id as $rowData){ 
+                                                //echo '<pre>';print_r($rowData); ?>
+                                             <option value="<?php echo $rowData['userid']; ?>"><?php echo $rowData['company']; ?></option>
+                                         <?php } } ?>
                                      </select>
                                  </div>
                              </div>
@@ -216,6 +230,9 @@
        if($('select[name="contact_persons[]"]').length > 0){
            Proposals_ServerParams['contact_person'] = "[name='contact_persons[]']"
        }
+       if($('select[name="customer"]').length > 0){
+           Proposals_ServerParams['customer'] = "[name='customer']"
+       }
      initDataTable('.table-inquiries', admin_url+'inquiries/table', [2,3,5,6], [2,3,5,6], Proposals_ServerParams, [0, 'desc']);
      init_inquiry();
    });
@@ -264,6 +281,9 @@
        }
    }
    $('select[name="contact_persons[]"]').on('change', function() {
+       gen_reports();
+   });
+   $('select[name="customer"]').on('change', function() {
        gen_reports();
    });
 </script>
