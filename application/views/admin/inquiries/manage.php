@@ -105,7 +105,7 @@
                              <div class="col-md-12">
                                  <p class="bold"><?php echo _l('filter_by'); ?></p>
                              </div>
-                             <div class="col-md-4">
+                             <div class="col-md-2">
                                  <div class="form-group">
                                      <label for="contact_person"><?php echo _l('Contact Person'); ?></label>
                                      <select name="contact_persons[]" id="contact_person" onchange="" class="selectpicker" multiple data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('Contact person'); ?>">
@@ -115,7 +115,7 @@
                                      </select>
                                  </div>
                              </div>
-                             <div class="col-md-4">
+                             <div class="col-md-2">
                                  <div class="form-group" id="report-time">
                                      <label for="months-report"><?php echo _l('period_datepicker'); ?></label><br />
                                      <select class="selectpicker" name="months-report" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -131,7 +131,7 @@
                                      </select>
                                  </div>
                              </div>
-                             <div class="col-md-4">
+                             <div class="col-md-3">
                                  <div class="form-group">
                                      <label for="customer_"><?php echo _l('Customer'); ?></label>
                                      <select name="customer" id="customer_" onchange="" class="selectpicker" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('Customer'); ?>">
@@ -145,6 +145,12 @@
                                          <?php } } ?>
                                      </select>
                                  </div>
+                             </div>
+                             <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="customer_"><?php echo _l('Group'); ?></label>
+                                    <?php echo render_select('group_id', $items_groups, array('id', 'name')); ?>
+                                </div>
                              </div>
                              <div class="col-md-4">
                                  <div id="date-range" class="hide mbot15">
@@ -233,6 +239,9 @@
        if($('select[name="customer"]').length > 0){
            Proposals_ServerParams['customer'] = "[name='customer']"
        }
+       if($('select[name="group_id"]').length > 0){
+           Proposals_ServerParams['group_id'] = "[name='group_id']"
+       }
      initDataTable('.table-inquiries', admin_url+'inquiries/table', [2,3,5,6], [2,3,5,6], Proposals_ServerParams, [0, 'desc']);
      init_inquiry();
    });
@@ -284,6 +293,9 @@
        gen_reports();
    });
    $('select[name="customer"]').on('change', function() {
+       gen_reports();
+   });
+   $('select[name="group_id"]').on('change', function() {
        gen_reports();
    });
 </script>

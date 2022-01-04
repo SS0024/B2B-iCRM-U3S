@@ -8,6 +8,7 @@ class Inquiries extends Admin_controller
         parent::__construct();
         $this->load->model('inquiries_model');
         $this->load->model('currencies_model');
+        $this->load->model('invoice_items_model');
     }
 
     public function index($proposal_id = '')
@@ -22,7 +23,7 @@ class Inquiries extends Admin_controller
         if (!has_permission('proposals', '', 'view') && !has_permission('proposals', '', 'view_own') && get_option('allow_staff_view_estimates_assigned') == 0) {
             access_denied('proposals');
         }
-
+        $data['items_groups'] = $this->invoice_items_model->get_groups();
         $isPipeline = $this->session->userdata('inquiries_pipeline') == 'true';
 
         if ($isPipeline && !$this->input->get('status')) {
