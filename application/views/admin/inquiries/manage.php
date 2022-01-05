@@ -152,6 +152,11 @@
                                     <?php echo render_select('group_id', $items_groups, array('id', 'name')); ?>
                                 </div>
                              </div>
+                             <div class="col-md-2">
+                                <div class="form-group">
+                                    <?php echo render_select('brand', $items_brands, array('id', 'name'), 'Brand'); ?>
+                                </div>
+                             </div>
                              <div class="col-md-4">
                                  <div id="date-range" class="hide mbot15">
                                      <div class="row">
@@ -242,6 +247,9 @@
        if($('select[name="group_id"]').length > 0){
            Proposals_ServerParams['group_id'] = "[name='group_id']"
        }
+       if($('select[name="brand"]').length > 0){
+           Proposals_ServerParams['brand_id'] = "[name='brand']"
+       }
      initDataTable('.table-inquiries', admin_url+'inquiries/table', [2,3,5,6], [2,3,5,6], Proposals_ServerParams, [0, 'desc']);
      init_inquiry();
    });
@@ -296,6 +304,9 @@
        gen_reports();
    });
    $('select[name="group_id"]').on('change', function() {
+       gen_reports();
+   });
+   $('select[name="brand"]').on('change', function() {
        gen_reports();
    });
 </script>

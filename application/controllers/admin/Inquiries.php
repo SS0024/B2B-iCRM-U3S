@@ -24,6 +24,7 @@ class Inquiries extends Admin_controller
             access_denied('proposals');
         }
         $data['items_groups'] = $this->invoice_items_model->get_groups();
+        $data['items_brands'] = $this->invoice_items_model->get_brands();
         $isPipeline = $this->session->userdata('inquiries_pipeline') == 'true';
 
         if ($isPipeline && !$this->input->get('status')) {

@@ -9,6 +9,12 @@ if ($this->ci->input->post('group_id')) {
     $group_cond = ' group_tbl.id='.$group_id.' AND ';
 }
 
+$brand_id = $brand_cond = '';
+if ($this->ci->input->post('brand_id')) {
+    $brand_id = $this->ci->input->post('brand_id');
+    $brand_cond = ' brands_tbl.id='.$brand_id.' AND ';
+}
+
 $aColumns = [
     'tblinquiries.id',
     'total',
@@ -16,6 +22,7 @@ $aColumns = [
     '(SELECT description FROM tblitems_in as items_ WHERE  items_.rel_type = "inquiry" AND items_.rel_id= tblinquiries.id limit 1 ) as item_description',
     '(SELECT group_id FROM tblitems_in as items_ WHERE  items_.rel_type = "inquiry" AND items_.rel_id= tblinquiries.id limit 1 ) as item_group_id, ',
     '(SELECT name FROM tblitems_groups as group_tbl WHERE '.$group_cond.'  group_tbl.id= (SELECT group_id FROM tblitems_in as items_ WHERE  items_.rel_type = "inquiry" AND items_.rel_id= tblinquiries.id limit 1 ) limit 1 ) as group_name, ',
+    '(SELECT name FROM tblitems_brands as brands_tbl WHERE '.$brand_cond.'  brands_tbl.id = (SELECT brand FROM tblitems as items_tb WHERE  items_tb.description = (SELECT description FROM tblitems_in as items_ WHERE  items_.rel_type = "inquiry" AND items_.rel_id= tblinquiries.id limit 1 )  limit 1 ) limit 1 ) as brand_name, ',
     'total_tax',
     '(CASE 
         WHEN tblinquiries.rel_type="lead" THEN (SELECT company FROM tblleads WHERE tblleads.id = tblinquiries.rel_id LIMIT 1)
@@ -130,8 +137,18 @@ if (count($custom_fields) > 4) {
     @$this->ci->db->query('SET SQL_BIG_SELECTS=1');
 }
 $group_by ='';
+if(!empty($group_id) || !empty($brand_id)){
+    $group_by =' group by tblinquiries.id HAVING ';
+}
 if(!empty($group_id)){
-    $group_by = 'group by tblinquiries.id HAVING group_name !="" ';
+    $group_by .= ' group_name !="" ';
+}
+
+if(!empty($brand_id)){
+    if(!empty($group_id)){
+        $group_by .= ' AND  ';
+    }
+    $group_by .= ' brand_name !="" ';
 }
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     'currency',
@@ -188,22 +205,23 @@ foreach ($rResult as $aRow) {
     $row[] = $toOutput;
 
     $estimateItem = get_items_by_type('inquiry', $aRow['tblinquiries.id'])[0];
-    @$this->ci->db->select('*');
+    /*@$this->ci->db->select('*');
     @$this->ci->db->from('tblitems');
     @$this->ci->db->where('description', $aRow['item_description']);
-    $recdata = @$this->ci->db->get()->row();
+    $recdata = @$this->ci->db->get()->row();*/
 
     /*@$this->ci->db->select('*');
     @$this->ci->db->from('tblitems_groups');
     @$this->ci->db->where('id', $aRow['item_group_id']);
     $groupdata = @$this->ci->db->get()->row();*/
 
-    @$this->ci->db->select('*');
+    /*@$this->ci->db->select('*');
     @$this->ci->db->from('tblitems_brands');
     @$this->ci->db->where('id', $recdata->brand);
-    $branddata = @$this->ci->db->get()->row();
+    $branddata = @$this->ci->db->get()->row();*/
 
-    $row[] = $branddata->name;
+    // $row[] = $branddata->name;
+    $row[] = $aRow['brand_name'];
 
     // $row[] = $groupdata->name;
     $row[] = $aRow['group_name'];
