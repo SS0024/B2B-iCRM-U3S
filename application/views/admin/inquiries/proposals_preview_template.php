@@ -455,7 +455,8 @@
                                 </table>
                             </div>
                         </div>
-                        <hr class="hr-panel-heading"/>
+                        <b style="color:black" class="company-name-formatted text-capitalize"><?= amount_in_word($proposal->total); ?></b>
+                        <hr class="hr-panel-heading test"/>
 
                         <?php if ($proposal->clientnote != '') { ?>
                             <div class="mtop15">
