@@ -170,7 +170,7 @@ function render_date_input($name, $label = '', $value = '', $input_attrs = [], $
         $input .= '<label for="' . $name . '" class="control-label">' . _l($label, '', false) . '</label>';
     }
     $input .= '<div class="input-group date">';
-    $input .= '<input type="text" id="' . $name . '" name="' . $name . '" class="form-control datepicker' . $input_class . '" ' . $_input_attrs . ' value="' . set_value($name, $value) . '">';
+    $input .= '<input type="text" id="' . $name . '" name="' . $name . '" data-date="2024-02-01" class="form-control datepicker' . $input_class . '" ' . $_input_attrs . ' value="' . set_value($name, $value) . '">';
     $input .= '<div class="input-group-addon">
     <i class="fa fa-calendar calendar-icon"></i>
 </div>';

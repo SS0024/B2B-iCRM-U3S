@@ -47,7 +47,8 @@
                                 <?php echo render_input('warranty','Warranty in months','','number'); ?>
                             </div>
                             <div class="col-md-6">
-                                <?php echo render_date_input('upto','Valid Upto'); ?>
+                                <?php $crdate = date("d-m-Y H:i:s", strtotime("+2 year", strtotime(date('Y-m-d'))));
+                                 echo render_date_input('upto','Valid Upto',$crdate); ?>
                             </div>
                         </div>
                         <div class="row">

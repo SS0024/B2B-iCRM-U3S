@@ -115,6 +115,12 @@ if(isset($_POST['contact_person']) && !empty($_POST['contact_person'])){
 if(isset($_POST['customer']) && !empty($_POST['customer'])){
     array_push($where, 'AND tblinquiries.rel_id = "'.$_POST['customer'].'" ');
 }
+if(isset($_POST['lead_status']) && !empty($_POST['lead_status'])){
+    array_push($where, 'AND tblinquiries.lead_status = "'.$_POST['lead_status'].'" ');
+}
+if(isset($_POST['lead_status2']) && !empty($_POST['lead_status2'])){
+    array_push($where, 'AND tblinquiries.lead_status = "'.$_POST['lead_status2'].'" ');
+}
 /*error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);*/
