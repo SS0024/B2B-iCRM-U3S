@@ -8,7 +8,7 @@
  * Use hooks to inject custom javascript code
  */
 
-$(window).on('load', function() {
+$(window).on('load', function () {
     init_btn_with_tooltips();
 });
 
@@ -26,7 +26,7 @@ if (("Notification" in window) && app_desktop_notifications == '1') {
 }
 // Jquery validate set default options
 $.validator.setDefaults({
-    highlight: function(element) {
+    highlight: function (element) {
         var $child_tab_in_form = $(element).parents('.tab-pane');
         if ($child_tab_in_form.length && !$child_tab_in_form.is(':visible')) {
             $('a[href="#' + $child_tab_in_form.attr('id') + '"]')
@@ -34,11 +34,11 @@ $.validator.setDefaults({
                 .css('color', 'red')
                 .addClass('tab-validation');
         }
-        setTimeout(function() {
+        setTimeout(function () {
             $(element).closest('.form-group').addClass('has-error');
         }, 200);
     },
-    unhighlight: function(element) {
+    unhighlight: function (element) {
         element = $(element);
         var $child_tab_in_form = element.parents('.tab-pane');
         if ($child_tab_in_form.length) {
@@ -48,7 +48,7 @@ $.validator.setDefaults({
     },
     errorElement: 'p',
     errorClass: 'text-danger',
-    errorPlacement: function(error, element) {
+    errorPlacement: function (error, element) {
         if (element.parent('.input-group').length || element.parents('.chk').length) {
             if (!element.parents('.chk').length) {
                 error.insertAfter(element.parent());
@@ -64,12 +64,12 @@ $.validator.setDefaults({
 });
 
 // New validation method filesize
-$.validator.addMethod('filesize', function(value, element, param) {
+$.validator.addMethod('filesize', function (value, element, param) {
     return this.optional(element) || (element.files[0].size <= param);
 }, appLang.file_exceeds_max_filesize);
 
 // New validation method extension based on app extensions
-$.validator.addMethod("extension", function(value, element, param) {
+$.validator.addMethod("extension", function (value, element, param) {
     param = typeof param === "string" ? param.replace(/,/g, "|") : "png|jpe?g|gif";
     return this.optional(element) || value.match(new RegExp("\\.(" + param + ")$", "i"));
 }, $.validator.format(appLang.validation_extension_not_allowed));
@@ -100,7 +100,7 @@ var original_top_search_val,
     setup_menu_item = $('#setup-menu-item');
 
 // Custom deselect all on bootstrap ajax select input
-$("body").on('loaded.bs.select change', 'select.ajax-search', function(e) {
+$("body").on('loaded.bs.select change', 'select.ajax-search', function (e) {
     if ($(this).selectpicker('val') && !$(this).is(':disabled')) {
         var $elmWrapper = $(this).parents('.bootstrap-select.ajax-search');
         if ($elmWrapper.find('.ajax-clear-values').length === 0) {
@@ -112,17 +112,17 @@ $("body").on('loaded.bs.select change', 'select.ajax-search', function(e) {
 });
 
 // On render select remove the placeholder
-$("body").on('rendered.bs.select', 'select', function() {
+$("body").on('rendered.bs.select', 'select', function () {
     $(this).parents().removeClass('select-placeholder');
     $(this).parents('.form-group').find('.select-placeholder').removeClass('select-placeholder');
 });
 
 // Init bootstrap selectpicker
-$("body").on('loaded.bs.select', '._select_input_group', function(e) {
+$("body").on('loaded.bs.select', '._select_input_group', function (e) {
     $(this).parents('.form-group').find('.input-group-select .input-group-addon').css('opacity', '1');
 });
 
-$(window).on("load resize", function(e) {
+$(window).on("load resize", function (e) {
 
     if (!$("body").hasClass('page-small')) {
         // Add special class to minimalize page elements when screen is less than 768px
@@ -130,25 +130,25 @@ $(window).on("load resize", function(e) {
     }
 
     // Wait until metsiMenu, collapse and other effect finish and set wrapper height
-    setTimeout(function() {
+    setTimeout(function () {
         mainWrapperHeightFix();
     }, e.type == 'load' ? 150 : 0);
 
 });
 
-$(function() {
+$(function () {
 
     // Add notifications indicator on document title
     if (totalUnreadNotifications > 0) {
         document.title = '(' + totalUnreadNotifications + ') ' + doc_initial_title;
     }
 
-    $('.screen-options-btn').on('click', function() {
+    $('.screen-options-btn').on('click', function () {
         $('.screen-options-area').slideToggle();
     });
 
     /** Create New Customer **/
-    add_hotkey('Shift+C', function() {
+    add_hotkey('Shift+C', function () {
         var $leadModal = $('#lead-modal');
         var $taskModal = $('#task-modal');
         if ($leadModal.is(':visible')) {
@@ -165,12 +165,12 @@ $(function() {
     });
 
     /** Create New Invoice **/
-    add_hotkey('Shift+I', function() {
+    add_hotkey('Shift+I', function () {
         window.location.href = admin_url + 'invoices/invoice';
     });
 
     /** Create New Estimate **/
-    add_hotkey('Shift+E', function() {
+    add_hotkey('Shift+E', function () {
         var $leadModal = $('#lead-modal');
         var $taskModal = $('#task-modal');
         if (!$leadModal.is(':visible') && !$taskModal.is(':visible')) {
@@ -185,7 +185,7 @@ $(function() {
     });
 
     /** Marks task as finished when modal is opened **/
-    add_hotkey('Shift+F', function() {
+    add_hotkey('Shift+F', function () {
         var $taskModal = $('#task-modal');
         if ($taskModal.is(':visible')) {
             var $taskSingleBody = $taskModal.find('[data-task-single-id]');
@@ -196,20 +196,20 @@ $(function() {
     });
 
     /** Create New Proposal **/
-    add_hotkey('Ctrl+Shift+P', function() {
+    add_hotkey('Ctrl+Shift+P', function () {
         window.location.href = admin_url + 'proposals/proposal';
     });
     /** Create New Expense **/
-    add_hotkey('Ctrl+Shift+E', function() {
+    add_hotkey('Ctrl+Shift+E', function () {
         window.location.href = admin_url + 'expenses/expense';
     });
 
     /** Create New Lead **/
-    add_hotkey('Shift+L', function() {
+    add_hotkey('Shift+L', function () {
         init_lead();
     });
     /** Create New Task **/
-    add_hotkey('Shift+T', function() {
+    add_hotkey('Shift+T', function () {
         var $newTaskRelationBtn = $('.new-task-relation');
         if ($newTaskRelationBtn.length > 0) {
             new_task(admin_url + 'tasks/task?rel_id=' + $newTaskRelationBtn.attr('data-rel-id') + '&rel_type=' + $newTaskRelationBtn.attr('data-rel-type'));
@@ -220,20 +220,20 @@ $(function() {
         }
     });
     /** Create New Project **/
-    add_hotkey('Shift+P', function() {
+    add_hotkey('Shift+P', function () {
         window.location.href = admin_url + 'projects/project';
     });
     /** Create New Ticket **/
-    add_hotkey('Shift+S', function() {
+    add_hotkey('Shift+S', function () {
         window.location.href = admin_url + 'tickets/add';
     });
     /** Create New Staff Member **/
-    add_hotkey('Ctrl+Shift+S', function() {
+    add_hotkey('Ctrl+Shift+S', function () {
         window.location.href = admin_url + 'staff/member';
     });
 
     /** User logout **/
-    add_hotkey('Ctrl+Shift+L', function() {
+    add_hotkey('Ctrl+Shift+L', function () {
         logout();
     });
 
@@ -242,59 +242,59 @@ $(function() {
      */
 
     /** Go to dashboard **/
-    add_hotkey('Alt+D', function() {
+    add_hotkey('Alt+D', function () {
         window.location.href = admin_url;
     });
     /** List Customers **/
-    add_hotkey('Alt+C', function() {
+    add_hotkey('Alt+C', function () {
         window.location.href = admin_url + 'clients';
     });
     /** List Tasks **/
-    add_hotkey('Alt+T', function() {
+    add_hotkey('Alt+T', function () {
         window.location.href = admin_url + 'tasks/list_tasks';
     });
     /** List Invoices **/
-    add_hotkey('Alt+I', function() {
+    add_hotkey('Alt+I', function () {
         window.location.href = admin_url + 'invoices/list_invoices';
     });
     /** List Estimates **/
-    add_hotkey('Alt+E', function() {
+    add_hotkey('Alt+E', function () {
         window.location.href = admin_url + 'estimates/list_estimates';
     });
     /** List Projects **/
-    add_hotkey('Alt+P', function() {
+    add_hotkey('Alt+P', function () {
         window.location.href = admin_url + 'projects';
     });
     /** List Leads **/
-    add_hotkey('Alt+L', function() {
+    add_hotkey('Alt+L', function () {
         window.location.href = admin_url + 'leads';
     });
     /** List Tickets **/
-    add_hotkey('Ctrl+Alt+T', function() {
+    add_hotkey('Ctrl+Alt+T', function () {
         window.location.href = admin_url + 'tickets';
     });
     /** List Expenses **/
-    add_hotkey('Ctrl+Alt+E', function() {
+    add_hotkey('Ctrl+Alt+E', function () {
         window.location.href = admin_url + 'expenses/list_expenses';
     });
 
     /** Sales Report **/
-    add_hotkey('Alt+R', function() {
+    add_hotkey('Alt+R', function () {
         window.location.href = admin_url + 'reports/sales';
     });
 
     /** Settings **/
-    add_hotkey('Alt+S', function() {
+    add_hotkey('Alt+S', function () {
         window.location.href = admin_url + 'settings';
     });
 
     /** Top Search Focus **/
-    add_hotkey('Shift+K', function() {
+    add_hotkey('Shift+K', function () {
         $('#search_input').focus();
     });
 
     /* Focus on seacrh on first datatable found in the DOM */
-    add_hotkey('Shift+D', function() {
+    add_hotkey('Shift+D', function () {
         $('body .dataTables_wrapper').eq(0).find('.dataTables_filter input').focus();
     });
 
@@ -302,7 +302,7 @@ $(function() {
     $.Shortcuts.start();
 
     /** TinyMCE modal fix */
-    $(document).on('focusin', function(e) {
+    $(document).on('focusin', function (e) {
         if ($(e.target).closest(".mce-window").length) {
             e.stopImmediatePropagation();
         }
@@ -311,13 +311,13 @@ $(function() {
     // Custom option to show setup menu item only on hover, not applied on mobile
     if (app_show_setup_menu_item_only_on_hover == 1 && !is_mobile()) {
         side_bar.hover(
-            function() {
-                setTimeout(function() {
+            function () {
+                setTimeout(function () {
                     setup_menu_item.css("display", "block");
                 }, 200);
             },
-            function() {
-                setTimeout(function() {
+            function () {
+                setTimeout(function () {
                     setup_menu_item.css("display", "none");
                 }, 1000);
             }
@@ -344,7 +344,7 @@ $(function() {
     // Init tinymce editors
     init_editor();
     // Dont close dropdown on timer top click
-    $("body").on('click', '#started-timers-top,.popover-top-timer-note', function(e) {
+    $("body").on('click', '#started-timers-top,.popover-top-timer-note', function (e) {
         e.stopPropagation();
     });
     // Init inputs used for tags
@@ -355,7 +355,7 @@ $(function() {
     initDataTableInline();
 
     // Bootstrap switch active or inactive global function
-    $("body").on('change', '.onoffswitch input', function(event, state) {
+    $("body").on('change', '.onoffswitch input', function (event, state) {
         var switch_url = $(this).data('switch-url');
         if (!switch_url) { return; }
         switch_field(this);
@@ -372,7 +372,7 @@ $(function() {
 
     // jQuery validation fix for select, works only on required
     // Wrap it in another validate event because is throwing errors if the form is not yet validated
-    $(document).on('app.form-validate', function(e, form) {
+    $(document).on('app.form-validate', function (e, form) {
 
         if (select_picker_validated_event === true) {
             return true;
@@ -380,9 +380,9 @@ $(function() {
 
         select_picker_validated_event = true;
 
-        $(form).on('change', 'select.ajax-search, select.selectpicker', function(e) {
+        $(form).on('change', 'select.ajax-search, select.selectpicker', function (e) {
             if ($(this).selectpicker('val') && !$(this).is(':disabled')) {
-                if (typeof($(this).rules()) != 'undefined' &&
+                if (typeof ($(this).rules()) != 'undefined' &&
                     Object.keys($(this).rules()).length === 1 &&
                     $(this).rules().hasOwnProperty('required')) {
 
@@ -429,7 +429,7 @@ $(function() {
     setup_menu.metisMenu();
 
     // Handle minimalize sidebar menu
-    $('.hide-menu').click(function(e) {
+    $('.hide-menu').click(function (e) {
 
         e.preventDefault();
         if ($('body').hasClass('hide-sidebar')) {
@@ -445,7 +445,7 @@ $(function() {
 
     // Hide sidebar on content click on mobile
     if (is_mobile()) {
-        content_wrapper.on('click', function() {
+        content_wrapper.on('click', function () {
             if ($("body").hasClass('show-sidebar')) {
                 $('.hide-menu').click();
             }
@@ -456,7 +456,7 @@ $(function() {
     }
 
     if (app_user_browser == 'safari') {
-        $('body').on('input', '.bootstrap-select .bs-searchbox input', function() {
+        $('body').on('input', '.bootstrap-select .bs-searchbox input', function () {
             $(this).trigger('keyup');
         });
     }
@@ -468,12 +468,12 @@ $(function() {
     init_tabs_scrollable();
 
     // Refresh top timers on click
-    $('#top-timers').on('click', function() {
+    $('#top-timers').on('click', function () {
         init_timers();
     });
 
     // Top search input fetch results
-    $('#search_input').on('keyup paste' + (app_user_browser == 'safari' ? ' input' : ''), function() {
+    $('#search_input').on('keyup paste' + (app_user_browser == 'safari' ? ' input' : ''), function () {
 
         var q = $(this).val().trim();
         var search_results = $('#search_results');
@@ -495,11 +495,11 @@ $(function() {
 
         top_search_button.html('<i class="fa fa-remove"></i>').addClass('search_remove');
 
-        delay(function() {
+        delay(function () {
             if (q == original_top_search_val) {
                 return;
             }
-            $.post(admin_url + 'misc/search', { q: q }).done(function(results) {
+            $.post(admin_url + 'misc/search', { q: q }).done(function (results) {
                 content_wrapper.unhighlight();
                 search_results.html(results);
                 content_wrapper.highlight(q);
@@ -514,7 +514,7 @@ $(function() {
     }
 
     // Format timesheet duration type and do necesary checkings
-    $('body').on('blur', '#timesheet_duration', function() {
+    $('body').on('blur', '#timesheet_duration', function () {
         var that = $(this);
         var pattern = /[^0-9:]/gi;
         var val = $(this).val();
@@ -554,7 +554,7 @@ $(function() {
     });
 
     // Switching timesheet enter type
-    $('body').on('click', '.timesheet-toggle-enter-type', function(e) {
+    $('body').on('click', '.timesheet-toggle-enter-type', function (e) {
         e.preventDefault();
         var $switch_to = $(this).find('span.switch-to').removeClass('switch-to').addClass('hide');
         $(this).find('span').not($switch_to).removeClass('hide').addClass('switch-to');
@@ -564,7 +564,7 @@ $(function() {
     });
 
     // On hidden modal reminder set all values to empty and set the form action to ADD in case edit was clicked
-    $("body").on("hidden.bs.modal", '.modal-reminder', function(e) {
+    $("body").on("hidden.bs.modal", '.modal-reminder', function (e) {
         var $this = $(this);
         var rel_id = $this.find('input[name="rel_id"]').val();
         var rel_type = $this.find('input[name="rel_type"]').val();
@@ -575,9 +575,9 @@ $(function() {
     });
 
     // On delete reminder reload the tables
-    $("body").on('click', '.delete-reminder', function() {
+    $("body").on('click', '.delete-reminder', function () {
         if (confirm_delete()) {
-            requestGetJSON($(this).attr('href')).done(function(response) {
+            requestGetJSON($(this).attr('href')).done(function (response) {
                 alert_float(response.alert_type, response.message);
                 reload_reminders_tables();
             });
@@ -586,10 +586,10 @@ $(function() {
     });
 
     /* Insert new checklist items on enter press */
-    $("body").on('keypress', 'textarea[name="checklist-description"]', function(event) {
+    $("body").on('keypress', 'textarea[name="checklist-description"]', function (event) {
         if (event.which == '13') {
             var that = $(this);
-            update_task_checklist_item(that).done(function() {
+            update_task_checklist_item(that).done(function () {
                 add_task_checklist_item(that.attr('data-taskid'));
             });
             return false;
@@ -597,7 +597,7 @@ $(function() {
     });
 
     /* Update tasks checklist items when focusing out */
-    $("body").on('blur paste', 'textarea[name="checklist-description"]', function() {
+    $("body").on('blur paste', 'textarea[name="checklist-description"]', function () {
         update_task_checklist_item($(this));
     });
 
@@ -605,17 +605,17 @@ $(function() {
     $("body").on('refreshed.bs.select', 'select.checklist-items-template-select', _make_task_checklist_items_deletable);
 
     // Can't update if no values selected, no $_POST data send
-    $("body").on('changed.bs.select', 'select.custom-field-multi-select', function(e) {
+    $("body").on('changed.bs.select', 'select.custom-field-multi-select', function (e) {
         var val = $(this).val();
         $(this).find('option[value=""]').prop("selected", val.length === 0 ? true : false);
         $(this).selectpicker('refresh');
     });
 
     // Task single modal inline changes, eq start date, due date...
-    $('body').on('change', '.task-single-inline-field', function() {
+    $('body').on('change', '.task-single-inline-field', function () {
         var singleDateInputs = $('body').find('.task-single-inline-field');
         var data = {};
-        $.each(singleDateInputs, function() {
+        $.each(singleDateInputs, function () {
             var name = $(this).attr('name');
             var val = $(this).val();
             var $parentwrap = $(this).parents('.task-single-inline-wrap');
@@ -640,7 +640,7 @@ $(function() {
     });
 
     // When user select from checklist items template add this template
-    $("body").on('change', '#task-modal #checklist_items_templates', function() {
+    $("body").on('change', '#task-modal #checklist_items_templates', function () {
         var val = $(this).val();
         var valTemplate = $(this).find('option[value="' + val + '"]').html().trim();
         if (valTemplate !== '') {
@@ -653,7 +653,7 @@ $(function() {
     });
 
     // Used on task comment date href, can be used directly to add the link in browser for scroll.
-    $("body").on('click', '.task-date-as-comment-id', function(e) {
+    $("body").on('click', '.task-date-as-comment-id', function (e) {
         e.preventDefault();
         var task_comment_temp = $(this).attr('href').split('#');
         var comment_position = $('#' + task_comment_temp[task_comment_temp.length - 1]).position();
@@ -661,19 +661,19 @@ $(function() {
     });
 
     // Search by tags from the tables for any tag clicked.
-    $("body").on('click', 'table.dataTable tbody .tags-labels .label-tag', function() {
+    $("body").on('click', 'table.dataTable tbody .tags-labels .label-tag', function () {
         $(this).parents('table').DataTable().search($(this).find('.tag').text()).draw();
         $('div.dataTables_filter input').focus();
     });
 
     // Search by customer groups from the tables for any group clicked.
-    $("body").on('click', 'table.dataTable tbody .customer-group-list', function() {
+    $("body").on('click', 'table.dataTable tbody .customer-group-list', function () {
         $(this).parents('table').DataTable().search($(this).text()).draw();
         $('div.dataTables_filter input').focus();
     });
 
     // Permissions change, apply necessary action to disable OWN or VIEW OWN
-    $('[data-can-view-own], [data-can-view]').on('change', function() {
+    $('[data-can-view-own], [data-can-view]').on('change', function () {
         var is_own_attr = $(this).attr('data-can-view-own');
         view_chk_selector = $(this).parents('tr').find('td input[' + (typeof is_own_attr !== typeof undefined && is_own_attr !== false ? 'data-can-view' : 'data-can-view-own') + ']');
         view_chk_selector.prop('checked', false);
@@ -681,32 +681,32 @@ $(function() {
     });
 
     // Init single task data
-    if (typeof(taskid) !== 'undefined' && taskid !== '') { init_task_modal(taskid); }
+    if (typeof (taskid) !== 'undefined' && taskid !== '') { init_task_modal(taskid); }
 
     // Task checklist mark as complete/incomplete
-    $("body").on('change', 'input[name="checklist-box"]', function() {
+    $("body").on('change', 'input[name="checklist-box"]', function () {
         requestGet(admin_url + 'tasks/checkbox_action/' + ($(this).parents('.checklist').data('checklist-id')) + '/' + ($(this).prop('checked') === true ? 1 : 0));
         recalculate_checklist_items_progress();
     });
 
     // Fix task checklist content textarea height
-    $("body").on('keyup paste click', "textarea[name='checklist-description']", function(e) {
+    $("body").on('keyup paste click', "textarea[name='checklist-description']", function (e) {
         do_task_checklist_items_height($(this));
     });
 
     // On click on task comment textarea make it tinymce, by default is plain textarea
-    $("body").on('click focus', '#task_comment', function(e) {
+    $("body").on('click focus', '#task_comment', function (e) {
         init_new_task_comment();
     });
 
     // Delete task timesheet from the task single modal
-    $("body").on('click', '.task-single-delete-timesheet', function(e) {
+    $("body").on('click', '.task-single-delete-timesheet', function (e) {
         e.preventDefault();
         if (confirm_delete()) {
             var _delete_timesheet_task_id = $(this).data('task-id');
-            requestGet($(this).attr('href')).done(function(response) {
+            requestGet($(this).attr('href')).done(function (response) {
                 init_task_modal(_delete_timesheet_task_id);
-                setTimeout(function() {
+                setTimeout(function () {
                     reload_tasks_tables();
                     init_timers();
                 }, 20);
@@ -715,7 +715,7 @@ $(function() {
     });
 
     // New timesheet add manually from task single modal
-    $("body").on('click', '.task-single-add-timesheet', function(e) {
+    $("body").on('click', '.task-single-add-timesheet', function (e) {
         e.preventDefault();
         var start_time = $("body").find('#task-modal input[name="timesheet_start_time"]').val();
         var end_time = $("body").find('#task-modal input[name="timesheet_end_time"]').val();
@@ -728,12 +728,12 @@ $(function() {
             data.timesheet_task_id = $(this).data('task-id');
             data.note = $("body").find('#task_single_timesheet_note').val();
             data.timesheet_staff_id = $("body").find('#task-modal select[name="single_timesheet_staff_id"]').val();
-            $.post(admin_url + 'tasks/log_time', data).done(function(response) {
+            $.post(admin_url + 'tasks/log_time', data).done(function (response) {
                 response = JSON.parse(response);
                 if (response.success === true || response.success == 'true') {
                     init_task_modal(data.timesheet_task_id);
                     alert_float('success', response.message);
-                    setTimeout(function() {
+                    setTimeout(function () {
                         reload_tasks_tables();
                     }, 20);
                 } else {
@@ -744,7 +744,7 @@ $(function() {
     });
 
     // Copy task href/button event.
-    $("body").on('click', '.copy_task_action', function() {
+    $("body").on('click', '.copy_task_action', function () {
         var data = {};
         $(this).prop('disabled', true);
         data.copy_from = $(this).data('task-copy-from');
@@ -753,7 +753,7 @@ $(function() {
         data.copy_task_checklist_items = $("body").find('#copy_task_checklist_items').prop('checked');
         data.copy_task_attachments = $("body").find('#copy_task_attachments').prop('checked');
         data.copy_task_status = $("body").find('input[name="copy_task_status"]:checked').val();
-        $.post(admin_url + 'tasks/copy', data).done(function(response) {
+        $.post(admin_url + 'tasks/copy', data).done(function (response) {
             response = JSON.parse(response);
             if (response.success === true || response.success == 'true') {
                 var $taskModal = $('#_task_modal');
@@ -770,7 +770,7 @@ $(function() {
     });
 
     // Creates new task in specific milestones, the milestone is auto selected on the new task modal
-    $("body").on('click', '.new-task-to-milestone', function(e) {
+    $("body").on('click', '.new-task-to-milestone', function (e) {
         e.preventDefault();
         var milestone_id = $(this).parents('.milestone-column').data('col-status-id');
         new_task(admin_url + 'tasks/task?rel_type=project&rel_id=' + project_id + '&milestone_id=' + milestone_id);
@@ -778,7 +778,7 @@ $(function() {
     });
 
     // On shown task add/edit modal
-    $("body").on("shown.bs.modal", '#_task_modal', function(e) {
+    $("body").on("shown.bs.modal", '#_task_modal', function (e) {
         if (!$(e.currentTarget).hasClass('edit')) {
             $("body").find('#_task_modal #name').focus();
         } else {
@@ -790,11 +790,11 @@ $(function() {
     });
 
     // Remove the tinymce description task editor
-    $("body").on("hidden.bs.modal", '#_task_modal', function() {
+    $("body").on("hidden.bs.modal", '#_task_modal', function () {
 
         tinyMCE.remove('.tinymce-task');
         // Clear _ticket_message from single tickets in case user tried to convert ticket to task to prevent populating the fields again with the last ticket message click
-        if (typeof(_ticket_message) != 'undefined') {
+        if (typeof (_ticket_message) != 'undefined') {
             _ticket_message = undefined;
         }
 
@@ -810,21 +810,21 @@ $(function() {
     // Don't allow the task modal to close if lightbox is visible in for the task attachments
     // Used when user hit the ESC button
     // Empty task data
-    $("body").on('hide.bs.modal', '#task-modal', function() {
+    $("body").on('hide.bs.modal', '#task-modal', function () {
         if ($('#lightbox').is(':visible') == true) { return false; }
-        if (typeof(taskAttachmentDropzone) != 'undefined') {
+        if (typeof (taskAttachmentDropzone) != 'undefined') {
             taskAttachmentDropzone.destroy();
         }
         tinyMCE.remove('#task_view_description');
     });
 
     // On task single modal hidden remove all html data
-    $("body").on("hidden.bs.modal", '#task-modal', function() {
+    $("body").on("hidden.bs.modal", '#task-modal', function () {
         $(this).find('.data').empty();
     });
 
     // On task single modal shown perform few actions
-    $("body").on("shown.bs.modal", '#task-modal', function() {
+    $("body").on("shown.bs.modal", '#task-modal', function () {
         do_task_checklist_items_height();
         init_tags_inputs();
         fix_task_modal_left_col_height();
@@ -838,18 +838,18 @@ $(function() {
     });
 
     // On focus out on the taks modal single update the tags in case changes are found
-    $("body").on('blur', '#task-modal ul.tagit li.tagit-new input', function() {
-        setTimeout(function() { task_single_update_tags(); }, 100);
+    $("body").on('blur', '#task-modal ul.tagit li.tagit-new input', function () {
+        setTimeout(function () { task_single_update_tags(); }, 100);
     });
 
     // Assign task to staff member
-    $("body").on('change', 'select[name="select-assignees"]', function() {
+    $("body").on('change', 'select[name="select-assignees"]', function () {
         $("body").append('<div class="dt-loader"></div>');
         var data = {};
         data.assignee = $('select[name="select-assignees"]').val();
         if (data.assignee !== '') {
             data.taskid = $(this).attr('data-task-id');
-            $.post(admin_url + 'tasks/add_task_assignees', data).done(function(response) {
+            $.post(admin_url + 'tasks/add_task_assignees', data).done(function (response) {
                 $("body").find('.dt-loader').remove();
                 response = JSON.parse(response);
                 reload_tasks_tables();
@@ -859,13 +859,13 @@ $(function() {
     });
 
     // Add follower to task
-    $("body").on('change', 'select[name="select-followers"]', function() {
+    $("body").on('change', 'select[name="select-followers"]', function () {
         var data = {};
         data.follower = $('select[name="select-followers"]').val();
         if (data.follower !== '') {
             data.taskid = $(this).attr('data-task-id');
             $("body").append('<div class="dt-loader"></div>');
-            $.post(admin_url + 'tasks/add_task_followers', data).done(function(response) {
+            $.post(admin_url + 'tasks/add_task_followers', data).done(function (response) {
                 response = JSON.parse(response);
                 $("body").find('.dt-loader').remove();
                 _task_append_html(response.taskHtml);
@@ -874,20 +874,20 @@ $(function() {
     });
 
     // Task single moda tracking stats close
-    $("body").on('click', '.close-task-stats', function() {
+    $("body").on('click', '.close-task-stats', function () {
         $('#task-tracking-stats-modal').modal('hide');
     });
 
     // Remove tracking status div because its appended automatically to the DOM on each click
-    $("body").on("hidden.bs.modal", '#task-tracking-stats-modal', function() {
+    $("body").on("hidden.bs.modal", '#task-tracking-stats-modal', function () {
         $('#tracking-stats').remove();
     });
 
     // Task modal single chart for logged time by assigned users
-    $("body").on('show.bs.modal', '#task-tracking-stats-modal', function() {
+    $("body").on('show.bs.modal', '#task-tracking-stats-modal', function () {
         var tracking_chart_selector = $("body").find('#task-tracking-stats-chart');
-        setTimeout(function() {
-            if (typeof(taskTrackingChart) != 'undefined') {
+        setTimeout(function () {
+            if (typeof (taskTrackingChart) != 'undefined') {
                 taskTrackingChart.destroy();
             }
             taskTrackingChart = new Chart(tracking_chart_selector, {
@@ -903,7 +903,7 @@ $(function() {
                         enabled: true,
                         mode: 'single',
                         callbacks: {
-                            label: function(tooltipItems, data) {
+                            label: function (tooltipItems, data) {
                                 return decimalToHM(tooltipItems.yLabel);
                             }
                         }
@@ -913,7 +913,7 @@ $(function() {
                             ticks: {
                                 beginAtZero: true,
                                 min: 0,
-                                userCallback: function(label, index, labels) {
+                                userCallback: function (label, index, labels) {
                                     return decimalToHM(label);
                                 },
                             }
@@ -925,26 +925,26 @@ $(function() {
     });
 
     // In lead modal issue with reminder modal height
-    $("body").on("shown.bs.modal", '#sync_data_proposal_data', function() {
+    $("body").on("shown.bs.modal", '#sync_data_proposal_data', function () {
         if ($('#sync_data_proposal_data').data('rel-type') == 'lead') {
             $('#lead-modal .data').eq(0).css('height', ($('#sync_data_proposal_data .modal-content').height() + 80) + 'px').css('overflow-x', 'hidden');
         }
     });
 
     // Remove on lead modal reminder inline style
-    $("body").on("hidden.bs.modal", '#sync_data_proposal_data', function() {
+    $("body").on("hidden.bs.modal", '#sync_data_proposal_data', function () {
         if ($('#sync_data_proposal_data').data('rel-type') == 'lead') {
             $('#lead-modal .data').prop('style', '');
         }
     });
 
     // Maybe lead ID passed from url?
-    if (typeof(openLeadID) != 'undefined' && openLeadID !== '') {
+    if (typeof (openLeadID) != 'undefined' && openLeadID !== '') {
         init_lead(openLeadID, (get_url_param('edit') ? true : false));
     }
 
     // Status color change
-    $("body").on('click', '.leads-kan-ban .cpicker', function() {
+    $("body").on('click', '.leads-kan-ban .cpicker', function () {
         var color = $(this).data('color');
         var status_id = $(this).parents('.panel-heading-bg').data('status-id');
         $.post(admin_url + 'leads/change_status_color', {
@@ -954,7 +954,7 @@ $(function() {
     });
 
     // Lead edit toggle view/edit
-    $("body").on('click', '[lead-edit]', function(e) {
+    $("body").on('click', '[lead-edit]', function (e) {
         e.preventDefault();
         var $leadEdit = $('body .lead-edit');
         $('body .lead-view').toggleClass('hide');
@@ -970,7 +970,7 @@ $(function() {
     });
 
     // Creates new lead with pre-selected status from leads kan ban
-    $("body").on('click', '.new-lead-from-status', function(e) {
+    $("body").on('click', '.new-lead-from-status', function (e) {
         e.preventDefault();
         var status_id = $(this).parents('.kan-ban-col').data('col-status-id');
         init_lead_modal_data(undefined, admin_url + 'leads/lead?status_id=' + status_id);
@@ -978,7 +978,7 @@ $(function() {
     });
 
     // When converting lead to customer, custom fields merging options.
-    $("body").on('change', 'input.include_leads_custom_fields', function() {
+    $("body").on('change', 'input.include_leads_custom_fields', function () {
         var val = $(this).val();
         var fieldid = $(this).data('field-id');
         val == 2 ? $('#merge_db_field_' + fieldid).removeClass('hide') : $('#merge_db_field_' + fieldid).addClass('hide');
@@ -1012,15 +1012,15 @@ $(function() {
             year: moment.tz(app_timezone).format("YYYY"),
             month: moment.tz(app_timezone).format("M"),
             date: moment.tz(app_timezone).format("DD"),
-            loading: function(isLoading, view) {
+            loading: function (isLoading, view) {
                 isLoading && $('#calendar .fc-header-toolbar .btn-default').addClass('btn-info').removeClass('btn-default').css('display', 'block');
                 !isLoading ? $('.dt-loader').addClass('hide') : $('.dt-loader').removeClass('hide');
             },
             eventSources: [{
                 url: admin_url + 'utilities/get_calendar_data',
-                data: function() {
+                data: function () {
                     var params = {};
-                    $('#calendar_filters').find('input:checkbox:checked').map(function() {
+                    $('#calendar_filters').find('input:checkbox:checked').map(function () {
                         params[$(this).attr('name')] = true;
                     }).get();
                     if (!jQuery.isEmptyObject(params)) {
@@ -1029,23 +1029,23 @@ $(function() {
                     return params;
                 },
                 type: 'POST',
-                error: function() {
+                error: function () {
                     console.error('There was error fetching calendar data');
                 },
-            }, ],
-            eventLimitClick: function(cellInfo, jsEvent) {
+            },],
+            eventLimitClick: function (cellInfo, jsEvent) {
                 $('#calendar').fullCalendar('gotoDate', cellInfo.date);
                 $('#calendar').fullCalendar('changeView', 'basicDay');
             },
-            eventRender: function(event, element) {
+            eventRender: function (event, element) {
                 element.attr('title', event._tooltip);
                 element.attr('onclick', event.onclick);
                 element.attr('data-toggle', 'tooltip');
                 if (!event.url) {
-                    element.click(function() { view_event(event.eventid); });
+                    element.click(function () { view_event(event.eventid); });
                 }
             },
-            dayClick: function(date, jsEvent, view) {
+            dayClick: function (date, jsEvent, view) {
                 var d = date.format();
                 if (!$.fullCalendar.moment(d).hasTime()) {
                     d += ' 00:00';
@@ -1061,14 +1061,14 @@ $(function() {
         if ($("body").hasClass('dashboard')) {
             calendar_settings.customButtons.viewFullCalendar = {
                 text: appLang.calendar_expand,
-                click: function() {
+                click: function () {
                     window.location.href = admin_url + 'utilities/calendar';
                 }
             };
         }
         calendar_settings.customButtons.calendarFilter = {
             text: appLang.filter_by.toLowerCase(),
-            click: function() {
+            click: function () {
                 slideToggle('#calendar_filters');
             }
         };
@@ -1101,7 +1101,7 @@ $(function() {
     }
 
     // On select with name tax apply necessary actions if tax2 exists too
-    $("body").on('change', 'select[name="tax"]', function() {
+    $("body").on('change', 'select[name="tax"]', function () {
         var sp_tax_2 = $("body").find('select[name="tax2"]');
         var sp_tax_1 = $(this);
         if (sp_tax_1.val() !== '') {
@@ -1117,7 +1117,7 @@ $(function() {
         sp_tax_2.selectpicker('refresh');
     });
 
-    $('body').on('click', '#invoice_create_credit_note', function(e) {
+    $('body').on('click', '#invoice_create_credit_note', function (e) {
         if ($(this).attr('data-status') == 2) {
             return true;
         } else {
@@ -1128,14 +1128,14 @@ $(function() {
         }
     });
 
-    $('body').on('change blur', '.apply-credits-to-invoice .apply-credits-field', function() {
+    $('body').on('change blur', '.apply-credits-to-invoice .apply-credits-field', function () {
 
         var $applyCredits = $('#apply_credits');
         var $amountInputs = $applyCredits.find('input.apply-credits-field');
         var total = 0;
         var creditsRemaining = $applyCredits.attr('data-credits-remaining');
 
-        $.each($amountInputs, function() {
+        $.each($amountInputs, function () {
             if ($(this).valid() === true) {
                 var amount = $(this).val();
                 amount = parseFloat(amount);
@@ -1162,14 +1162,14 @@ $(function() {
 
     });
 
-    $('body').on('change blur', '.apply-credits-from-invoice .apply-credits-field', function() {
+    $('body').on('change blur', '.apply-credits-from-invoice .apply-credits-field', function () {
 
         var $applyCredits = $('#apply_credits');
         var $amountInputs = $applyCredits.find('input.apply-credits-field');
         var total = 0;
         var invoiceBalanceDue = $applyCredits.attr('data-balance-due');
 
-        $.each($amountInputs, function() {
+        $.each($amountInputs, function () {
             if ($(this).valid() === true) {
                 var amount = $(this).val();
                 amount = parseFloat(amount);
@@ -1196,7 +1196,7 @@ $(function() {
     });
 
     // Leads integrations notify type
-    $('input[name="notify_type"]').on('change', function() {
+    $('input[name="notify_type"]').on('change', function () {
         var val = $('input[name="notify_type"]:checked').val();
         var specific_staff_notify = $('#specific_staff_notify');
         var role_notify = $('#role_notify');
@@ -1213,7 +1213,7 @@ $(function() {
     });
 
     // Auto focus the lead name if user is adding new lead
-    $("body").on("shown.bs.modal", '#lead-modal', function(e) {
+    $("body").on("shown.bs.modal", '#lead-modal', function (e) {
         custom_fields_hyperlink();
         if ($("body").find('#lead-modal input[name="leadid"]').length === 0) {
             $("body").find('#lead-modal input[name="name"]').focus();
@@ -1226,7 +1226,7 @@ $(function() {
 
     // Remove the more button for leads if there is no options in the dropdown
     // This is happening because the if statements are not checked
-    $("body").on("show.bs.modal", '#lead-modal', function(e) {
+    $("body").on("show.bs.modal", '#lead-modal', function (e) {
         if ($('#lead-more-dropdown').find('li').length == 0) {
             $('#lead-more-btn').css('opacity', 0)
                 .css('pointer-events', 'none');
@@ -1234,7 +1234,7 @@ $(function() {
     });
 
     // On hidden lead modal some actions need to be operated here
-    $('#lead-modal').on("hidden.bs.modal", function(event) {
+    $('#lead-modal').on("hidden.bs.modal", function (event) {
         $(this).data('bs.modal', null);
         $('#lead_reminder_modal').html('');
         // clear the hash
@@ -1242,12 +1242,12 @@ $(function() {
             history.pushState("", document.title, window.location.pathname + window.location.search);
         }
         $('body #lead-modal .datetimepicker').datetimepicker('destroy');
-        if (typeof(leadAttachmentsDropzone) != 'undefined') { leadAttachmentsDropzone.destroy(); }
+        if (typeof (leadAttachmentsDropzone) != 'undefined') { leadAttachmentsDropzone.destroy(); }
     });
 
     // + button for adding more attachments
     var addMoreAttachmentsInputKey = 1;
-    $("body").on('click', '.add_more_attachments', function() {
+    $("body").on('click', '.add_more_attachments', function () {
         if ($(this).hasClass('disabled')) { return false; }
         var total_attachments = $('.attachments input[name*="attachments"]').length;
         if ($(this).data('ticket') && total_attachments >= app_maximum_allowed_ticket_attachments) {
@@ -1264,25 +1264,25 @@ $(function() {
     });
 
     // Remove attachment
-    $("body").on('click', '.remove_attachment', function() {
+    $("body").on('click', '.remove_attachment', function () {
         $(this).parents('.attachment').remove();
     });
 
     // Fix lead conver to customer modal, make the modal empty
-    $("body").on("hidden.bs.modal", '#convert_lead_to_client_modal', function(event) {
+    $("body").on("hidden.bs.modal", '#convert_lead_to_client_modal', function (event) {
         $(this).data('bs.modal', null);
     });
 
-    $('body').on('submit', '#lead-modal .consent-form', function() {
+    $('body').on('submit', '#lead-modal .consent-form', function () {
         var data = $(this).serialize();
-        $.post($(this).attr('action'), data).done(function(response) {
+        $.post($(this).attr('action'), data).done(function (response) {
             response = JSON.parse(response);
             init_lead_modal_data(response.lead_id);
         });
         return false;
     });
     // Set hash on modal tab change
-    $("body").on('click', '#lead-modal a[data-toggle="tab"]', function() {
+    $("body").on('click', '#lead-modal a[data-toggle="tab"]', function () {
         if (this.hash == '#tab_lead_profile' ||
             this.hash == '#attachments' ||
             this.hash == '#lead_notes' ||
@@ -1297,29 +1297,29 @@ $(function() {
     });
 
     // Manually add lead activity
-    $("body").on('click', '#lead_enter_activity', function() {
+    $("body").on('click', '#lead_enter_activity', function () {
         var message = $('#lead_activity_textarea').val();
         var aLeadId = $('#lead-modal').find('input[name="leadid"]').val();
         if (message === '') { return; }
         $.post(admin_url + 'leads/add_activity', {
             leadid: aLeadId,
             activity: message
-        }).done(function(response) {
+        }).done(function (response) {
             response = JSON.parse(response);
             _lead_init_data(response, response.id);
-        }).fail(function(data) {
+        }).fail(function (data) {
             alert_float('danger', data.responseText);
         });
     });
 
     // Submit notes on lead modal do ajax not the regular request
-    $("body").on('submit', '#lead-modal #lead-notes', function() {
+    $("body").on('submit', '#lead-modal #lead-notes', function () {
         var form = $(this);
         var data = $(form).serialize();
-        $.post(form.attr('action'), data).done(function(response) {
+        $.post(form.attr('action'), data).done(function (response) {
             response = JSON.parse(response);
             _lead_init_data(response, response.id);
-        }).fail(function(data) {
+        }).fail(function (data) {
             alert_float('danger', data.responseText);
         });
         return false;
@@ -1348,16 +1348,16 @@ $(function() {
         _table_api = initDataTable(table_leads, admin_url + 'leads/table', leadsTableNotSearchable, leadsTableNotSortable, LeadsServerParams, [table_leads.find('th.date-created').index(), 'desc']);
 
         if (_table_api && tableLeadsConsentHeading.length > 0) {
-            _table_api.on('draw', function() {
+            _table_api.on('draw', function () {
                 var tableData = table_leads.find('tbody tr');
-                $.each(tableData, function() {
+                $.each(tableData, function () {
                     $(this).find('td:eq(3)').addClass('bg-light-gray');
                 });
             });
         }
 
-        $.each(LeadsServerParams, function(i, obj) {
-            $('select' + obj).on('change', function() {
+        $.each(LeadsServerParams, function (i, obj) {
+            $('select' + obj).on('change', function () {
                 if ($(this).val() == 'lost' || $(this).val() == 'junk') {
                     $("[name='view_status[]']").prop('disabled', true).selectpicker('refresh');
                 } else {
@@ -1371,20 +1371,20 @@ $(function() {
     }
 
     // When adding if lead is contacted today
-    $("body").on('change', 'input[name="contacted_today"]', function() {
+    $("body").on('change', 'input[name="contacted_today"]', function () {
         var checked = $(this).prop('checked');
         var lsdc = $('.lead-select-date-contacted');
         (checked == false ? lsdc.removeClass('hide') : lsdc.addClass('hide'));
     });
 
     // Lead modal show contacted indicator input
-    $("body").on('change', 'input[name="contacted_indicator"]', function() {
+    $("body").on('change', 'input[name="contacted_indicator"]', function () {
         var lsdc = $('.lead-select-date-contacted');
         ($(this).val() == 'yes' ? lsdc.removeClass('hide') : lsdc.addClass('hide'));
     });
 
     // Fix for checkboxes ID duplicate when table goes responsive
-    $("body").on('click', 'table.dataTable tbody td:first-child', function() {
+    $("body").on('click', 'table.dataTable tbody td:first-child', function () {
         var tr = $(this).parents('tr');
         if ($(this).parents('table').DataTable().row(tr).child.isShown()) {
             var switchBox = $(tr).next().find('input.onoffswitch-checkbox');
@@ -1396,9 +1396,9 @@ $(function() {
     });
 
     // Show please wait text on button where data-loading-text is added
-    $("body").on('click', '[data-loading-text]', function() {
+    $("body").on('click', '[data-loading-text]', function () {
         var form = $(this).data('form');
-        if (form !== null && typeof(form) != 'undefined') {
+        if (form !== null && typeof (form) != 'undefined') {
             if ($(form).valid()) { $(this).button('loading'); }
         } else {
             $(this).button('loading');
@@ -1406,12 +1406,12 @@ $(function() {
     });
 
     // Custom close function for reminder modals in case is modal in modal
-    $("body").on('click', '.close-reminder-modal', function() {
+    $("body").on('click', '.close-reminder-modal', function () {
         $(".reminder-modal-" + $(this).data('rel-type') + '-' + $(this).data('rel-id')).modal('hide');
     });
 
     // Recalculate responsive for hidden tables
-    $("body").on('shown.bs.tab', 'a[data-toggle="tab"]', function(e) {
+    $("body").on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
         $($.fn.dataTable.tables(true)).DataTable().responsive.recalc();
     });
 
@@ -1419,16 +1419,16 @@ $(function() {
     $('form').not('#single-ticket-form,#calendar-event-form,#proposal-form').areYouSure();
 
     // For inline tinymce editors when content is blank a message is shown, on click this message should be hidden.
-    $("body").on('click', '.editor-add-content-notice', function() {
+    $("body").on('click', '.editor-add-content-notice', function () {
         var that = $(this);
-        setTimeout(function() {
+        setTimeout(function () {
             that.remove();
             tinymce.triggerSave();
         }, 500);
     });
 
     // Global on change for mass delete to hide all other elements for bulk actions
-    $('.bulk_actions').on('change', 'input[name="mass_delete"]', function() {
+    $('.bulk_actions').on('change', 'input[name="mass_delete"]', function () {
         var $bulkChange = $('#bulk_change');
         if ($(this).prop('checked') === true) {
             $bulkChange.find('select').selectpicker('val', '');
@@ -1438,7 +1438,7 @@ $(function() {
     });
 
     // Send test sms
-    $('.send-test-sms').on('click', function() {
+    $('.send-test-sms').on('click', function () {
         var id = $(this).data('id');
         var errorContainer = $('#sms_test_response[data-id="' + id + '"]');
         var message = $('textarea[data-id="' + id + '"]').val();
@@ -1453,21 +1453,21 @@ $(function() {
                 number: number,
                 id: id,
                 sms_gateway_test: true
-            }).done(function(response) {
+            }).done(function (response) {
                 response = JSON.parse(response);
                 if (response.success == true) {
                     errorContainer.html('<div class="alert alert-success no-mbot mtop15">SMS Sent Successfully!</div>');
                 } else {
                     errorContainer.html('<div class="alert alert-warning no-mbot mtop15">' + response.error + '</div>');
                 }
-            }).always(function() {
+            }).always(function () {
                 that.prop('disabled', false);
             });
         }
     });
 
     // Clear todo modal values when modal is hidden
-    $("body").on("hidden.bs.modal", '#__todo', function() {
+    $("body").on("hidden.bs.modal", '#__todo', function () {
         var $toDo = $('#__todo');
         $toDo.find('input[name="todoid"]').val('');
         $toDo.find('textarea[name="description"]').val('');
@@ -1476,7 +1476,7 @@ $(function() {
     });
 
     // Focus staff todo description
-    $("body").on("shown.bs.modal", '#__todo', function() {
+    $("body").on("shown.bs.modal", '#__todo', function () {
         var $toDo = $('#__todo');
         $toDo.find('textarea[name="description"]').focus();
         if ($toDo.find('input[name="todoid"]').val() !== '') {
@@ -1489,7 +1489,7 @@ $(function() {
     });
 
     // Focus search input on click
-    $('#top_search_button button').on('click', function() {
+    $('#top_search_button button').on('click', function () {
         var $searchInput = $('#search_input');
         $searchInput.focus();
         if ($(this).hasClass('search_remove')) {
@@ -1501,7 +1501,7 @@ $(function() {
     });
 
     // Fix for dropdown search to close if user click anyhere on html except on dropdown
-    $("body").click(function(e) {
+    $("body").click(function (e) {
         if (!$(e.target).parents('#top_search_dropdown').hasClass('search-results')) {
             $('#top_search_dropdown').remove();
         }
@@ -1518,13 +1518,13 @@ $(function() {
     });
 
     // Remove tooltip fix on body click (in case user clicked link and tooltip stays open)
-    $("body").on('click', function() {
+    $("body").on('click', function () {
         $('.tooltip').remove();
     });
 
     // Close all popovers if user click on body and the click is not inside the popover content area
-    $("body").on('click', function(e) {
-        $('[data-toggle="popover"],.manual-popover').each(function() {
+    $("body").on('click', function (e) {
+        $('[data-toggle="popover"],.manual-popover').each(function () {
             //the 'is' for buttons that trigger popups
             //the 'has' for icons within a button that triggers a popup
             if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
@@ -1534,19 +1534,19 @@ $(function() {
     });
 
     // Do not close the dropdownmenu for filter when filtering
-    $("body").on('click', '._filter_data ul.dropdown-menu li a,.not-mark-as-read-inline,.not_mark_all_as_read a', function(e) {
+    $("body").on('click', '._filter_data ul.dropdown-menu li a,.not-mark-as-read-inline,.not_mark_all_as_read a', function (e) {
         e.stopPropagation();
         e.preventDefault();
     });
 
     // Add are you sure on all delete links (onclick is not included here)
-    $("body").on('click', '._delete', function(e) {
+    $("body").on('click', '._delete', function (e) {
         if (confirm_delete()) { return true; }
         return false;
     });
 
     // On shown for all modals
-    $("body").on("shown.bs.modal", '.modal', function() {
+    $("body").on("shown.bs.modal", '.modal', function () {
         // Fix for all modals scroll..
         $("body").addClass('modal-open');
         // Close the top timers dropdown in case user click on some task
@@ -1554,22 +1554,22 @@ $(function() {
     });
 
     // On hidden for all modals
-    $("body").on("hidden.bs.modal", '.modal', function(event) {
+    $("body").on("hidden.bs.modal", '.modal', function (event) {
         $('.modal:visible').length && $(document.body).addClass('modal-open');
         $(this).data('bs.modal', null);
     });
 
     // Activity log datepicker on change
-    $('.datepicker.activity-log-date').on('change', function() {
+    $('.datepicker.activity-log-date').on('change', function () {
         table_activity_log.DataTable().ajax.reload();
     });
 
-    $('body').on('change', '#unlimited_cycles', function() {
+    $('body').on('change', '#unlimited_cycles', function () {
         $(this).parents('.recurring-cycles').find('#cycles').prop('disabled', $(this).prop('checked'));
     });
 
     // For expenses and recurring tasks
-    $("body").on('change', '[name="repeat_every"], [name="recurring"]', function() {
+    $("body").on('change', '[name="repeat_every"], [name="recurring"]', function () {
         var val = $(this).val();
         val == 'custom' ? $('.recurring_custom').removeClass('hide') : $('.recurring_custom').addClass('hide');
         if (val !== '' && val != 0) {
@@ -1581,7 +1581,7 @@ $(function() {
         }
     });
 
-    $('select[name="range"]').on('change', function() {
+    $('select[name="range"]').on('change', function () {
         var $period = $('.period');
         if ($(this).val() == 'period') {
             $period.removeClass('hide');
@@ -1592,31 +1592,31 @@ $(function() {
     });
 
     // On mass_select all select all the availble rows in the tables.
-    $("body").on('change', '#mass_select_all', function() {
+    $("body").on('change', '#mass_select_all', function () {
         var to, rows, checked;
         to = $(this).data('to-table');
 
         rows = $('.table-' + to).find('tbody tr');
         checked = $(this).prop('checked');
-        $.each(rows, function() {
+        $.each(rows, function () {
             $($(this).find('td').eq(0)).find('input').prop('checked', checked);
         });
     });
 
     // Init the editor for email templates where changing data is allowed
-    $("body").on('show.bs.modal', '.modal.email-template', function() {
+    $("body").on('show.bs.modal', '.modal.email-template', function () {
         init_editor($(this).data('editor-id'), {
             urlconverter_callback: 'merge_field_format_url'
         });
     });
 
     // Remove the editor inited for the email sending templates where changing the email template data is allowed
-    $("body").on("hidden.bs.modal", '.modal.email-template', function() {
+    $("body").on("hidden.bs.modal", '.modal.email-template', function () {
         tinymce.remove($(this).data('editor-id'));
     });
 
     // Customizer close and remove open from session
-    $('.close-customizer').on('click', function(e) {
+    $('.close-customizer').on('click', function (e) {
         e.preventDefault();
 
         setup_menu.addClass(isRTL == 'true' ? "fadeOutRight" : "fadeOutLeft");
@@ -1625,7 +1625,7 @@ $(function() {
     });
 
     // Open customizer and add that is open to session
-    $('.open-customizer').on('click', function(e) {
+    $('.open-customizer').on('click', function (e) {
         e.preventDefault();
 
         if (setup_menu.hasClass(isRTL == 'true' ? "fadeOutRight" : "fadeOutLeft")) {
@@ -1641,7 +1641,7 @@ $(function() {
     });
 
     // Change live the colors for colorpicker in kanban/pipeline
-    $("body").on('click', '.cpicker', function() {
+    $("body").on('click', '.cpicker', function () {
         var color = $(this).data('color');
         // Clicked on the same selected color
         if ($(this).hasClass('cpicker-big')) { return false; }
@@ -1657,7 +1657,7 @@ $(function() {
     });
 
     // Notification profile link click
-    $("body").on('click', '.notification_link', function() {
+    $("body").on('click', '.notification_link', function () {
         var link = $(this).data('link');
         var not_href;
         not_href = link.split('#');
@@ -1665,7 +1665,7 @@ $(function() {
     });
 
     /* Check if postid in notification url to open the newsfeed */
-    $("body").on('click', '.notifications a.notification-top, .notification_link', function(e) {
+    $("body").on('click', '.notifications a.notification-top, .notification_link', function (e) {
 
         e.preventDefault();
         var $notLink = $(this);
@@ -1693,17 +1693,17 @@ $(function() {
             $notLink.parent('li').find('.not-mark-as-read-inline').click();
         }
         if (notRedirect) {
-            setTimeout(function() {
+            setTimeout(function () {
                 window.location.href = not_href;
             }, 50);
         }
     });
 
     // Set notifications to read when notifictions dropdown is opened
-    $('.notifications-wrapper').on('show.bs.dropdown', function() {
+    $('.notifications-wrapper').on('show.bs.dropdown', function () {
         var total = notifications_wrapper.find('.notifications').attr('data-total-unread');
         if (total > 0) {
-            $.post(admin_url + 'misc/set_notifications_read').done(function(response) {
+            $.post(admin_url + 'misc/set_notifications_read').done(function (response) {
                 response = JSON.parse(response);
                 if (response.success === true || response.success == 'true') {
                     document.title = doc_initial_title;
@@ -1735,7 +1735,7 @@ $(function() {
         var Invoices_Estimates_ServerParams = {};
         var Invoices_Estimates_Filter = $('._hidden_inputs._filters input');
 
-        $.each(Invoices_Estimates_Filter, function() {
+        $.each(Invoices_Estimates_Filter, function () {
             Invoices_Estimates_ServerParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
         });
 
@@ -1760,7 +1760,7 @@ $(function() {
         var TasksServerParams = {},
             Tasks_Filters;
         Tasks_Filters = $('._hidden_inputs._filters._tasks_filters input');
-        $.each(Tasks_Filters, function() {
+        $.each(Tasks_Filters, function () {
             TasksServerParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
         });
 
@@ -1782,7 +1782,7 @@ $(function() {
     }
 
     // Send file modal populate the hidden files when is shown
-    $('#send_file').on('show.bs.modal', function(e) {
+    $('#send_file').on('show.bs.modal', function (e) {
         var $sendFile = $('#send_file');
         $sendFile.find('input[name="filetype"]').val($($(e.relatedTarget)).data('filetype'));
         $sendFile.find('input[name="file_path"]').val($($(e.relatedTarget)).data('path'));
@@ -1792,17 +1792,17 @@ $(function() {
         }
     });
 
-    $('#send_file form').on('submit', function() {
+    $('#send_file form').on('submit', function () {
         $(this).find('button[type="submit"]').prop('disabled', true);
     });
 
     // Set password checkbox change
-    $("body").on('change', 'input[name="send_set_password_email"]', function() {
+    $("body").on('change', 'input[name="send_set_password_email"]', function () {
         $("body").find('.client_password_set_wrapper').toggleClass('hide');
     });
 
     // Todo status change checkbox click
-    $("body").on('change', '.todo input[type="checkbox"]', function() {
+    $("body").on('change', '.todo input[type="checkbox"]', function () {
         var finished = $(this).prop('checked') === true ? 1 : 0;
         var id = $(this).val();
         window.location.href = admin_url + 'todo/change_todo_status/' + id + '/' + finished;
@@ -1816,7 +1816,7 @@ $(function() {
             items: "li",
             handle: '.dragger',
             appendTo: "body",
-            update: function(event, ui) {
+            update: function (event, ui) {
                 if (this === ui.item.parent()[0]) {
                     update_todo_items();
                 }
@@ -1825,10 +1825,10 @@ $(function() {
     }
 
     // Newsfeed close and open
-    $("body").on('click', '.open_newsfeed,.close_newsfeed', function(e) {
+    $("body").on('click', '.open_newsfeed,.close_newsfeed', function (e) {
         e.preventDefault();
-        if (typeof($(this).data('close')) == 'undefined') {
-            requestGet('newsfeed/get_data').done(function(response) {
+        if (typeof ($(this).data('close')) == 'undefined') {
+            requestGet('newsfeed/get_data').done(function (response) {
                 $('#newsfeed').html(response);
                 load_newsfeed(postid);
                 init_newsfeed_form();
@@ -1850,12 +1850,12 @@ $(function() {
     if ($('[data-newsfeed-auto]').length > 0) { $('.open_newsfeed').click(); }
 
     // When adding comment if user press enter to submit comment too for newsfeed comments
-    $("body").on('keyup', '.comment-input input', function(event) {
+    $("body").on('keyup', '.comment-input input', function (event) {
         if (event.keyCode == 13) { add_comment(this); }
     });
 
     // Showing post likes modal
-    $('#modal_post_likes').on('show.bs.modal', function(e) {
+    $('#modal_post_likes').on('show.bs.modal', function (e) {
         track_load_post_likes = 0;
         $('#modal_post_likes_wrapper').empty();
         $('.likes_modal .modal-footer').removeClass('hide');
@@ -1867,7 +1867,7 @@ $(function() {
     });
 
     // Showing comment likes modal
-    $('#modal_post_comment_likes').on('show.bs.modal', function(e) {
+    $('#modal_post_comment_likes').on('show.bs.modal', function (e) {
         $('#modal_comment_likes_wrapper').empty();
         track_load_comment_likes = 0;
         $('.likes_modal .modal-footer').removeClass('hide');
@@ -1879,19 +1879,19 @@ $(function() {
     });
 
     // Load more post likes from modal
-    $('.load_more_post_likes').on('click', function(e) {
+    $('.load_more_post_likes').on('click', function (e) {
         e.preventDefault();
         load_post_likes($(this).data('postid'));
     });
 
     // Load more comment likes from modal
-    $('.load_more_post_comment_likes').on('click', function(e) {
+    $('.load_more_post_comment_likes').on('click', function (e) {
         e.preventDefault();
         load_comment_likes($(this).data('commentid'));
     });
 
     // Add post attachment used for dropzone
-    $('.add-attachments').on('click', function(e) {
+    $('.add-attachments').on('click', function (e) {
         e.preventDefault();
         $('#post-attachments').toggleClass('hide');
     });
@@ -1905,7 +1905,7 @@ $(function() {
     // Make items sortable
     init_items_sortable();
 
-    $('.settings-textarea-merge-field').on('click', function(e) {
+    $('.settings-textarea-merge-field').on('click', function (e) {
         e.preventDefault();
         var mergeField = $(this).text().trim();
         var textArea = $('textarea[name="settings[' + $(this).data('to') + ']"]');
@@ -1923,7 +1923,7 @@ $(function() {
     }
 
 
-    $("body").on('submit', '._transaction_form', function() {
+    $("body").on('submit', '._transaction_form', function () {
 
         // On submit re-calculate total and reorder the items for all cases.
         calculate_total();
@@ -1966,7 +1966,7 @@ $(function() {
         return true;
     });
 
-    $("body").on('click', '.transaction-submit', function() {
+    $("body").on('click', '.transaction-submit', function () {
         var that = $(this);
         var form = that.parents('form._transaction_form');
         if (form.valid()) {
@@ -1980,11 +1980,11 @@ $(function() {
     });
 
     // add invoice/estimate note
-    $("body").on('submit', '#sales-notes', function() {
+    $("body").on('submit', '#sales-notes', function () {
         var form = $(this);
         if (form.find('textarea[name="description"]').val() === '') { return; }
 
-        $.post(form.attr('action'), $(form).serialize()).done(function(rel_id) {
+        $.post(form.attr('action'), $(form).serialize()).done(function (rel_id) {
             // Reset the note textarea value
             form.find('textarea[name="description"]').val('');
             // Reload the notes
@@ -2002,16 +2002,16 @@ $(function() {
     });
 
     // Show quantity as change we need to change on the table QTY heading for better user experience
-    $("body").on('change', 'input[name="show_quantity_as"]', function() {
+    $("body").on('change', 'input[name="show_quantity_as"]', function () {
         $("body").find('th.qty').html($(this).data('text'));
     });
 
     // No duedate for credit note, separate event
-    $("body").on('change', 'div.credit_note input[name="date"]', function() {
+    $("body").on('change', 'div.credit_note input[name="date"]', function () {
         do_prefix_year($(this).val());
     });
 
-    $("body").on('change', 'div.invoice input[name="date"], div.estimate input[name="date"], div.proposal input[name="date"]', function() {
+    $("body").on('change', 'div.invoice input[name="date"], div.estimate input[name="date"], div.proposal input[name="date"]', function () {
 
         var date = $(this).val();
         do_prefix_year(date);
@@ -2037,7 +2037,7 @@ $(function() {
         }
 
         if (date !== '') {
-            $.post(due_calc_url, { date: date }).done(function(formatted) {
+            $.post(due_calc_url, { date: date }).done(function (formatted) {
                 if (formatted) {
                     $('input[name="' + due_date_input_name + '"]').val(formatted);
                 }
@@ -2045,21 +2045,21 @@ $(function() {
         }
     });
 
-    $('#sales_attach_file').on("hidden.bs.modal", function(e) {
+    $('#sales_attach_file').on("hidden.bs.modal", function (e) {
         $('#sales_uploaded_files_preview').empty();
         $('.dz-file-preview').empty();
     });
 
-    if (typeof(Dropbox) != 'undefined') {
+    if (typeof (Dropbox) != 'undefined') {
         if ($('#dropbox-chooser-sales').length > 0) {
             document.getElementById("dropbox-chooser-sales").appendChild(Dropbox.createChooseButton({
-                success: function(files) {
+                success: function (files) {
                     var _data = {};
                     _data.rel_id = $("body").find('input[name="_attachment_sale_id"]').val();
                     _data.type = $("body").find('input[name="_attachment_sale_type"]').val();
                     _data.files = files;
                     _data.external = 'dropbox';
-                    $.post(admin_url + 'misc/add_sales_external_attachment', _data).done(function() {
+                    $.post(admin_url + 'misc/add_sales_external_attachment', _data).done(function () {
                         if (_data.type == 'invoice') {
                             init_invoice(_data.rel_id);
                         } else if (_data.type == 'credit_note') {
@@ -2088,11 +2088,11 @@ $(function() {
 
     if ($('#sales-upload').length > 0) {
         new Dropzone('#sales-upload', $.extend({}, _dropzone_defaults(), {
-            sending: function(file, xhr, formData) {
+            sending: function (file, xhr, formData) {
                 formData.append("rel_id", $("body").find('input[name="_attachment_sale_id"]').val());
                 formData.append("type", $("body").find('input[name="_attachment_sale_type"]').val());
             },
-            success: function(files, response) {
+            success: function (files, response) {
                 response = JSON.parse(response);
                 var type = $("body").find('input[name="_attachment_sale_type"]').val();
                 var dl_url, delete_function;
@@ -2135,45 +2135,45 @@ $(function() {
     }
 
     // Show send to email invoice modal
-    $("body").on('click', '.invoice-send-to-client', function(e) {
+    $("body").on('click', '.invoice-send-to-client', function (e) {
         e.preventDefault();
         $('#invoice_send_to_client_modal').modal('show');
     });
 
     // Show send to email estimate modal
-    $("body").on('click', '.estimate-send-to-client', function(e) {
+    $("body").on('click', '.estimate-send-to-client', function (e) {
         e.preventDefault();
         $('#estimate_send_to_client_modal').modal('show');
     });
 
     // Send templaate modal custom close function causing problems if is on pipeline view
-    $("body").on('click', '.close-send-template-modal', function() {
+    $("body").on('click', '.close-send-template-modal', function () {
         $('#estimate_send_to_client_modal').modal('hide');
         $('#proposal_send_to_customer').modal('hide');
     });
 
     // Include shipping show/hide details
-    $("body").on('change', '#include_shipping', function() {
+    $("body").on('change', '#include_shipping', function () {
         var $sd = $('#shipping_details');
         $(this).prop('checked') === true ? $sd.removeClass('hide') : $sd.addClass('hide');
     });
 
     // Init the billing and shipping details in the field - estimates and invoices
-    $("body").on('click', '.save-shipping-billing', function(e) {
+    $("body").on('click', '.save-shipping-billing', function (e) {
         init_billing_and_shipping_details();
     });
 
     // On change currency recalculate price and change symbol
-    $("body").on('change', 'select[name="currency"]', function() {
+    $("body").on('change', 'select[name="currency"]', function () {
         init_currency_symbol();
     });
 
     // Recaulciate total on these changes
-    $("body").on('change', 'input[name="adjustment"],select.tax', function() {
+    $("body").on('change', 'input[name="adjustment"],select.tax', function () {
         calculate_total();
     });
 
-    $('body').on('click', '.discount-total-type', function(e) {
+    $('body').on('click', '.discount-total-type', function (e) {
         e.preventDefault();
         $('#discount-total-type-dropdown').find('.discount-total-type').removeClass('selected');
         $(this).addClass('selected');
@@ -2190,7 +2190,7 @@ $(function() {
     });
 
     // Discount type for estimate/invoice
-    $("body").on('change', 'select[name="discount_type"]', function() {
+    $("body").on('change', 'select[name="discount_type"]', function () {
         // if discount_type == ''
         if ($(this).val() === '') {
             $('input[name="discount_percent"]').val(0);
@@ -2200,12 +2200,12 @@ $(function() {
     });
 
     // In case user enter discount percent but there is no discount type set
-    $("body").on('change', 'input[name="discount_percent"],input[name="discount_total"]', function() {
+    $("body").on('change', 'input[name="discount_percent"],input[name="discount_total"]', function () {
         if ($('select[name="discount_type"]').val() === '' && $(this).val() != 0) {
             alert('You need to select discount type');
             $('html,body').animate({ scrollTop: 0 }, 'slow');
             $('#wrapper').highlight($('label[for="discount_type"]').text());
-            setTimeout(function() {
+            setTimeout(function () {
                 $('#wrapper').unhighlight();
             }, 3000);
             return false;
@@ -2215,16 +2215,16 @@ $(function() {
         }
     });
 
-    $('body').on('change', '.invoice #project_id', function() {
+    $('body').on('change', '.invoice #project_id', function () {
         var project_id = $(this).selectpicker('val');
         if (project_id !== '') {
-            requestGetJSON('tasks/get_billable_tasks_by_project/' + project_id).done(function(tasks) {
+            requestGetJSON('tasks/get_billable_tasks_by_project/' + project_id).done(function (tasks) {
                 _init_tasks_billable_select(tasks, project_id);
             });
         } else {
             var client_id = $('#clientid').selectpicker('val');
             if (client_id !== '') {
-                requestGetJSON('tasks/get_billable_tasks_by_customer_id/' + client_id).done(function(tasks) {
+                requestGetJSON('tasks/get_billable_tasks_by_customer_id/' + client_id).done(function (tasks) {
                     _init_tasks_billable_select(tasks);
                 });
             } else {
@@ -2235,17 +2235,17 @@ $(function() {
     });
 
     // Add task data to preview from the dropdown for invoiecs
-    $("body").on('change', 'select[name="task_select"]', function() {
+    $("body").on('change', 'select[name="task_select"]', function () {
         ($(this).selectpicker('val') !== '' ? add_task_to_preview_as_item($(this).selectpicker('val')) : '');
     });
 
     // When user record payment check if is online mode
-    $("body").on('change', 'select[name="paymentmode"]', function() {
+    $("body").on('change', 'select[name="paymentmode"]', function () {
         var $notRedirect = $('.do_not_redirect');
         !$.isNumeric($(this).val()) ? $notRedirect.removeClass('hide') : $notRedirect.addClass('hide');
     });
 
-    $("body").on('change', '.f_client_id select[name="clientid"]', function() {
+    $("body").on('change', '.f_client_id select[name="clientid"]', function () {
         var val = $(this).val();
         var projectAjax = $('select[name="project_id"]');
         var clonedProjectsAjaxSearchSelect = projectAjax.html('').clone();
@@ -2264,9 +2264,9 @@ $(function() {
         }
 
         var currentInvoiceID = $("body").find('input[name="merge_current_invoice"]').val();
-        currentInvoiceID = typeof(currentInvoiceID) == 'undefined' ? '' : currentInvoiceID;
+        currentInvoiceID = typeof (currentInvoiceID) == 'undefined' ? '' : currentInvoiceID;
 
-        requestGetJSON('invoices/client_change_data/' + val + '/' + currentInvoiceID).done(function(response) {
+        requestGetJSON('invoices/client_change_data/' + val + '/' + currentInvoiceID).done(function (response) {
             $('#merge').html(response.merge_info);
             var $billExpenses = $('#expenses_to_bill');
             // Invoice from project, in invoice_template this is not shown
@@ -2324,7 +2324,7 @@ $(function() {
         $('.f_client_id select[name="clientid"]').change();
     }
 
-    $("body").on('click', '#get_shipping_from_customer_profile', function(e) {
+    $("body").on('click', '#get_shipping_from_customer_profile', function (e) {
         e.preventDefault();
         var include_shipping = $('#include_shipping');
         if (include_shipping.prop('checked') === false) {
@@ -2333,7 +2333,7 @@ $(function() {
         }
         var clientid = $('select[name="clientid"]').val();
         if (clientid === '') { return; }
-        requestGetJSON('clients/get_customer_billing_and_shipping_details/' + clientid).done(function(response) {
+        requestGetJSON('clients/get_customer_billing_and_shipping_details/' + clientid).done(function (response) {
             $('textarea[name="shipping_street"]').val(response[0]['shipping_street']);
             $('input[name="shipping_city"]').val(response[0]['shipping_city']);
             $('input[name="shipping_state"]').val(response[0]['shipping_state']);
@@ -2342,7 +2342,7 @@ $(function() {
         });
     });
 
-    if (typeof(accounting) != 'undefined') {
+    if (typeof (accounting) != 'undefined') {
         // Used for formatting money
         accounting.settings.currency.decimal = app_decimal_separator;
         accounting.settings.currency.thousand = app_thousand_separator;
@@ -2357,12 +2357,12 @@ $(function() {
     }
 
     // Invoices to merge
-    $("body").on('change', 'input[name="invoices_to_merge[]"]', function() {
+    $("body").on('change', 'input[name="invoices_to_merge[]"]', function () {
         var checked = $(this).prop('checked');
         var _id = $(this).val();
         if (checked === true) {
-            requestGetJSON('invoices/get_merge_data/' + _id).done(function(response) {
-                $.each(response.items, function(i, obj) {
+            requestGetJSON('invoices/get_merge_data/' + _id).done(function (response) {
+                $.each(response.items, function (i, obj) {
                     if (obj.rel_type !== '') {
                         if (obj.rel_type == 'task') {
                             $('input[name="task_id"]').val(obj.item_related_formatted_for_input);
@@ -2381,11 +2381,11 @@ $(function() {
     });
 
     // Bill expenses to invooice on top
-    $("body").on('change', 'input[name="bill_expenses[]"]', function() {
+    $("body").on('change', 'input[name="bill_expenses[]"]', function () {
         var checked = $(this).prop('checked');
         var _id = $(this).val();
         if (checked === true) {
-            requestGetJSON('invoices/get_bill_expense_data/' + _id).done(function(response) {
+            requestGetJSON('invoices/get_bill_expense_data/' + _id).done(function (response) {
                 $('input[name="expense_id"]').val(_id);
                 add_item_to_table(response, 'undefined', 'undefined', _id);
             });
@@ -2397,7 +2397,7 @@ $(function() {
     });
 
     // Expense bill to popover data
-    $("body").on('change', '.invoice_inc_expense_additional_info input', function() {
+    $("body").on('change', '.invoice_inc_expense_additional_info input', function () {
         var _data_content = $(this).attr('data-content'),
             new_desc_value,
             desc_selector = $('[data-bill-expense=' + $(this).attr('data-id') + '] .item_long_description');
@@ -2417,7 +2417,7 @@ $(function() {
 });
 
 // For manually modals where no close is defined
-$(document).keyup(function(e) {
+$(document).keyup(function (e) {
     if (e.keyCode == 27) { // escape key maps to keycode `27`
         // Close modal if only modal is opened and there is no 2 modals opened
         // This will trigger only if there is only 1 modal visible/opened
@@ -2434,7 +2434,7 @@ function _make_task_checklist_items_deletable() {
     if (has_permission_tasks_checklist_items_delete == '1') {
         var itemsHtml = $("body").find('.checklist-templates-wrapper ul.dropdown-menu li').not(':first-child');
         var itemsSelect = $("body").find('.checklist-templates-wrapper select option').not(':first-child');
-        $.each(itemsSelect, function(i, item) {
+        $.each(itemsSelect, function (i, item) {
             var $item = $(item);
             if ($(itemsHtml[i]).find('.checklist-item-template-remove').length === 0) {
                 $(itemsHtml[i]).find('a > span.text').after('<small class="checklist-item-template-remove" onclick="remove_checklist_item_template(' + $item.attr('value') + '); event.stopPropagation();"><i class="fa fa-remove"></i></small>');
@@ -2447,11 +2447,11 @@ function _init_tasks_billable_select(tasks, project_id) {
     var billable_tasks_area = $('#task_select');
     if (billable_tasks_area.length > 0) {
         var option_data;
-        billable_tasks_area.find('option').filter(function() {
+        billable_tasks_area.find('option').filter(function () {
             return this.value || $.trim(this.value).length > 0 || $.trim(this.text).length > 0;
         }).remove();
 
-        $.each(tasks, function(i, obj) {
+        $.each(tasks, function (i, obj) {
             option_data = ' ';
             if (obj.started_timers === true) {
                 option_data += 'disabled class="text-danger important" data-subtext="' + appLang.invoice_task_billable_timers_found + '"';
@@ -2475,10 +2475,10 @@ function _init_tasks_billable_select(tasks, project_id) {
 
         tasks_help_wrapper.html('<span class="pointer popover-invoker" data-container=".form-group-select-task_select" data-trigger="click" data-placement="top" data-toggle="popover" data-content="' + help_tooltip + '"><i class="fa fa-question-circle"></i></span>');
 
-        delay(function() {
-            if ((tasks_help_wrapper.attr('info-shown-count') < 3 || typeof(tasks_help_wrapper.attr('info-shown-count')) == 'undefined') &&
+        delay(function () {
+            if ((tasks_help_wrapper.attr('info-shown-count') < 3 || typeof (tasks_help_wrapper.attr('info-shown-count')) == 'undefined') &&
                 $('.projects-wrapper').is(':visible') && tasks.length > 0) {
-                tasks_help_wrapper.attr('info-shown-count', typeof(tasks_help_wrapper.attr('info-shown-count')) == 'undefined' ? 1 : parseInt(tasks_help_wrapper.attr('info-shown-count')) + 1);
+                tasks_help_wrapper.attr('info-shown-count', typeof (tasks_help_wrapper.attr('info-shown-count')) == 'undefined' ? 1 : parseInt(tasks_help_wrapper.attr('info-shown-count')) + 1);
                 tasks_help_wrapper.find('.popover-invoker').click();
             }
         }, 3500);
@@ -2488,13 +2488,13 @@ function _init_tasks_billable_select(tasks, project_id) {
 }
 // Lightbox plugins for images
 function init_lightbox(options) {
-    if (typeof(lightbox) != 'undefined') {
+    if (typeof (lightbox) != 'undefined') {
         var _lightBoxOptions = {
             'showImageNumberLabel': false,
             resizeDuration: 200,
             positionFromTop: 25
         };
-        if (typeof(options) != 'undefined') {
+        if (typeof (options) != 'undefined') {
             jQuery.extend(_lightBoxOptions, options);
         }
         lightbox.option(_lightBoxOptions);
@@ -2505,7 +2505,7 @@ function init_lightbox(options) {
 function init_progress_bars() {
     var progress_bars = $('body').find('.progress div.progress-bar');
     if (progress_bars.length) {
-        progress_bars.each(function() {
+        progress_bars.each(function () {
             var bar = $(this);
             var perc = bar.attr("data-percent");
             bar.css('width', (perc) + '%');
@@ -2519,7 +2519,7 @@ function get_url_param(param) {
     var vars = {};
     window.location.href.replace(location.hash, '').replace(
         /[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
-        function(m, key, value) { // callback
+        function (m, key, value) { // callback
             vars[key] = value !== undefined ? value : '';
         }
     );
@@ -2599,11 +2599,11 @@ function _validate_form(form, form_rules, submithandler) {
                 },
             },
             ignore: [],
-            submitHandler: function(form) {
+            submitHandler: function (form) {
                 if ($(form).hasClass('disable-on-submit')) {
                     $(form).find('[type="submit"]').prop('disabled', true);
                 }
-                if (typeof(submithandler) !== 'undefined') {
+                if (typeof (submithandler) !== 'undefined') {
                     submithandler(form);
                 } else {
                     return true;
@@ -2614,7 +2614,7 @@ function _validate_form(form, form_rules, submithandler) {
         var custom_required_fields = $form.find('[data-custom-field-required]');
         if (custom_required_fields.length > 0) {
 
-            $.each(custom_required_fields, function() {
+            $.each(custom_required_fields, function () {
 
                 // for custom fields in tr.main, do not validate those
                 if (!$(this).parents('tr.main').length) {
@@ -2631,7 +2631,7 @@ function _validate_form(form, form_rules, submithandler) {
                 }
             });
         }
-        $.each(form_rules, function(name, rule) {
+        $.each(form_rules, function (name, rule) {
             if ((rule == 'required' && !jQuery.isPlainObject(rule)) || (jQuery.isPlainObject(rule) && rule.hasOwnProperty('required'))) {
                 var label = $form.find('[for="' + name + '"]');
                 if (label.length > 0 && label.find('.req').length === 0) {
@@ -2648,7 +2648,7 @@ function _validate_form(form, form_rules, submithandler) {
 // Delete option from database AJAX
 function delete_option(child, id) {
     if (confirm_delete()) {
-        requestGetJSON('settings/delete_option/' + id).done(function(response) {
+        requestGetJSON('settings/delete_option/' + id).done(function (response) {
             if (response.success === true || response.success == 'true') {
                 $(child).parents('.option').remove();
             }
@@ -2664,7 +2664,7 @@ function slideToggle(selector, callback) {
     // Set all progress bar to 0 percent
     var progress_bars = $('.progress-bar').not('.not-dynamic');
     if (progress_bars.length > 0) {
-        progress_bars.each(function() {
+        progress_bars.each(function () {
             $(this).css('width', 0 + '%');
             $(this).text(0 + '%');
         });
@@ -2672,7 +2672,7 @@ function slideToggle(selector, callback) {
         init_progress_bars();
     }
     // Possible callback after slide toggle
-    if (typeof(callback) == 'function') { callback(); }
+    if (typeof (callback) == 'function') { callback(); }
 }
 
 // Generate float alert
@@ -2683,14 +2683,14 @@ function alert_float(type, message) {
     aId = 'alert_float_' + aId;
     el = $('<div id="' + aId + '" class="float-alert animated fadeInRight col-xs-11 col-sm-4 alert alert-' + type + '"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><span class="fa fa-bell-o" data-notify="icon"></span><span class="alert-title">' + message + '</span></div>');
     $("body").append(el);
-    setTimeout(function() {
-        $('#' + aId).hide('fast', function() { $('#' + aId).remove(); });
+    setTimeout(function () {
+        $('#' + aId).hide('fast', function () { $('#' + aId).remove(); });
     }, 3500);
 }
 
 // Initing relation tasks tables
 function init_rel_tasks_table(rel_id, rel_type, selector) {
-    if (typeof(selector) == 'undefined') { selector = '.table-rel-tasks'; }
+    if (typeof (selector) == 'undefined') { selector = '.table-rel-tasks'; }
     var $selector = $("body").find(selector);
     if ($selector.length === 0) { return; }
 
@@ -2700,7 +2700,7 @@ function init_rel_tasks_table(rel_id, rel_type, selector) {
 
     TasksFilters = $('body').find('._hidden_inputs._filters._tasks_filters input');
 
-    $.each(TasksFilters, function() {
+    $.each(TasksFilters, function () {
         TasksServerParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
     });
 
@@ -2730,7 +2730,7 @@ function get_datatable_buttons(table) {
     }
 
     var formatExport = {
-        body: function(data, row, column, node) {
+        body: function (data, row, column, node) {
 
             // Fix for notes inline datatables
             // Causing issues because of the hidden textarea for edit and the content is duplicating
@@ -2774,7 +2774,7 @@ function get_datatable_buttons(table) {
                 footer: true,
                 exportOptions: {
                     columns: [':not(.not-export)'],
-                    rows: function(index) {
+                    rows: function (index) {
                         return _dt_maybe_export_only_selected_rows(index, table);
                     },
                     format: formatExport,
@@ -2785,7 +2785,7 @@ function get_datatable_buttons(table) {
                 footer: true,
                 exportOptions: {
                     columns: [':not(.not-export)'],
-                    rows: function(index) {
+                    rows: function (index) {
                         return _dt_maybe_export_only_selected_rows(index, table);
                     },
                     format: formatExport,
@@ -2796,13 +2796,13 @@ function get_datatable_buttons(table) {
                 footer: true,
                 exportOptions: {
                     columns: [':not(.not-export)'],
-                    rows: function(index) {
+                    rows: function (index) {
                         return _dt_maybe_export_only_selected_rows(index, table);
                     },
                     format: formatExport,
                 },
                 orientation: 'landscape',
-                customize: function(doc) {
+                customize: function (doc) {
                     // Fix for column widths
                     var table_api = $(table).DataTable();
                     var columns = table_api.columns().visible();
@@ -2815,7 +2815,7 @@ function get_datatable_buttons(table) {
                             total_visible_columns++;
                         }
                     }
-                    setTimeout(function() {
+                    setTimeout(function () {
                         if (total_visible_columns <= 5) {
                             for (i = 0; i < total_visible_columns; i++) {
                                 pdf_widths.push((735 / total_visible_columns));
@@ -2838,7 +2838,7 @@ function get_datatable_buttons(table) {
                 footer: true,
                 exportOptions: {
                     columns: [':not(.not-export)'],
-                    rows: function(index) {
+                    rows: function (index) {
                         return _dt_maybe_export_only_selected_rows(index, table);
                     },
                     format: formatExport,
@@ -2848,14 +2848,14 @@ function get_datatable_buttons(table) {
     }
     var tableButtons = $("body").find('.table-btn');
 
-    $.each(tableButtons, function() {
+    $.each(tableButtons, function () {
         var b = $(this);
         if (b.length && b.attr('data-table')) {
             if ($(table).is(b.attr('data-table'))) {
                 table_buttons_options.push({
                     text: b.text().trim(),
                     className: 'btn btn-default-dt-options',
-                    action: function(e, dt, node, config) {
+                    action: function (e, dt, node, config) {
                         b.click();
                     }
                 });
@@ -2867,7 +2867,7 @@ function get_datatable_buttons(table) {
         table_buttons_options.push({
             text: '<i class="fa fa-refresh"></i>',
             className: 'btn btn-default-dt-options btn-dt-reload',
-            action: function(e, dt, node, config) {
+            action: function (e, dt, node, config) {
                 dt.ajax.reload();
             }
         });
@@ -2913,7 +2913,7 @@ function _dt_maybe_export_only_selected_rows(index, table) {
     if (bulkActionsCheckbox && bulkActionsCheckbox.length > 0) {
         var rows = table.find('tbody tr');
         var anyChecked = false;
-        $.each(rows, function() {
+        $.each(rows, function () {
             if ($(this).find('td:first input[type="checkbox"]:checked').length) {
                 anyChecked = true;
             }
@@ -2963,7 +2963,7 @@ function initDatatableOffline(dt_table) {
 // Datatbles inline/offline - no serverside
 function initDataTableInline(dt_table) {
 
-    var selector = typeof(dt_table) !== 'undefined' ? dt_table : '.dt-table';
+    var selector = typeof (dt_table) !== 'undefined' ? dt_table : '.dt-table';
     var tables = $(selector);
 
     if (tables.length === 0) {
@@ -2980,11 +2980,11 @@ function initDataTableInline(dt_table) {
         length_options_names.push(app_tables_pagination_limit);
     }
 
-    length_options.sort(function(a, b) {
+    length_options.sort(function (a, b) {
         return a - b;
     });
 
-    length_options_names.sort(function(a, b) {
+    length_options_names.sort(function (a, b) {
         return a - b;
     });
 
@@ -3004,7 +3004,7 @@ function initDataTableInline(dt_table) {
             "pageLength": app_tables_pagination_limit,
             "lengthMenu": [length_options, length_options_names],
             "fnRowCallback": DataTablesOfflineLazyLoadImages,
-            "fnDrawCallback": function(oSettings) {
+            "fnDrawCallback": function (oSettings) {
                 _table_jump_to_page(this, oSettings);
                 if (oSettings.aoData.length === 0 || oSettings.aiDisplay.length === 0) {
                     $(oSettings.nTableWrapper).addClass('app_dt_empty');
@@ -3012,7 +3012,7 @@ function initDataTableInline(dt_table) {
                     $(oSettings.nTableWrapper).removeClass('app_dt_empty');
                 }
             },
-            "initComplete": function(settings, json) {
+            "initComplete": function (settings, json) {
                 var dtOfflineEmpty = this.find('.dataTables_empty');
 
                 if (this.hasClass('scroll-responsive') || app_scroll_responsive_tables == 1) {
@@ -3038,7 +3038,7 @@ function initDataTableInline(dt_table) {
 
         order_col = $($(this)).attr('data-order-col');
         order_type = $($(this)).attr('data-order-type');
-        $.each(tables, function() {
+        $.each(tables, function () {
             $(this).addClass('dt-no-serverside');
             options = _options;
             if ($(this).hasClass('scroll-responsive') || app_scroll_responsive_tables == 1) {
@@ -3055,7 +3055,7 @@ function initDataTableInline(dt_table) {
             // Remove the reload button here because its not ajax request
             options.buttons = _buttons;
             var tableApi = $(this).DataTable(options);
-            $(document).on("change", ".dt-page-jump-select", function() {
+            $(document).on("change", ".dt-page-jump-select", function () {
                 tableApi.page($(this).val() - 1).draw(false);
             });
         });
@@ -3064,16 +3064,16 @@ function initDataTableInline(dt_table) {
 
 // General function for all datatables serverside
 function initDataTable(selector, url, notsearchable, notsortable, fnserverparams, defaultorder) {
-    var table = typeof(selector) == 'string' ? $("body").find('table' + selector) : selector;
+    var table = typeof (selector) == 'string' ? $("body").find('table' + selector) : selector;
 
     if (table.length === 0) {
         return false;
     }
 
-    fnserverparams = (fnserverparams == 'undefined' || typeof(fnserverparams) == 'undefined') ? [] : fnserverparams;
+    fnserverparams = (fnserverparams == 'undefined' || typeof (fnserverparams) == 'undefined') ? [] : fnserverparams;
 
     // If not order is passed order by the first column
-    if (typeof(defaultorder) == 'undefined') {
+    if (typeof (defaultorder) == 'undefined') {
         defaultorder = [
             [0, 'asc']
         ];
@@ -3109,10 +3109,10 @@ function initDataTable(selector, url, notsearchable, notsortable, fnserverparams
         length_options_names.push(app_tables_pagination_limit);
     }
 
-    length_options.sort(function(a, b) {
+    length_options.sort(function (a, b) {
         return a - b;
     });
-    length_options_names.sort(function(a, b) {
+    length_options_names.sort(function (a, b) {
         return a - b;
     });
 
@@ -3139,7 +3139,7 @@ function initDataTable(selector, url, notsearchable, notsortable, fnserverparams
             "sortable": false,
             "targets": notsortable
         }],
-        "fnDrawCallback": function(oSettings) {
+        "fnDrawCallback": function (oSettings) {
             _table_jump_to_page(this, oSettings);
             if (oSettings.aoData.length === 0) {
                 $(oSettings.nTableWrapper).addClass('app_dt_empty');
@@ -3147,12 +3147,12 @@ function initDataTable(selector, url, notsearchable, notsortable, fnserverparams
                 $(oSettings.nTableWrapper).removeClass('app_dt_empty');
             }
         },
-        "fnCreatedRow": function(nRow, aData, iDataIndex) {
+        "fnCreatedRow": function (nRow, aData, iDataIndex) {
             // If tooltips found
             $(nRow).attr('data-title', aData.Data_Title);
             $(nRow).attr('data-toggle', aData.Data_Toggle);
         },
-        "initComplete": function(settings, json) {
+        "initComplete": function (settings, json) {
             var t = this;
             var $btnReload = $('.btn-dt-reload');
             $btnReload.attr('data-toggle', 'tooltip');
@@ -3193,8 +3193,8 @@ function initDataTable(selector, url, notsearchable, notsortable, fnserverparams
         "ajax": {
             "url": url,
             "type": "POST",
-            "data": function(d) {
-                if (typeof(csrfData) !== 'undefined') {
+            "data": function (d) {
+                if (typeof (csrfData) !== 'undefined') {
                     d[csrfData['token_name']] = csrfData['hash'];
                 }
                 for (var key in fnserverparams) {
@@ -3218,11 +3218,11 @@ function initDataTable(selector, url, notsearchable, notsortable, fnserverparams
     var hiddenHeadings = table.find('th.not_visible');
     var hiddenIndexes = [];
 
-    $.each(hiddenHeadings, function() {
+    $.each(hiddenHeadings, function () {
         hiddenIndexes.push(this.cellIndex);
     });
 
-    setTimeout(function() {
+    setTimeout(function () {
         for (var i in hiddenIndexes) {
             tableApi.columns(hiddenIndexes[i]).visible(false, false).columns.adjust();
         }
@@ -3238,7 +3238,7 @@ function initDataTable(selector, url, notsearchable, notsortable, fnserverparams
             invisible = [];
         }
 
-        $.each(tableToggleAbleHeadings, function() {
+        $.each(tableToggleAbleHeadings, function () {
             var cID = $(this).attr('id');
             if ($.inArray(cID, invisible) > -1) {
                 tableApi.column('#' + cID).visible(false);
@@ -3247,7 +3247,7 @@ function initDataTable(selector, url, notsearchable, notsortable, fnserverparams
 
         // For for not blurring out when clicked on the link
         // Causing issues hidden column still to be shown as not hidden because the link is focused
-        $('body').on('click', '.buttons-columnVisibility a', function() {
+        $('body').on('click', '.buttons-columnVisibility a', function () {
             $(this).blur();
         });
         /*
@@ -3283,11 +3283,11 @@ function initDataTable(selector, url, notsearchable, notsortable, fnserverparams
         table.find('.dataTables_empty').attr('colspan', table.find('thead th').length);
     }
 
-    table.on('preXhr.dt', function(e, settings, data) {
+    table.on('preXhr.dt', function (e, settings, data) {
         if (settings.jqXHR) settings.jqXHR.abort();
     });
 
-    $(document).on("change", ".dt-page-jump-select", function() {
+    $(document).on("change", ".dt-page-jump-select", function () {
         tableApi.page($(this).val() - 1).draw(false);
     });
 
@@ -3316,7 +3316,7 @@ function update_todo_items() {
     var finished = $('.finished-todos li:not(.no-todos)');
     var i = 1;
     // Refresh orders
-    $.each(unfinished_items, function() {
+    $.each(unfinished_items, function () {
         $(this).find('input[name="todo_order"]').val(i);
         $(this).find('input[name="finished"]').val(0);
         i++;
@@ -3331,7 +3331,7 @@ function update_todo_items() {
         $('.nav-total-todos').removeClass('hide').html(unfinished_items.length);
     }
     x = 1;
-    $.each(finished, function() {
+    $.each(finished, function () {
         $(this).find('input[name="todo_order"]').val(x);
         $(this).find('input[name="finished"]').val(1);
         $(this).find('input[type="checkbox"]').prop('checked', true);
@@ -3346,7 +3346,7 @@ function update_todo_items() {
         }
     }
     var update = [];
-    $.each(unfinished_items, function() {
+    $.each(unfinished_items, function () {
         var description = $(this).find('.todo-description');
         if (description.hasClass('line-throught')) {
             description.removeClass('line-throught');
@@ -3358,7 +3358,7 @@ function update_todo_items() {
             $(this).find('input[name="finished"]').val(),
         ]);
     });
-    $.each(finished, function() {
+    $.each(finished, function () {
         var description = $(this).find('.todo-description');
         if (!description.hasClass('line-throught')) {
             description.addClass('line-throught');
@@ -3376,7 +3376,7 @@ function update_todo_items() {
 
 // Delete single todo item
 function delete_todo_item(list, id) {
-    requestGetJSON('todo/delete_todo_item/' + id).done(function(response) {
+    requestGetJSON('todo/delete_todo_item/' + id).done(function (response) {
         if (response.success === true || response.success == 'true') {
             $(list).parents('li').remove();
             update_todo_items();
@@ -3386,7 +3386,7 @@ function delete_todo_item(list, id) {
 
 // Edit todo item
 function edit_todo_item(id) {
-    requestGetJSON('todo/get_by_id/' + id).done(function(response) {
+    requestGetJSON('todo/get_by_id/' + id).done(function (response) {
         var todo_modal = $('#__todo');
         todo_modal.find('input[name="todoid"]').val(response.todoid);
         todo_modal.find('textarea[name="description"]').val(response.description);
@@ -3397,12 +3397,12 @@ function edit_todo_item(id) {
 // Date picker init with selected timeformat from settings
 function init_datepicker(element, element_time, opts_date, opts_datetime) {
 
-    var datepickers = typeof(element) == 'undefined' ? $('.datepicker') : element;
-    var datetimepickers = typeof(element_time) == 'undefined' ? $('.datetimepicker') : element_time;
+    var datepickers = typeof (element) == 'undefined' ? $('.datepicker') : element;
+    var datetimepickers = typeof (element_time) == 'undefined' ? $('.datetimepicker') : element_time;
 
     if (datetimepickers.length === 0 && datepickers.length === 0) { return; }
     // Datepicker without time
-    $.each(datepickers, function() {
+    $.each(datepickers, function () {
         var that = $(this);
         var opt = {
             timepicker: false,
@@ -3417,7 +3417,7 @@ function init_datepicker(element, element_time, opts_date, opts_datetime) {
         var min_date = that.attr('data-date-min-date');
         var lazy = that.attr('data-lazy');
 
-        if(lazy) {
+        if (lazy) {
             opt.lazyInit = lazy == 'true';
         }
 
@@ -3432,14 +3432,14 @@ function init_datepicker(element, element_time, opts_date, opts_datetime) {
         // Init the picker
         that.datetimepicker(opt);
 
-        that.parents('.form-group').find('.calendar-icon').on('click', function() {
+        that.parents('.form-group').find('.calendar-icon').on('click', function () {
             that.focus();
             that.trigger('open.xdsoft');
         });
     });
 
     // Datepicker with time
-    $.each(datetimepickers, function() {
+    $.each(datetimepickers, function () {
         var that = $(this);
         var opt_time = {
             lazyInit: true,
@@ -3458,7 +3458,7 @@ function init_datepicker(element, element_time, opts_date, opts_datetime) {
         var min_date = that.attr('data-date-min-date');
         var lazy = that.attr('data-lazy');
 
-        if(lazy) {
+        if (lazy) {
             opt.lazyInit = lazy == 'true';
         }
 
@@ -3472,7 +3472,7 @@ function init_datepicker(element, element_time, opts_date, opts_datetime) {
         // Init the picker
         that.datetimepicker(opt_time);
 
-        that.parents('.form-group').find('.calendar-icon').on('click', function() {
+        that.parents('.form-group').find('.calendar-icon').on('click', function () {
             that.focus();
             that.trigger('open.xdsoft');
         });
@@ -3493,7 +3493,7 @@ function init_tags_inputs() {
             autocomplete: {
                 appendTo: '#inputTagsWrapper',
             },
-            afterTagAdded: function(event, ui) {
+            afterTagAdded: function (event, ui) {
                 var tagIndexAvailable = availableTags.indexOf($.trim($(ui.tag).find('.tagit-label').text()));
                 if (tagIndexAvailable > -1) {
                     var _tagId = availableTagsIds[tagIndexAvailable];
@@ -3501,7 +3501,7 @@ function init_tags_inputs() {
                 }
                 showHideTagsPlaceholder($(this));
             },
-            afterTagRemoved: function(event, ui) {
+            afterTagRemoved: function (event, ui) {
                 showHideTagsPlaceholder($(this));
             }
         });
@@ -3530,11 +3530,11 @@ function init_selectpicker() {
 
 // Datatables custom view will fill input with the value
 function dt_custom_view(value, table, custom_input_name, clear_other_filters) {
-    var name = typeof(custom_input_name) == 'undefined' ? 'custom_view' : custom_input_name;
-    if (typeof(clear_other_filters) != 'undefined') {
+    var name = typeof (custom_input_name) == 'undefined' ? 'custom_view' : custom_input_name;
+    if (typeof (clear_other_filters) != 'undefined') {
         var filters = $('._filter_data li.active').not('.clear-all-prevent');
         filters.removeClass('active');
-        $.each(filters, function() {
+        $.each(filters, function () {
             var input_name = $(this).find('a').attr('data-cview');
             $('._filters input[name="' + input_name + '"]').val('');
         });
@@ -3549,18 +3549,18 @@ function dt_custom_view(value, table, custom_input_name, clear_other_filters) {
 
 // Sets table filters dropdown to active
 function do_filter_active(value, parent_selector) {
-    if (value !== '' && typeof(value) != 'undefined') {
+    if (value !== '' && typeof (value) != 'undefined') {
 
         $('[data-cview="all"]').parents('li').removeClass('active');
         var selector = $('[data-cview="' + value + '"]');
-        if (typeof(parent_selector) != 'undefined') {
+        if (typeof (parent_selector) != 'undefined') {
             selector = $(parent_selector + ' [data-cview="' + value + '"]');
         }
         var parent = selector.parents('li');
         if (parent.hasClass('filter-group')) {
             var group = parent.data('filter-group');
             $('[data-filter-group="' + group + '"]').not(parent).removeClass('active');
-            $.each($('[data-filter-group="' + group + '"]').not(parent), function() {
+            $.each($('[data-filter-group="' + group + '"]').not(parent), function () {
                 $('input[name="' + $(this).find('a').attr('data-cview') + '"]').val('');
             });
             //   $('input[name="' + value + '"]').val('');
@@ -3590,11 +3590,11 @@ function do_filter_active(value, parent_selector) {
 
 // Called when editing member profile
 function init_roles_permissions(roleid, user_changed) {
-    roleid = typeof(roleid) == 'undefined' ? $('select[name="role"]').val() : roleid;
+    roleid = typeof (roleid) == 'undefined' ? $('select[name="role"]').val() : roleid;
     var isedit = $('.member > input[name="isedit"]');
 
     // Check if user is edit view and user has changed the dropdown permission if not only return
-    if (isedit.length > 0 && typeof(roleid) !== 'undefined' && typeof(user_changed) == 'undefined') {
+    if (isedit.length > 0 && typeof (roleid) !== 'undefined' && typeof (user_changed) == 'undefined') {
         return;
     }
 
@@ -3610,10 +3610,10 @@ function init_roles_permissions(roleid, user_changed) {
 
     // Get all permissions
     var permissions = $('table.roles').find('tr');
-    requestGetJSON('misc/get_role_permissions_ajax/' + roleid).done(function(response) {
+    requestGetJSON('misc/get_role_permissions_ajax/' + roleid).done(function (response) {
         var can_view_st, can_view_own_st;
 
-        $.each(permissions, function() {
+        $.each(permissions, function () {
             var permissionid = $(this).data('id');
             var row = $(this);
 
@@ -3622,7 +3622,7 @@ function init_roles_permissions(roleid, user_changed) {
                 row.find('input[type="checkbox"]').prop('checked', false);
             }
 
-            $.each(response, function(i, obj) {
+            $.each(response, function (i, obj) {
                 if (permissionid == obj.permissionid) {
                     can_view_st = (obj.can_view == 1 ? true : false);
                     can_view_own_st = (obj.can_view_own == 1 ? true : false);
@@ -3679,13 +3679,13 @@ function stripTags(html) {
 
 // Check if field is empty
 function empty(data) {
-    if (typeof(data) == 'number' || typeof(data) == 'boolean') {
+    if (typeof (data) == 'number' || typeof (data) == 'boolean') {
         return false;
     }
-    if (typeof(data) == 'undefined' || data === null) {
+    if (typeof (data) == 'undefined' || data === null) {
         return true;
     }
-    if (typeof(data.length) != 'undefined') {
+    if (typeof (data.length) != 'undefined') {
         return data.length === 0;
     }
     var count = 0;
@@ -3751,7 +3751,7 @@ function elFinderBrowser(field_name, url, type, win) {
         height: 450,
         resizable: 'yes'
     }, {
-        setUrl: function(url) {
+        setUrl: function (url) {
             win.document.getElementById(field_name).value = url;
         }
     });
@@ -3761,12 +3761,12 @@ function elFinderBrowser(field_name, url, type, win) {
 // Function to init the tinymce editor
 function init_editor(selector, settings) {
 
-    selector = typeof(selector) == 'undefined' ? '.tinymce' : selector;
+    selector = typeof (selector) == 'undefined' ? '.tinymce' : selector;
     var _editor_selector_check = $(selector);
 
     if (_editor_selector_check.length === 0) { return; }
 
-    $.each(_editor_selector_check, function() {
+    $.each(_editor_selector_check, function () {
         if ($(this).hasClass('tinymce-manual')) {
             $(this).removeClass('tinymce');
         }
@@ -3794,9 +3794,9 @@ function init_editor(selector, settings) {
         forced_root_block: false,
         autosave_restore_when_empty: false,
         fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
-        setup: function(ed) {
+        setup: function (ed) {
             // Default fontsize is 12
-            ed.on('init', function() {
+            ed.on('init', function () {
                 this.getDoc().body.style.fontSize = '12pt';
             });
         },
@@ -3819,7 +3819,7 @@ function init_editor(selector, settings) {
     isRTL == 'true' ? _settings.plugins[0] += ' directionality' : '';
 
     // Possible settings passed to be overwrited or added
-    if (typeof(settings) != 'undefined') {
+    if (typeof (settings) != 'undefined') {
         for (var key in settings) {
             _settings[key] = settings[key];
         }
@@ -3834,7 +3834,7 @@ function init_editor(selector, settings) {
 
 // Function used to add custom bootstrap menu for setup and main menu and to add fa on front like fa fa-question
 function _formatMenuIconInput(e) {
-    if (typeof(e) == 'undefined') { return; }
+    if (typeof (e) == 'undefined') { return; }
     var _input = $(e.target);
     if (!_input.val().match(/^fa /)) {
         _input.val('fa ' + _input.val());
@@ -3846,11 +3846,11 @@ function showPassword(name) {
     var target = $('input[name="' + name + '"]');
     if ($(target).attr('type') == 'password' && $(target).val() !== '') {
         $(target)
-            .queue(function() {
+            .queue(function () {
                 $(target).attr('type', 'text').dequeue();
             });
     } else {
-        $(target).queue(function() {
+        $(target).queue(function () {
             $(target).attr('type', 'password').dequeue();
         });
     }
@@ -3866,23 +3866,23 @@ function init_btn_with_tooltips() {
             return false;
         }
         var tooltips_href_btn = $('._buttons').find('.btn-with-tooltip');
-        $.each(tooltips_href_btn, function() {
+        $.each(tooltips_href_btn, function () {
             var title = $(this).attr('title');
-            if (typeof(title) == 'undefined') {
+            if (typeof (title) == 'undefined') {
                 title = $(this).attr('data-title');
             }
-            if (typeof(title) != 'undefined') {
+            if (typeof (title) != 'undefined') {
                 $(this).append(' ' + title);
                 $(this).removeClass('btn-with-tooltip');
             }
         });
         var tooltips_group = $('._buttons').find('.btn-with-tooltip-group');
-        $.each(tooltips_group, function() {
+        $.each(tooltips_group, function () {
             var title = $(this).attr('title');
-            if (typeof(title) == 'undefined') {
+            if (typeof (title) == 'undefined') {
                 title = $(this).attr('data-title');
             }
-            if (typeof(title) != 'undefined') {
+            if (typeof (title) != 'undefined') {
                 $(this).find('.btn').eq(0).append(' ' + title);
                 $(this).removeClass('btn-with-tooltip-group');
             }
@@ -3892,7 +3892,7 @@ function init_btn_with_tooltips() {
 
 // Helper hash id for estimates,invoices,proposals,expenses, credit notes
 function do_hash_helper(hash) {
-    if (typeof(history.pushState) != "undefined") {
+    if (typeof (history.pushState) != "undefined") {
         var url = window.location.href;
         var obj = { Url: url };
         history.pushState(obj, '', obj.Url);
@@ -3903,7 +3903,7 @@ function do_hash_helper(hash) {
 // Validate the form reminder
 function init_form_reminder() {
     var forms = $('[id^="form-reminder-"]');
-    $.each(forms, function(i, form) {
+    $.each(forms, function (i, form) {
         _validate_form($(form), {
             date: 'required',
             staff: 'required'
@@ -3913,7 +3913,7 @@ function init_form_reminder() {
 
 // Edit reminder function
 function edit_reminder(id, e) {
-    requestGetJSON('misc/get_reminder/' + id).done(function(response) {
+    requestGetJSON('misc/get_reminder/' + id).done(function (response) {
         var $reminderModal = $('.reminder-modal-' + response.rel_type + '-' + response.rel_id);
         if ($reminderModal.length === 0 && $('body').hasClass('all-reminders')) {
             // maybe from view all reminders?
@@ -3934,7 +3934,7 @@ function edit_reminder(id, e) {
 function reminderFormHandler(form) {
     form = $(form);
     var data = form.serialize();
-    $.post(form.attr('action'), data).done(function(data) {
+    $.post(form.attr('action'), data).done(function (data) {
 
         data = JSON.parse(data);
 
@@ -3957,7 +3957,7 @@ function reminderFormHandler(form) {
 function reload_reminders_tables() {
     var available_reminders_table = ['.table-reminders', '.table-reminders-leads', '.table-my-reminders'];
 
-    $.each(available_reminders_table, function(i, table) {
+    $.each(available_reminders_table, function (i, table) {
         if ($.fn.DataTable.isDataTable(table)) {
             $("body").find(table).DataTable().ajax.reload();
         }
@@ -3967,7 +3967,7 @@ function reload_reminders_tables() {
 // Function to close modal manually... needed in some modals where the data is flexible.
 function close_modal_manually(modal) {
     modal = $(modal).length === 0 ? $("body").find(modal) : modal = $(modal);
-    modal.fadeOut('fast', function() {
+    modal.fadeOut('fast', function () {
         modal.remove();
         if (!$("body").find('.modal').is(':visible')) {
             $('.modal-backdrop').remove();
@@ -3988,7 +3988,7 @@ function edit_note(id) {
     if (description !== '') {
         $.post(admin_url + 'misc/edit_note/' + id, {
             description: description
-        }).done(function(response) {
+        }).done(function (response) {
             response = JSON.parse(response);
             if (response.success === true || response.success == 'true') {
                 alert_float('success', response.message);
@@ -4002,7 +4002,7 @@ function edit_note(id) {
 
 // Toggles sales file visibility for customer eq for invoices, estimates, proposals
 function toggle_file_visibility(attachment_id, rel_id, invoker) {
-    requestGet('misc/toggle_file_visibility/' + attachment_id).done(function(response) {
+    requestGet('misc/toggle_file_visibility/' + attachment_id).done(function (response) {
         if (response == 1) {
             $(invoker).find('i').removeClass('fa fa-toggle-off').addClass('fa fa-toggle-on');
         } else {
@@ -4044,11 +4044,11 @@ function kanban_load_more(status_id, e, url, column_px, container_px) {
             LoadMoreParameters['sort'] = sort;
         }
 
-        if (typeof(search) != 'undefined' && search !== '') {
+        if (typeof (search) != 'undefined' && search !== '') {
             LoadMoreParameters['search'] = search;
         }
 
-        $.each($('#kanban-params input'), function() {
+        $.each($('#kanban-params input'), function () {
             if ($(this).attr('type') == 'checkbox') {
                 _kanban_param_val = $(this).prop('checked') === true ? $(this).val() : '';
             } else {
@@ -4062,12 +4062,12 @@ function kanban_load_more(status_id, e, url, column_px, container_px) {
         LoadMoreParameters['status'] = status_id;
         LoadMoreParameters['page'] = page;
         LoadMoreParameters['page']++;
-        requestGet(buildUrl(admin_url + url, LoadMoreParameters)).done(function(response) {
+        requestGet(buildUrl(admin_url + url, LoadMoreParameters)).done(function (response) {
             page++;
             $('[data-load-status="' + status_id + '"]').before(response);
             $(e).attr('data-page', page);
             fix_kanban_height(column_px, container_px);
-        }).fail(function(error) {
+        }).fail(function (error) {
             alert_float('danger', error.responseText);
         });
         if (page >= total_pages - 1) {
@@ -4079,7 +4079,7 @@ function kanban_load_more(status_id, e, url, column_px, container_px) {
 // Check if kanban col is empty and perform necessary actions
 function check_kanban_empty_col(selector) {
     var statuses = $('[data-col-status-id]');
-    $.each(statuses, function(i, obj) {
+    $.each(statuses, function (i, obj) {
         var total = $(obj).find(selector).length;
         if (total == 0) {
             $(obj).find('.kanban-empty').removeClass('hide');
@@ -4097,7 +4097,7 @@ function init_kanban(url, callbackUpdate, connect_with, column_px, container_px,
     var parameters = [];
     var _kanban_param_val;
 
-    $.each($('#kanban-params input'), function() {
+    $.each($('#kanban-params input'), function () {
         if ($(this).attr('type') == 'checkbox') {
             _kanban_param_val = $(this).prop('checked') === true ? $(this).val() : '';
         } else {
@@ -4109,7 +4109,7 @@ function init_kanban(url, callbackUpdate, connect_with, column_px, container_px,
     });
 
     var search = $('input[name="search"]').val();
-    if (typeof(search) != 'undefined' && search !== '') { parameters['search'] = search; }
+    if (typeof (search) != 'undefined' && search !== '') { parameters['search'] = search; }
 
     var sort_type = $('input[name="sort_type"]');
     var sort = $('input[name="sort"]').val();
@@ -4121,15 +4121,15 @@ function init_kanban(url, callbackUpdate, connect_with, column_px, container_px,
     parameters['kanban'] = true;
     url = admin_url + url;
     url = buildUrl(url, parameters);
-    delay(function() {
+    delay(function () {
         $("body").append('<div class="dt-loader"></div>');
-        $('#kan-ban').load(url, function() {
+        $('#kan-ban').load(url, function () {
 
             fix_kanban_height(column_px, container_px);
             var scrollingSensitivity = 20,
                 scrollingSpeed = 60;
 
-            if (typeof(callback_after_load) != 'undefined') { callback_after_load(); }
+            if (typeof (callback_after_load) != 'undefined') { callback_after_load(); }
 
             $(".status").sortable({
                 connectWith: connect_with,
@@ -4139,7 +4139,7 @@ function init_kanban(url, callbackUpdate, connect_with, column_px, container_px,
                 revert: 'invalid',
                 scrollingSensitivity: 50,
                 scrollingSpeed: 70,
-                sort: function(event, uiHash) {
+                sort: function (event, uiHash) {
                     var scrollContainer = uiHash.placeholder[0].parentNode;
                     // Get the scrolling parent container
                     scrollContainer = $(scrollContainer).parents('.kan-ban-content-wrapper')[0];
@@ -4156,12 +4156,12 @@ function init_kanban(url, callbackUpdate, connect_with, column_px, container_px,
 
                     }
                 },
-                change: function() {
+                change: function () {
                     var list = $(this).closest('ul');
                     var KanbanLoadMore = $(list).find('.kanban-load-more');
                     $(list).append($(KanbanLoadMore).detach());
                 },
-                start: function(event, ui) {
+                start: function (event, ui) {
                     $('body').css('overflow', 'hidden');
 
                     $(ui.helper).addClass('tilt');
@@ -4169,14 +4169,14 @@ function init_kanban(url, callbackUpdate, connect_with, column_px, container_px,
                     // Start monitoring tilt direction
                     tilt_direction($(ui.helper));
                 },
-                stop: function(event, ui) {
+                stop: function (event, ui) {
                     $('body').removeAttr('style');
                     $(ui.helper).removeClass("tilt");
                     // Unbind temporary handlers and excess data
                     $("html").off('mousemove', $(ui.helper).data("move_handler"));
                     $(ui.helper).removeData("move_handler");
                 },
-                update: function(event, ui) {
+                update: function (event, ui) {
                     callbackUpdate(ui, this);
                 }
             });
@@ -4207,9 +4207,9 @@ function init_kan_ban_sort_icon(sort, type) {
 
 // Kanban til direction
 function tilt_direction(item) {
-    setTimeout(function() {
+    setTimeout(function () {
         var left_pos = item.position().left,
-            move_handler = function(e) {
+            move_handler = function (e) {
                 if (e.pageX >= left_pos) {
                     item.addClass("right");
                     item.removeClass("left");
@@ -4225,7 +4225,7 @@ function tilt_direction(item) {
 }
 
 // When window scroll to down load more posts
-$('#newsfeed').scroll(function(e) {
+$('#newsfeed').scroll(function (e) {
     var elem = $(e.currentTarget);
     if (elem[0].scrollHeight - elem.scrollTop() == elem.outerHeight()) {
         load_newsfeed();
@@ -4236,10 +4236,10 @@ $('#newsfeed').scroll(function(e) {
 // Newsfeed form after newfeed href is clicked
 function init_newsfeed_form() {
     // Configure dropzone
-    if (typeof(newsFeedDropzone) == 'undefined') {
+    if (typeof (newsFeedDropzone) == 'undefined') {
         // Init new post form
-        $("body").on('submit', '#new-post-form', function() {
-            $.post(this.action, $(this).serialize()).done(function(response) {
+        $("body").on('submit', '#new-post-form', function () {
+            $.post(this.action, $(this).serialize()).done(function (response) {
                 response = JSON.parse(response);
                 if (response.postid) {
                     if (newsFeedDropzone.getQueuedFiles().length > 0) {
@@ -4261,14 +4261,14 @@ function init_newsfeed_form() {
         addRemoveLinks: true,
         parallelUploads: app_newsfeed_maximum_files_upload,
         maxFiles: app_newsfeed_maximum_files_upload,
-        dragover: function(file) {
+        dragover: function (file) {
             $('#new-post-form').addClass('dropzone-active');
         },
-        complete: function(file) {},
-        drop: function(file) {
+        complete: function (file) { },
+        drop: function (file) {
             $('#new-post-form').removeClass('dropzone-active');
         },
-        success: function(files, response) {
+        success: function (files, response) {
             if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
                 response = JSON.parse(response);
                 newsfeed_new_post(response.postid);
@@ -4292,7 +4292,7 @@ function load_post_likes(postid) {
         $.post(admin_url + 'newsfeed/load_likes_modal', {
             page: track_load_post_likes,
             postid: postid
-        }).done(function(response) {
+        }).done(function (response) {
             track_load_post_likes++;
             $('#modal_post_likes_wrapper').append(response);
         });
@@ -4310,7 +4310,7 @@ function load_comment_likes(commentid) {
         $.post(admin_url + 'newsfeed/load_comment_likes_model', {
             page: track_load_comment_likes,
             commentid: commentid
-        }).done(function(response) {
+        }).done(function (response) {
             track_load_comment_likes++;
             $('#modal_comment_likes_wrapper').append(response);
         });
@@ -4330,7 +4330,7 @@ function load_more_comments(link) {
     if (page <= total_pages) {
         $.post(admin_url + 'newsfeed/init_post_comments/' + postid, {
             page: page
-        }).done(function(response) {
+        }).done(function (response) {
             $(link).data('track-load-comments', page);
             $('[data-comments-postid="' + postid + '"] .load-more-comments').before(response);
         });
@@ -4347,7 +4347,7 @@ function load_more_comments(link) {
 function newsfeed_new_post(postid) {
     var data = {};
     data.postid = postid;
-    $.post(admin_url + 'newsfeed/load_newsfeed', data).done(function(response) {
+    $.post(admin_url + 'newsfeed/load_newsfeed', data).done(function (response) {
         var pinned = $('#newsfeed_data').find('.pinned');
         var pinned_length = pinned.length;
         if (pinned_length === 0) {
@@ -4364,12 +4364,12 @@ function load_newsfeed(postid) {
 
     var data = {};
     data.page = newsfeed_posts_page;
-    if (typeof(postid) != 'undefined' && postid != 0) {
+    if (typeof (postid) != 'undefined' && postid != 0) {
         data.postid = postid;
     }
     var total_pages = $('input[name="total_pages_newsfeed"]').val();
     if (newsfeed_posts_page <= total_pages) {
-        $.post(admin_url + 'newsfeed/load_newsfeed', data).done(function(response) {
+        $.post(admin_url + 'newsfeed/load_newsfeed', data).done(function (response) {
             newsfeed_posts_page++;
             $('#newsfeed_data').append(response);
         });
@@ -4379,21 +4379,21 @@ function load_newsfeed(postid) {
 
 // When user click heart button
 function like_post(postid) {
-    requestGetJSON('newsfeed/like_post/' + postid).done(function(response) {
+    requestGetJSON('newsfeed/like_post/' + postid).done(function (response) {
         if (response.success === true || response.success == 'true') { refresh_post_likes(postid); }
     });
 }
 
 // Unlikes post
 function unlike_post(postid) {
-    requestGetJSON('newsfeed/unlike_post/' + postid).done(function(response) {
+    requestGetJSON('newsfeed/unlike_post/' + postid).done(function (response) {
         if (response.success === true || response.success == 'true') { refresh_post_likes(postid); }
     });
 }
 
 // Like post comment
 function like_comment(commentid, postid) {
-    requestGetJSON('newsfeed/like_comment/' + commentid + '/' + postid).done(function(response) {
+    requestGetJSON('newsfeed/like_comment/' + commentid + '/' + postid).done(function (response) {
         if (response.success === true || response.success == 'true') {
             $('[data-commentid="' + commentid + '"]').replaceWith(response.comment);
         }
@@ -4402,7 +4402,7 @@ function like_comment(commentid, postid) {
 
 // Unlike post comment
 function unlike_comment(commentid, postid) {
-    requestGetJSON('newsfeed/unlike_comment/' + commentid + '/' + postid).done(function(response) {
+    requestGetJSON('newsfeed/unlike_comment/' + commentid + '/' + postid).done(function (response) {
         if (response.success === true || response.success == 'true') {
             $('[data-commentid="' + commentid + '"]').replaceWith(response.comment);
         }
@@ -4415,7 +4415,7 @@ function add_comment(input) {
     $.post(admin_url + 'newsfeed/add_comment', {
         content: $(input).val(),
         postid: postid
-    }).done(function(response) {
+    }).done(function (response) {
         response = JSON.parse(response);
         if (response.success === true || response.success == 'true') {
             $(input).val('');
@@ -4430,7 +4430,7 @@ function add_comment(input) {
 
 // Removes post comment
 function remove_post_comment(id, postid) {
-    requestGetJSON('newsfeed/remove_post_comment/' + id + '/' + postid).done(function(response) {
+    requestGetJSON('newsfeed/remove_post_comment/' + id + '/' + postid).done(function (response) {
         if (response.success === true || response.success == 'true') {
             $('.comment[data-commentid="' + id + '"]').remove();
         }
@@ -4439,14 +4439,14 @@ function remove_post_comment(id, postid) {
 
 // Refreshing only post likes
 function refresh_post_likes(postid) {
-    requestGet('newsfeed/init_post_likes/' + postid + '?refresh_post_likes=true').done(function(response) {
+    requestGet('newsfeed/init_post_likes/' + postid + '?refresh_post_likes=true').done(function (response) {
         $('[data-likes-postid="' + postid + '"]').html(response);
     });
 }
 
 // Refreshing only post comments
 function refresh_post_comments(postid) {
-    $.post(admin_url + 'newsfeed/init_post_comments/' + postid + '?refresh_post_comments=true').done(function(response) {
+    $.post(admin_url + 'newsfeed/init_post_comments/' + postid + '?refresh_post_comments=true').done(function (response) {
         $('[data-comments-postid="' + postid + '"]').html(response);
     });
 }
@@ -4454,7 +4454,7 @@ function refresh_post_comments(postid) {
 // Delete post from database
 function delete_post(postid) {
     if (confirm_delete()) {
-        $.post(admin_url + 'newsfeed/delete_post/' + postid, function(response) {
+        $.post(admin_url + 'newsfeed/delete_post/' + postid, function (response) {
             if (response.success === true || response.success == 'true') { $('[data-main-postid="' + postid + '"]').remove(); }
         }, 'json');
     }
@@ -4462,14 +4462,14 @@ function delete_post(postid) {
 
 // Pin post to top
 function pin_post(id) {
-    requestGetJSON('newsfeed/pin_newsfeed_post/' + id).done(function(response) {
+    requestGetJSON('newsfeed/pin_newsfeed_post/' + id).done(function (response) {
         if (response.success === true || response.success == 'true') { window.location.reload(); }
     });
 }
 
 // Unpin post from top
 function unpin_post(id) {
-    requestGetJSON('newsfeed/unpin_newsfeed_post/' + id).done(function(response) {
+    requestGetJSON('newsfeed/unpin_newsfeed_post/' + id).done(function (response) {
         if (response.success === true || response.success == 'true') { window.location.reload(); }
     });
 }
@@ -4507,7 +4507,7 @@ function lead_add_inline_select_submit(type) {
         var data = {};
         data.name = val;
         data.inline = true;
-        $.post(admin_url + 'leads/' + requestURI, data).done(function(response) {
+        $.post(admin_url + 'leads/' + requestURI, data).done(function (response) {
             response = JSON.parse(response);
             if (response.success === true || response.success == 'true') {
                 var select = $('body').find('select#' + type);
@@ -4542,7 +4542,7 @@ function validate_lead_form() {
         name: 'required',
         status: {
             required: {
-                depends: function(element) {
+                depends: function (element) {
                     if ($('[lead-is-junk-or-lost]').length > 0) {
                         return false;
                     } else {
@@ -4558,10 +4558,10 @@ function validate_lead_form() {
                 url: admin_url + "leads/email_exists",
                 type: 'post',
                 data: {
-                    email: function() {
+                    email: function () {
                         return $('input[name="email"]').val();
                     },
-                    leadid: function() {
+                    leadid: function () {
                         return $('input[name="leadid"]').val();
                     }
                 }
@@ -4577,7 +4577,7 @@ function validate_lead_convert_to_client_form() {
         lastname: 'required',
         password: {
             required: {
-                depends: function(element) {
+                depends: function (element) {
                     var sent_set_password = $('input[name="send_set_password_email"]');
                     if (sent_set_password.prop('checked') === false) {
                         return true;
@@ -4592,7 +4592,7 @@ function validate_lead_convert_to_client_form() {
                 url: site_url + "admin/misc/contact_email_exists",
                 type: 'post',
                 data: {
-                    email: function() {
+                    email: function () {
                         return $('#lead_to_client_form input[name="email"]').val();
                     },
                     userid: ''
@@ -4612,7 +4612,7 @@ function lead_profile_form_handler(form) {
     var data = form.serialize();
     var leadid = $('#lead-modal').find('input[name="leadid"]').val();
     $('.lead-save-btn').addClass('disabled');
-    $.post(form.attr('action'), data).done(function(response) {
+    $.post(form.attr('action'), data).done(function (response) {
         response = JSON.parse(response);
         if (response.message !== '') {
             alert_float('success', response.message);
@@ -4629,7 +4629,7 @@ function lead_profile_form_handler(form) {
         if ($.fn.DataTable.isDataTable('.table-leads')) {
             table_leads.DataTable().ajax.reload(null, false);
         }
-    }).fail(function(data) {
+    }).fail(function (data) {
         alert_float('danger', data.responseText);
         return false;
     });
@@ -4640,7 +4640,7 @@ function lead_profile_form_handler(form) {
 function update_all_proposal_emails_linked_to_lead(id) {
     $.post(admin_url + 'leads/update_all_proposal_emails_linked_to_lead/' + id, {
         update: true
-    }).done(function(response) {
+    }).done(function (response) {
         response = JSON.parse(response);
         if (response.success) {
             alert_float('success', response.message);
@@ -4673,16 +4673,16 @@ function _lead_init_data(data, id) {
 
     initDataTableInline($('#consentHistoryTable'));
 
-    if (id !== '' && typeof(id) != 'undefined') {
+    if (id !== '' && typeof (id) != 'undefined') {
 
-        if (typeof(Dropbox) != 'undefined') {
+        if (typeof (Dropbox) != 'undefined') {
             document.getElementById("dropbox-chooser-lead").appendChild(Dropbox.createChooseButton({
-                success: function(files) {
+                success: function (files) {
                     $.post(admin_url + 'leads/add_external_attachment', {
                         files: files,
                         lead_id: id,
                         external: 'dropbox'
-                    }).done(function() {
+                    }).done(function () {
                         init_lead_modal_data(id);
                     });
                 },
@@ -4691,18 +4691,18 @@ function _lead_init_data(data, id) {
             }));
         }
 
-        if (typeof(leadAttachmentsDropzone) != 'undefined') {
+        if (typeof (leadAttachmentsDropzone) != 'undefined') {
             leadAttachmentsDropzone.destroy();
         }
 
         leadAttachmentsDropzone = new Dropzone("#lead-attachment-upload", $.extend({}, _dropzone_defaults(), {
-            sending: function(file, xhr, formData) {
+            sending: function (file, xhr, formData) {
                 formData.append("id", id);
                 if (this.getQueuedFiles().length === 0) {
                     formData.append("last_file", true);
                 }
             },
-            success: function(file, response) {
+            success: function (file, response) {
                 response = JSON.parse(response);
                 if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
                     _lead_init_data(response, response.id);
@@ -4712,7 +4712,7 @@ function _lead_init_data(data, id) {
 
         $leadModal.find('.nav-tabs a[href="' + window.location.hash + '"]').tab('show');
         var latest_lead_activity = $leadModal.find('#lead_activity .feed-item:last-child .text').html();
-        if (typeof(latest_lead_activity) != 'undefined') {
+        if (typeof (latest_lead_activity) != 'undefined') {
             $leadModal.find('#lead-latest-activity').html(latest_lead_activity);
         } else {
             $leadModal.find('.lead-latest-activity > .lead-info-heading').addClass('hide');
@@ -4728,7 +4728,7 @@ function _lead_init_data(data, id) {
 
 // Fetches lead modal data, can be edit/add/view
 function init_lead_modal_data(id, url, isEdit) {
-    var requestURL = (typeof(url) != 'undefined' ? url : 'leads/lead/') + (typeof(id) != 'undefined' ? id : '');
+    var requestURL = (typeof (url) != 'undefined' ? url : 'leads/lead/') + (typeof (id) != 'undefined' ? id : '');
     if (isEdit === true) {
         var concat = '?';
         if (requestURL.indexOf('?') > -1) {
@@ -4736,9 +4736,9 @@ function init_lead_modal_data(id, url, isEdit) {
         }
         requestURL += concat + 'edit=true';
     }
-    requestGetJSON(requestURL).done(function(response) {
+    requestGetJSON(requestURL).done(function (response) {
         _lead_init_data(response, id);
-    }).fail(function(data) {
+    }).fail(function (data) {
         alert_float('danger', data.responseText);
     });
 }
@@ -4816,14 +4816,14 @@ function leads_kanban_update(ui, object) {
         var order = [];
         var status = $(ui.item).parents('.leads-status').find('li');
         var i = 1;
-        $.each(status, function() {
+        $.each(status, function () {
             order.push([$(this).data('lead-id'), i]);
             i++;
         });
 
         data.order = order;
-        setTimeout(function() {
-            $.post(admin_url + 'leads/update_lead_status', data).done(function(response) {
+        setTimeout(function () {
+            $.post(admin_url + 'leads/update_lead_status', data).done(function (response) {
                 check_kanban_empty_col('[data-lead-id]');
             });
         }, 200);
@@ -4835,11 +4835,11 @@ function init_leads_status_sortable() {
     $("#kan-ban").sortable({
         helper: 'clone',
         item: '.kan-ban-col',
-        update: function(event, ui) {
+        update: function (event, ui) {
             var order = [];
             var status = $('.kan-ban-col');
             var i = 0;
-            $.each(status, function() {
+            $.each(status, function () {
                 order.push([$(this).data('col-status-id'), i]);
                 i++;
             });
@@ -4858,9 +4858,9 @@ function leads_kanban(search) {
 // Deleting lead attachments
 function delete_lead_attachment(wrapper, id, lead_id) {
     if (confirm_delete()) {
-        requestGetJSON('leads/delete_attachment/' + id + '/' + lead_id).done(function(response) {
+        requestGetJSON('leads/delete_attachment/' + id + '/' + lead_id).done(function (response) {
             if (response.success === true || response.success == 'true') { $(wrapper).parents('.lead-attachment-wrapper').remove(); }
-        }).fail(function(data) {
+        }).fail(function (data) {
             alert_float('danger', data.responseText);
         });
     }
@@ -4869,9 +4869,9 @@ function delete_lead_attachment(wrapper, id, lead_id) {
 // Delete lead note
 function delete_lead_note(wrapper, id, lead_id) {
     if (confirm_delete()) {
-        requestGetJSON('leads/delete_note/' + id + '/' + lead_id).done(function(response) {
+        requestGetJSON('leads/delete_note/' + id + '/' + lead_id).done(function (response) {
             if (response.success === true || response.success == 'true') { $(wrapper).parents('.lead-note').remove(); }
-        }).fail(function(data) {
+        }).fail(function (data) {
             alert_float('danger', data.responseText);
         });
     }
@@ -4879,38 +4879,38 @@ function delete_lead_note(wrapper, id, lead_id) {
 
 // Mark lead as lost function
 function lead_mark_as_lost(id) {
-    requestGetJSON('leads/mark_as_lost/' + id).done(function(response) {
+    requestGetJSON('leads/mark_as_lost/' + id).done(function (response) {
         if (response.success === true || response.success == 'true') {
             alert_float('success', response.message);
             $("body").find('tr#lead_' + id).remove();
             $("body").find('#kan-ban li[data-lead-id="' + id + '"]').remove();
         }
         _lead_init_data(response, response.id);
-    }).fail(function(error) {
+    }).fail(function (error) {
         alert_float('danger', error.responseText);
     });
 }
 
 // Unmark lead as lost function
 function lead_unmark_as_lost(id) {
-    requestGetJSON('leads/unmark_as_lost/' + id).done(function(response) {
+    requestGetJSON('leads/unmark_as_lost/' + id).done(function (response) {
         if (response.success === true || response.success == 'true') { alert_float('success', response.message); }
         _lead_init_data(response, response.id);
-    }).fail(function(error) {
+    }).fail(function (error) {
         alert_float('danger', error.responseText);
     });
 }
 
 // Mark lead as junk function
 function lead_mark_as_junk(id) {
-    requestGetJSON('leads/mark_as_junk/' + id).done(function(response) {
+    requestGetJSON('leads/mark_as_junk/' + id).done(function (response) {
         if (response.success === true || response.success == 'true') {
             alert_float('success', response.message);
             $("body").find('tr#lead_' + id).remove();
             $("body").find('#kan-ban li[data-lead-id="' + id + '"]').remove();
         }
         _lead_init_data(response, response.id);
-    }).fail(function(error) {
+    }).fail(function (error) {
         alert_float('danger', error.responseText);
     });
 }
@@ -4919,17 +4919,17 @@ function lead_mark_as(status_id, lead_id) {
     var data = {};
     data.status = status_id;
     data.leadid = lead_id;
-    $.post(admin_url + 'leads/update_lead_status', data).done(function(response) {
+    $.post(admin_url + 'leads/update_lead_status', data).done(function (response) {
         table_leads.DataTable().ajax.reload(null, false);
     });
 }
 
 // Unmark lead as junk function
 function lead_unmark_as_junk(id) {
-    requestGetJSON('leads/unmark_as_junk/' + id).done(function(response) {
+    requestGetJSON('leads/unmark_as_junk/' + id).done(function (response) {
         if (response.success === true || response.success == 'true') { alert_float('success', response.message); }
         _lead_init_data(response, response.id);
-    }).fail(function(error) {
+    }).fail(function (error) {
         alert_float('danger', error.responseText);
     });
 }
@@ -4937,14 +4937,14 @@ function lead_unmark_as_junk(id) {
 // Convert lead to customer
 function convert_lead_to_customer(id) {
     $('#lead-modal').modal('hide');
-    requestGet('leads/get_convert_data/' + id).done(function(response) {
+    requestGet('leads/get_convert_data/' + id).done(function (response) {
         $('#lead_convert_to_customer').html(response);
         $('#convert_lead_to_client_modal').modal({
             show: true,
             backdrop: 'static',
             keyboard: false
         });
-    }).fail(function(data) {
+    }).fail(function (data) {
         alert_float('danger', data.responseText);
     });
 }
@@ -4955,7 +4955,7 @@ function leads_bulk_action(event) {
         var mass_delete = $('#mass_delete').prop('checked');
         var ids = [];
         var data = {};
-        if (mass_delete == false || typeof(mass_delete) == 'undefined') {
+        if (mass_delete == false || typeof (mass_delete) == 'undefined') {
             data.lost = $('#leads_bulk_mark_lost').prop('checked');
             data.status = $('#move_to_status_leads_bulk').val();
             data.assigned = $('#assign_to_leads_bulk').val();
@@ -4964,8 +4964,8 @@ function leads_bulk_action(event) {
             data.tags = $('#tags_bulk').tagit('assignedTags');
             data.visibility = $('input[name="leads_bulk_visibility"]:checked').val();
 
-            data.assigned = typeof(data.assigned) == 'undefined' ? '' : data.assigned;
-            data.visibility = typeof(data.visibility) == 'undefined' ? '' : data.visibility;
+            data.assigned = typeof (data.assigned) == 'undefined' ? '' : data.assigned;
+            data.visibility = typeof (data.visibility) == 'undefined' ? '' : data.visibility;
 
             if (data.status === '' &&
                 data.lost === false &&
@@ -4980,7 +4980,7 @@ function leads_bulk_action(event) {
             data.mass_delete = true;
         }
         var rows = table_leads.find('tbody tr');
-        $.each(rows, function() {
+        $.each(rows, function () {
             var checkbox = $($(this).find('td').eq(0)).find('input');
             if (checkbox.prop('checked') === true) {
                 ids.push(checkbox.val());
@@ -4988,10 +4988,10 @@ function leads_bulk_action(event) {
         });
         data.ids = ids;
         $(event).addClass('disabled');
-        setTimeout(function() {
-            $.post(admin_url + 'leads/bulk_action', data).done(function() {
+        setTimeout(function () {
+            $.post(admin_url + 'leads/bulk_action', data).done(function () {
                 window.location.reload();
-            }).fail(function(data) {
+            }).fail(function (data) {
                 $('#lead-modal').modal('hide');
                 alert_float('danger', data.responseText);
             });
@@ -5011,7 +5011,7 @@ function sync_proposals_data(rel_id, rel_type) {
     data.phone = modal_sync.find('input[name="phone"]').val();
     data.rel_id = rel_id;
     data.rel_type = rel_type;
-    $.post(admin_url + 'proposals/sync_data', data).done(function(response) {
+    $.post(admin_url + 'proposals/sync_data', data).done(function (response) {
         response = JSON.parse(response);
         alert_float('success', response.message);
         modal_sync.modal('hide');
@@ -5020,7 +5020,7 @@ function sync_proposals_data(rel_id, rel_type) {
 
 // Table announcements
 function init_table_announcements(manual) {
-    if (typeof(manual) == 'undefined' && $("body").hasClass('dashboard')) { return false; }
+    if (typeof (manual) == 'undefined' && $("body").hasClass('dashboard')) { return false; }
     initDataTable('.table-announcements', admin_url + 'announcements', undefined, undefined, 'undefined', [1, 'desc']);
 }
 
@@ -5028,7 +5028,7 @@ function init_table_announcements(manual) {
 function init_table_tickets(manual) {
 
     // Single ticket is for other tickets from user
-    if (typeof(manual) == 'undefined' &&
+    if (typeof (manual) == 'undefined' &&
         ($("body").hasClass('dashboard') || $('body').hasClass('single-ticket'))) {
         return false;
     }
@@ -5038,7 +5038,7 @@ function init_table_tickets(manual) {
     var TicketServerParams = {},
         Tickets_Filters = $('._hidden_inputs._filters.tickets_filters input');
     var tickets_date_created_index = $('table.tickets-table thead .ticket_created_column').index();
-    $.each(Tickets_Filters, function() {
+    $.each(Tickets_Filters, function () {
         TicketServerParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
     });
 
@@ -5064,13 +5064,13 @@ function init_table_tickets(manual) {
 
 // Staff projects table in staff profile
 function init_table_staff_projects(manual) {
-    if (typeof(manual) == 'undefined' && $("body").hasClass('dashboard')) { return false; }
+    if (typeof (manual) == 'undefined' && $("body").hasClass('dashboard')) { return false; }
     if ($("body").find('.table-staff-projects').length === 0) { return; }
 
     var staffProjectsParams = {},
         Staff_Projects_Filters = $('._hidden_inputs._filters.staff_projects_filter input');
 
-    $.each(Staff_Projects_Filters, function() {
+    $.each(Staff_Projects_Filters, function () {
         staffProjectsParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
     });
 
@@ -5079,11 +5079,11 @@ function init_table_staff_projects(manual) {
 
 // Fix task checklist content textarea height
 function do_task_checklist_items_height(task_checklist_items) {
-    if (typeof(task_checklist_items) == 'undefined') {
+    if (typeof (task_checklist_items) == 'undefined') {
         task_checklist_items = $("body").find("textarea[name='checklist-description']");
     }
 
-    $.each(task_checklist_items, function() {
+    $.each(task_checklist_items, function () {
         var val = $(this).val();
         if ($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
             $(this).height(0).height(this.scrollHeight);
@@ -5122,12 +5122,12 @@ function recalculate_checklist_items_progress() {
 
 // Remove task checklist items template
 function remove_checklist_item_template(id) {
-    requestGetJSON('tasks/remove_checklist_item_template/' + id).done(function(response) {
+    requestGetJSON('tasks/remove_checklist_item_template/' + id).done(function (response) {
         if (response.success === true || response.success == 'true') {
             var itemsTemplateSelect = $("body").find('select.checklist-items-template-select');
             var deletedItemDescription = itemsTemplateSelect.find('option[value="' + id + '"]').html().trim();
             var currentChecklists = $('#task-modal .checklist');
-            $.each(currentChecklists, function(i, area) {
+            $.each(currentChecklists, function (i, area) {
                 var checkList = $(area);
                 if (checkList.find('textarea[name="checklist-description"]').val().trim() == deletedItemDescription) {
                     checkList.find('.save-checklist-template').removeClass('hide');
@@ -5146,7 +5146,7 @@ function remove_checklist_item_template(id) {
 // New task checklist items template
 function save_checklist_item_template(id, field) {
     var description = $('.checklist[data-checklist-id="' + id + '"] textarea').val();
-    $.post(admin_url + 'tasks/save_checklist_item_template', { description: description }).done(function(response) {
+    $.post(admin_url + 'tasks/save_checklist_item_template', { description: description }).done(function (response) {
         response = JSON.parse(response);
         $(field).addClass('hide');
         var singleChecklistTemplate = $('.checklist-templates-wrapper');
@@ -5162,7 +5162,7 @@ function update_checklist_order() {
     var items = $("body").find('.checklist');
     if (items.length === 0) { return; }
     var i = 1;
-    $.each(items, function() {
+    $.each(items, function () {
         order.push([$(this).data('checklist-id'), i]);
         i++;
     });
@@ -5173,18 +5173,18 @@ function update_checklist_order() {
 
 // New task checklist item
 function add_task_checklist_item(task_id, description) {
-    description = typeof(description) == 'undefined' ? '' : description;
+    description = typeof (description) == 'undefined' ? '' : description;
     $.post(admin_url + 'tasks/add_checklist_item', {
         taskid: task_id,
         description: description
-    }).done(function() {
+    }).done(function () {
         init_tasks_checklist_items(true, task_id);
     });
 }
 
 function update_task_checklist_item(textArea) {
     var deferred = $.Deferred();
-    setTimeout(function() {
+    setTimeout(function () {
         var description = textArea.val();
         description = description.trim();
         var listid = textArea.parents('.checklist').data('checklist-id');
@@ -5192,7 +5192,7 @@ function update_task_checklist_item(textArea) {
         $.post(admin_url + 'tasks/update_checklist_item', {
             description: description,
             listid: listid
-        }).done(function(response) {
+        }).done(function (response) {
             deferred.resolve();
             response = JSON.parse(response);
             if (response.can_be_template === true) {
@@ -5208,7 +5208,7 @@ function update_task_checklist_item(textArea) {
 
 // Remove task checklist item from the task
 function delete_checklist_item(id, field) {
-    requestGetJSON('tasks/delete_checklist_item/' + id).done(function(response) {
+    requestGetJSON('tasks/delete_checklist_item/' + id).done(function (response) {
         if (response.success === true || response.success == 'true') {
             $(field).parents('.checklist').remove();
             recalculate_checklist_items_progress();
@@ -5220,9 +5220,9 @@ function delete_checklist_item(id, field) {
 function init_tasks_checklist_items(is_new, task_id) {
     $.post(admin_url + 'tasks/init_checklist_items', {
         taskid: task_id
-    }).done(function(data) {
+    }).done(function (data) {
         $('#checklist-items').html(data);
-        if (typeof(is_new) != 'undefined') {
+        if (typeof (is_new) != 'undefined') {
             var first = $('#checklist-items').find('.checklist textarea').eq(0);
             if (first.val() === '') { first.focus(); }
         }
@@ -5243,7 +5243,7 @@ function _task_attachments_more_and_less_checks() {
         taskAttachmentsMore.click();
     }
 
-    $.each($('#task-modal .comment-content'), function() {
+    $.each($('#task-modal .comment-content'), function () {
         if ($(this).find('.task-attachment-col').length === 0) {
             $(this).find('.download-all').remove();
         }
@@ -5253,7 +5253,7 @@ function _task_attachments_more_and_less_checks() {
 // Removes task single attachment
 function remove_task_attachment(link, id) {
     if (confirm_delete()) {
-        requestGetJSON('tasks/remove_task_attachment/' + id).done(function(response) {
+        requestGetJSON('tasks/remove_task_attachment/' + id).done(function (response) {
             if (response.success === true || response.success == 'true') { $('[data-task-attachment-id="' + id + '"]').remove(); }
             _task_attachments_more_and_less_checks();
             if (response.comment_removed) {
@@ -5278,7 +5278,7 @@ function add_task_comment(task_id) {
         data.no_editor = true;
     }
     data.taskid = task_id;
-    $.post(admin_url + 'tasks/add_task_comment', data).done(function(response) {
+    $.post(admin_url + 'tasks/add_task_comment', data).done(function (response) {
         response = JSON.parse(response);
         _task_append_html(response.taskHtml);
         // Remove task comment editor instance
@@ -5290,7 +5290,7 @@ function add_task_comment(task_id) {
 // Deletes task comment from database
 function remove_task_comment(commentid) {
     if (confirm_delete()) {
-        requestGetJSON('tasks/remove_comment/' + commentid).done(function(response) {
+        requestGetJSON('tasks/remove_comment/' + commentid).done(function (response) {
             if (response.success === true || response.success == 'true') {
                 $('[data-commentid="' + commentid + '"]').remove();
                 $('[data-comment-attachment="' + commentid + '"]').remove();
@@ -5303,7 +5303,7 @@ function remove_task_comment(commentid) {
 // Remove task assignee
 function remove_assignee(id, task_id) {
     if (confirm_delete()) {
-        requestGetJSON('tasks/remove_assignee/' + id + '/' + task_id).done(function(response) {
+        requestGetJSON('tasks/remove_assignee/' + id + '/' + task_id).done(function (response) {
             if (response.success === true || response.success == 'true') {
                 alert_float('success', response.message);
                 _task_append_html(response.taskHtml);
@@ -5335,7 +5335,7 @@ function is_ms_browser() {
 // Remove task follower
 function remove_follower(id, task_id) {
     if (confirm_delete()) {
-        requestGetJSON('tasks/remove_follower/' + id + '/' + task_id).done(function(response) {
+        requestGetJSON('tasks/remove_follower/' + id + '/' + task_id).done(function (response) {
             if (response.success === true || response.success == 'true') {
                 alert_float('success', response.message);
                 _task_append_html(response.taskHtml);
@@ -5356,16 +5356,16 @@ function unmark_complete(task_id) {
 
 // Mark task status
 function task_mark_as(status, task_id, url) {
-    url = typeof(url) == 'undefined' ? 'tasks/mark_as/' + status + '/' + task_id : url;
+    url = typeof (url) == 'undefined' ? 'tasks/mark_as/' + status + '/' + task_id : url;
     var taskModalVisible = $('#task-modal').is(':visible');
     url += '?single_task=' + taskModalVisible;
     $("body").append('<div class="dt-loader"></div>');
-    requestGetJSON(url).done(function(response) {
+    requestGetJSON(url).done(function (response) {
         $("body").find('.dt-loader').remove();
         if (response.success === true || response.success == 'true') {
             reload_tasks_tables();
             if (taskModalVisible) { _task_append_html(response.taskHtml); }
-            if (status == 5 && typeof(_maybe_remove_task_from_project_milestone) == 'function') {
+            if (status == 5 && typeof (_maybe_remove_task_from_project_milestone) == 'function') {
                 _maybe_remove_task_from_project_milestone(task_id);
             }
             if ($('.tasks-kanban').length === 0) { alert_float('success', response.message); }
@@ -5378,7 +5378,7 @@ function task_change_priority(priority_id, task_id) {
     url = 'tasks/change_priority/' + priority_id + '/' + task_id;
     var taskModalVisible = $('#task-modal').is(':visible');
     url += '?single_task=' + taskModalVisible;
-    requestGetJSON(url).done(function(response) {
+    requestGetJSON(url).done(function (response) {
         if (response.success === true || response.success == 'true') {
             reload_tasks_tables();
             if (taskModalVisible) { _task_append_html(response.taskHtml); }
@@ -5391,7 +5391,7 @@ function task_change_milestone(milestone_id, task_id) {
     url = 'tasks/change_milestone/' + milestone_id + '/' + task_id;
     var taskModalVisible = $('#task-modal').is(':visible');
     url += '?single_task=' + taskModalVisible;
-    requestGetJSON(url).done(function(response) {
+    requestGetJSON(url).done(function (response) {
         if (response.success === true || response.success == 'true') {
             reload_tasks_tables();
             if (taskModalVisible) { _task_append_html(response.taskHtml); }
@@ -5402,7 +5402,7 @@ function task_change_milestone(milestone_id, task_id) {
 // Non finished timesheet delete, this is available for all staff
 function delete_user_unfinished_timesheet(id) {
     if (confirm_delete()) {
-        requestGetJSON('tasks/delete_user_unfinished_timesheet/' + id).done(function(response) {
+        requestGetJSON('tasks/delete_user_unfinished_timesheet/' + id).done(function (response) {
             _init_timers_top_html(JSON.parse(response.timers));
             reload_tasks_tables();
         });
@@ -5412,7 +5412,7 @@ function delete_user_unfinished_timesheet(id) {
 // Reload all tasks possible table where the table data needs to be refreshed after an action is performed on task.
 function reload_tasks_tables() {
     var av_tasks_tables = ['.table-tasks', '.table-rel-tasks', '.table-rel-tasks-leads', '.table-timesheets'];
-    $.each(av_tasks_tables, function(i, selector) {
+    $.each(av_tasks_tables, function (i, selector) {
         if ($.fn.DataTable.isDataTable(selector)) {
             $(selector).DataTable().ajax.reload(null, false);
         }
@@ -5421,7 +5421,7 @@ function reload_tasks_tables() {
 
 // Makes task public with AJAX request
 function make_task_public(task_id) {
-    requestGetJSON('tasks/make_public/' + task_id).done(function(response) {
+    requestGetJSON('tasks/make_public/' + task_id).done(function (response) {
         if (response.success === true || response.success == 'true') {
             reload_tasks_tables();
             _task_append_html(response.taskHtml);
@@ -5431,7 +5431,7 @@ function make_task_public(task_id) {
 
 // New task function, various actions performed
 function new_task(url) {
-    url = typeof(url) != 'undefined' ? url : admin_url + 'tasks/task';
+    url = typeof (url) != 'undefined' ? url : admin_url + 'tasks/task';
 
     var $leadModal = $('#lead-modal');
     if ($leadModal.is(':visible')) {
@@ -5446,7 +5446,7 @@ function new_task(url) {
     var $taskEditModal = $('#_task_modal');
     if ($taskEditModal.is(':visible')) { $taskEditModal.modal('hide'); }
 
-    requestGet(url).done(function(response) {
+    requestGet(url).done(function (response) {
         $('#_task').html(response);
         $("body").find('#_task_modal').modal({ show: true, backdrop: 'static' });
     });
@@ -5461,7 +5461,7 @@ function showHideTagsPlaceholder($tagit) {
 
 // Create new task directly from relation, related options selected after modal is shown
 function new_task_from_relation(table, rel_type, rel_id) {
-    if (typeof(rel_type) == 'undefined' && typeof(rel_id) == 'undefined') {
+    if (typeof (rel_type) == 'undefined' && typeof (rel_id) == 'undefined') {
         rel_id = $(table).data('new-rel-id');
         rel_type = $(table).data('new-rel-type');
     }
@@ -5471,7 +5471,7 @@ function new_task_from_relation(table, rel_type, rel_id) {
 
 // Go to edit view
 function edit_task(task_id) {
-    requestGet('tasks/task/' + task_id).done(function(response) {
+    requestGet('tasks/task/' + task_id).done(function (response) {
         $('#_task').html(response);
         $('#task-modal').modal('hide');
         $("body").find('#_task_modal').modal({ show: true, backdrop: 'static' });
@@ -5484,7 +5484,7 @@ function task_form_handler(form) {
     tinymce.triggerSave();
     $('#_task_modal').find('input[name="startdate"]').prop('disabled', false);
 
-    $("#_task_modal input[type=file]").each(function() {
+    $("#_task_modal input[type=file]").each(function () {
         if ($(this).val() === "") {
             $(this).prop('disabled', true);
         }
@@ -5501,7 +5501,7 @@ function task_form_handler(form) {
         cache: false,
         processData: false,
         url: formURL
-    }).done(function(response) {
+    }).done(function (response) {
         response = JSON.parse(response);
         if (response.success === true || response.success == 'true') { alert_float('success', response.message); }
         if (!$("body").hasClass('project')) {
@@ -5521,7 +5521,7 @@ function task_form_handler(form) {
             params['taskid'] = response.id;
             window.location.href = buildUrl(location[0], params);
         }
-    }).fail(function(error) {
+    }).fail(function (error) {
         alert_float('danger', JSON.parse(error.responseText));
     });
 
@@ -5531,7 +5531,7 @@ function task_form_handler(form) {
 // Full screen white popup
 function system_popup(data) {
 
-    data.content = typeof(data.content) == 'undefined' ? '' : data.content;
+    data.content = typeof (data.content) == 'undefined' ? '' : data.content;
 
     var $popupHTML = $('<div/>', {
         id: 'system-popup',
@@ -5551,12 +5551,12 @@ function system_popup(data) {
 
     $popupHTML.html(overlayHTML).removeClass('hide');
     $('body').addClass('system-popup');
-    $popupHTML.find('.system-popup-close').on('click', function() {
+    $popupHTML.find('.system-popup-close').on('click', function () {
         var that = this;
-        requestGet('misc/clear_system_popup').done(function(response) {
-            setTimeout(function() {
+        requestGet('misc/clear_system_popup').done(function (response) {
+            setTimeout(function () {
                 $('body').removeClass('system-popup');
-                $popupHTML.fadeOut(400, function() {
+                $popupHTML.fadeOut(400, function () {
                     $popupHTML.remove();
                 });
                 $(that).off('click');
@@ -5571,7 +5571,7 @@ function system_popup(data) {
 // Action for task timer start/stop
 function timer_action(e, task_id, timer_id) {
 
-    timer_id = typeof(timer_id) == 'undefined' ? '' : timer_id;
+    timer_id = typeof (timer_id) == 'undefined' ? '' : timer_id;
 
     var $timerSelectTask = $('#timer-select-task');
     if (task_id === '' && $timerSelectTask.is(':visible')) {
@@ -5603,7 +5603,7 @@ function timer_action(e, task_id, timer_id) {
     data.note = $("body").find('#timesheet_note').val();
     if (!data.note) { data.note = ''; }
     var taskModalVisible = $('#task-modal').is(':visible');
-    $.post(admin_url + 'tasks/timer_tracking?single_task=' + taskModalVisible, data).done(function(response) {
+    $.post(admin_url + 'tasks/timer_tracking?single_task=' + taskModalVisible, data).done(function (response) {
         response = JSON.parse(response);
         if (taskModalVisible) { _task_append_html(response.taskHtml); }
         if ($timerSelectTask.is(':visible')) {
@@ -5628,9 +5628,9 @@ function init_task_modal(task_id) {
         queryStr += '?opened_from_lead_id=' + $taskAddEditModal.attr('data-lead-id');
     }
 
-    requestGet('tasks/get_task_data/' + task_id + queryStr).done(function(response) {
+    requestGet('tasks/get_task_data/' + task_id + queryStr).done(function (response) {
         _task_append_html(response);
-    }).fail(function(data) {
+    }).fail(function (data) {
         $('#task-modal').modal('hide');
         alert_float('danger', data.responseText);
     });
@@ -5644,7 +5644,7 @@ function _task_append_html(html) {
     //init_tasks_checklist_items(false, task_id);
     recalculate_checklist_items_progress();
     do_task_checklist_items_height();
-    setTimeout(function() {
+    setTimeout(function () {
         $taskModal.modal('show');
         // Init_tags_input is trigged too when task modal is shown
         // This line prevents triggering twice.
@@ -5655,7 +5655,7 @@ function _task_append_html(html) {
 
 // Tracking stats modal from task single
 function task_tracking_stats(id) {
-    requestGet('tasks/task_tracking_stats/' + id).done(function(response) {
+    requestGet('tasks/task_tracking_stats/' + id).done(function (response) {
         $('<div/>', { id: 'tracking-stats' }).appendTo('body').html(response);
         $('#task-tracking-stats-modal').modal('toggle');
     });
@@ -5663,7 +5663,7 @@ function task_tracking_stats(id) {
 
 // Fetches all staff timers and append to DOM
 function init_timers() {
-    requestGetJSON('tasks/get_staff_started_timers').done(function(response) {
+    requestGetJSON('tasks/get_staff_started_timers').done(function (response) {
         _init_timers_top_html(response);
     });
 }
@@ -5739,7 +5739,7 @@ function save_edited_comment(id, task_id) {
     if (is_ios()) {
         data.no_editor = true;
     }
-    $.post(admin_url + 'tasks/edit_comment', data).done(function(response) {
+    $.post(admin_url + 'tasks/edit_comment', data).done(function (response) {
         response = JSON.parse(response);
         if (response.success === true || response.success == 'true') {
             alert_float('success', response.message);
@@ -5767,14 +5767,14 @@ function tasks_kanban_update(ui, object) {
         var data = {};
         data.order = [];
         var i = 0;
-        $.each(tasks, function() {
+        $.each(tasks, function () {
             data.order.push([$(this).data('task-id'), i]);
             i++;
         });
 
         task_mark_as(status, $(ui.item).data('task-id'));
         check_kanban_empty_col('[data-task-id]');
-        setTimeout(function() {
+        setTimeout(function () {
             $.post(admin_url + 'tasks/update_order', data);
         }, 200);
     }
@@ -5809,14 +5809,14 @@ function edit_task_inline_description(e, id) {
         table_default_styles: {
             width: '100%'
         },
-        setup: function(editor) {
-            editor.on('blur', function(e) {
+        setup: function (editor) {
+            editor.on('blur', function (e) {
                 if (editor.isDirty()) {
                     $.post(admin_url + 'tasks/update_task_description/' + id, {
                         description: editor.getContent()
                     });
                 }
-                setTimeout(function() {
+                setTimeout(function () {
                     editor.remove();
                     $.Shortcuts.start();
                 }, 500);
@@ -5831,7 +5831,7 @@ function tasks_bulk_action(event) {
         var ids = [],
             data = {},
             mass_delete = $('#mass_delete').prop('checked');
-        if (mass_delete == false || typeof(mass_delete) == 'undefined') {
+        if (mass_delete == false || typeof (mass_delete) == 'undefined') {
             data.status = $('#move_to_status_tasks_bulk_action').val();
 
             var assignees = $('#task_bulk_assignees');
@@ -5844,7 +5844,7 @@ function tasks_bulk_action(event) {
             data.milestone = milestone.length ? milestone.selectpicker('val') : '';
 
             data.priority = $('#task_bulk_priority').val();
-            data.priority = typeof(data.priority) == 'undefined' ? '' : data.priority;
+            data.priority = typeof (data.priority) == 'undefined' ? '' : data.priority;
 
             if (data.status === '' && data.priority === '' && data.tags === '' && data.assignees === '' && data.milestone === '') {
                 return;
@@ -5853,7 +5853,7 @@ function tasks_bulk_action(event) {
             data.mass_delete = true;
         }
         var rows = $($('#tasks_bulk_actions').attr('data-table')).find('tbody tr');
-        $.each(rows, function() {
+        $.each(rows, function () {
             var checkbox = $($(this).find('td').eq(0)).find('input');
             if (checkbox.prop('checked') === true) {
                 ids.push(checkbox.val());
@@ -5861,8 +5861,8 @@ function tasks_bulk_action(event) {
         });
         data.ids = ids;
         $(event).addClass('disabled');
-        setTimeout(function() {
-            $.post(admin_url + 'tasks/bulk_action', data).done(function() {
+        setTimeout(function () {
+            $.post(admin_url + 'tasks/bulk_action', data).done(function () {
                 window.location.reload();
             });
         }, 200);
@@ -5882,7 +5882,7 @@ function load_small_table_item(id, selector, input_name, url, table) {
             id = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
         }
     }
-    if (typeof(id) == 'undefined' || id === '') { return; }
+    if (typeof (id) == 'undefined' || id === '') { return; }
     if (!$("body").hasClass('small-table')) { toggle_small_view(table, selector); }
     $('input[name="' + input_name + '"]').val(id);
     do_hash_helper(id);
@@ -5957,7 +5957,7 @@ function init_billing_and_shipping_details() {
                 _f = '';
             }
         }
-        if (typeof(_f) == 'undefined') {
+        if (typeof (_f) == 'undefined') {
             _f = '';
         }
         _f = (_f !== '' ? _f : '--');
@@ -5968,13 +5968,13 @@ function init_billing_and_shipping_details() {
 
 // Record payment function
 function record_payment(id) {
-    if (typeof(id) == 'undefined' || id === '') { return; }
+    if (typeof (id) == 'undefined' || id === '') { return; }
     $('#invoice').load(admin_url + 'invoices/record_invoice_payment_ajax/' + id);
 }
 
 // Add item to preview
 function add_item_to_preview(id) {
-    requestGetJSON('invoice_items/get_item_by_id/' + id).done(function(response) {
+    requestGetJSON('invoice_items/get_item_by_id/' + id).done(function (response) {
         clear_item_preview_values();
 
         $('.main textarea[name="description"]').val(response.description);
@@ -6034,7 +6034,7 @@ function _set_item_preview_custom_fields_array(custom_fields) {
         } else if (cf.type == 'select' || cf.type == 'multiselect') {
             if (!empty(cf.value)) {
                 var selected = cf.value.split(',');
-                selected = selected.map(function(e) {
+                selected = selected.map(function (e) {
                     return e.trim();
                 });
                 $('tr.main td[data-id="' + cf.id + '"] select').selectpicker('val', selected);
@@ -6042,10 +6042,10 @@ function _set_item_preview_custom_fields_array(custom_fields) {
         } else if (cf.type == 'checkbox') {
             if (!empty(cf.value)) {
                 var selected = cf.value.split(',');
-                selected = selected.map(function(e) {
+                selected = selected.map(function (e) {
                     return e.trim();
                 });
-                $.each(selected, function(i, e) {
+                $.each(selected, function (i, e) {
                     $('tr.main td[data-id="' + cf.id + '"] input[type="checkbox"][value="' + e + '"]').prop('checked', true);
                 });
             }
@@ -6054,7 +6054,7 @@ function _set_item_preview_custom_fields_array(custom_fields) {
 }
 // Add task to preview
 function add_task_to_preview_as_item(id) {
-    requestGetJSON('tasks/get_billable_task_data/' + id).done(function(response) {
+    requestGetJSON('tasks/get_billable_task_data/' + id).done(function (response) {
         response.taxname = $('select.main-tax').selectpicker('val');
         var previewArea = $('.main');
         previewArea.find('textarea[name="description"]').val(response.name);
@@ -6095,7 +6095,7 @@ function clear_item_preview_values(default_taxes) {
 function add_item_to_table(data, itemid, merge_invoice, bill_expense) {
 
     // If not custom data passed get from the preview
-    data = typeof(data) == 'undefined' || data == 'undefined' ? get_item_preview_values() : data;
+    data = typeof (data) == 'undefined' || data == 'undefined' ? get_item_preview_values() : data;
     if (data.description === "" && data.long_description === "" && data.rate === "") { return; }
     var table_row = '';
     var unit_placeholder = '';
@@ -6120,7 +6120,7 @@ function add_item_to_table(data, itemid, merge_invoice, bill_expense) {
     var tax_name = 'newitems[' + item_key + '][taxname][]';
     $("body").append('<div class="dt-loader"></div>');
     var regex = /<br[^>]*>/gi;
-    get_taxes_dropdown_template(tax_name, data.taxname).done(function(tax_dropdown) {
+    get_taxes_dropdown_template(tax_name, data.taxname).done(function (tax_dropdown) {
 
         // order input
         table_row += '<input type="hidden" class="order" name="newitems[' + item_key + '][order]">';
@@ -6136,7 +6136,7 @@ function add_item_to_table(data, itemid, merge_invoice, bill_expense) {
 
         if (custom_fields.length > 0) {
 
-            $.each(custom_fields, function() {
+            $.each(custom_fields, function () {
 
                 var cf = $(this).clone();
                 var cf_html = '';
@@ -6148,7 +6148,7 @@ function add_item_to_table(data, itemid, merge_invoice, bill_expense) {
                     var checked = $(this).find('input[type="checkbox"]:checked');
                     var checkboxes = cf.find('input[type="checkbox"]');
 
-                    $.each(checkboxes, function(i, e) {
+                    $.each(checkboxes, function (i, e) {
                         var random_key = Math.random().toString(20).slice(2);
                         $(this).attr('id', random_key)
                             .attr('name', cf_name)
@@ -6158,7 +6158,7 @@ function add_item_to_table(data, itemid, merge_invoice, bill_expense) {
                         }
                     });
 
-                    $.each(checked, function(i, e) {
+                    $.each(checked, function (i, e) {
                         cf.find('input[value="' + $(e).val() + '"]')
                             .attr('checked', true);
                     });
@@ -6183,7 +6183,7 @@ function add_item_to_table(data, itemid, merge_invoice, bill_expense) {
                     }
 
                     var selected = $(this).find('select[data-fieldid]').selectpicker('val');
-                    selected = typeof(selected != 'array') ? new Array(selected) : selected;
+                    selected = typeof (selected != 'array') ? new Array(selected) : selected;
 
                     // Check if is multidimensional by multi-select customfield
                     selected = selected[0].constructor === Array ? selected[0] : selected;
@@ -6194,7 +6194,7 @@ function add_item_to_table(data, itemid, merge_invoice, bill_expense) {
 
                     var $select = selectNow.clone();
                     $wrapper.append($select);
-                    $.each(selected, function(i, e) {
+                    $.each(selected, function (i, e) {
                         $wrapper.find('select option[value="' + e + '"]').attr('selected', true);
                     });
 
@@ -6208,7 +6208,7 @@ function add_item_to_table(data, itemid, merge_invoice, bill_expense) {
 
         unit_placeholder = '';
 
-        if (!data.unit || typeof(data.unit) == 'undefined') {
+        if (!data.unit || typeof (data.unit) == 'undefined') {
             unit_placeholder = appLang.unit;
             data.unit = '';
         }
@@ -6238,23 +6238,23 @@ function add_item_to_table(data, itemid, merge_invoice, bill_expense) {
             row: table_row
         });
 
-        setTimeout(function() {
+        setTimeout(function () {
             calculate_total();
         }, 15);
 
         var billed_task = $('input[name="task_id"]').val();
         var billed_expense = $('input[name="expense_id"]').val();
 
-        if (billed_task !== '' && typeof(billed_task) != 'undefined') {
+        if (billed_task !== '' && typeof (billed_task) != 'undefined') {
             billed_tasks = billed_task.split(',');
-            $.each(billed_tasks, function(i, obj) {
+            $.each(billed_tasks, function (i, obj) {
                 $('#billed-tasks').append(hidden_input('billed_tasks[' + item_key + '][]', obj));
             });
         }
 
-        if (billed_expense !== '' && typeof(billed_expense) != 'undefined') {
+        if (billed_expense !== '' && typeof (billed_expense) != 'undefined') {
             billed_expenses = billed_expense.split(',');
-            $.each(billed_expenses, function(i, obj) {
+            $.each(billed_expenses, function (i, obj) {
                 $('#billed-expenses').append(hidden_input('billed_expenses[' + item_key + '][]', obj));
             });
         }
@@ -6307,7 +6307,7 @@ function deselect_ajax_search(e) {
     var $elmWrapper = $elm.parents('.bootstrap-select');
     $elm.html('').append('<option value=""></option>').selectpicker('val', '');
     $elmWrapper.removeClass('ajax-remove-values-option').find('.ajax-clear-values').remove();
-    setTimeout(function() {
+    setTimeout(function () {
         $elm.trigger('selected.cleared.ajax.bootstrap.select', e);
         $elm.trigger('change').data('AjaxBootstrapSelect').list.cache = {};
     }, 50);
@@ -6315,9 +6315,9 @@ function deselect_ajax_search(e) {
 
 // Ajax project search but only for specific customer
 function init_ajax_project_search_by_customer_id(selector) {
-    selector = typeof(selector) == 'undefined' ? '#project_id.ajax-search' : selector;
+    selector = typeof (selector) == 'undefined' ? '#project_id.ajax-search' : selector;
     init_ajax_search('project', selector, {
-        customer_id: function() {
+        customer_id: function () {
             return $('select[name="clientid"]').val();
         }
     });
@@ -6325,13 +6325,13 @@ function init_ajax_project_search_by_customer_id(selector) {
 
 // Ajax project search select
 function init_ajax_projects_search(selector) {
-    selector = typeof(selector) == 'undefined' ? '#project_id.ajax-search' : selector;
+    selector = typeof (selector) == 'undefined' ? '#project_id.ajax-search' : selector;
     init_ajax_search('project', selector);
 }
 
 // Fix for reordering the items the tables to show the full width
 function fixHelperTableHelperSortable(e, ui) {
-    ui.children().each(function() {
+    ui.children().each(function () {
         $(this).width($(this).width());
     });
     return ui;
@@ -6349,15 +6349,15 @@ function init_items_sortable(preview_table) {
         itemPath: '> tbody',
         itemSelector: 'tr.sortable',
         items: "tr.sortable",
-        update: function() {
-            if (typeof(preview_table) == 'undefined') {
+        update: function () {
+            if (typeof (preview_table) == 'undefined') {
                 reorder_items();
             } else {
                 // If passed from the admin preview there is other function for re-ordering
                 save_ei_items_order();
             }
         },
-        sort: function(event, ui) {
+        sort: function (event, ui) {
             // Firefox fixer when dragging
             var $target = $(event.target);
             if (!/html|body/i.test($target.offsetParent()[0].tagName)) {
@@ -6386,14 +6386,14 @@ function save_ei_items_order() {
         return false;
     }
 
-    $.each(rows, function() {
+    $.each(rows, function () {
         order.push([$(this).data('item-id'), i]);
         // update item number when reordering
         $(this).find('td.item_no').html(i);
         i++;
     });
 
-    setTimeout(function() {
+    setTimeout(function () {
         $.post(admin_url + 'misc/update_ei_items_order/' + type, {
             data: order
         });
@@ -6404,7 +6404,7 @@ function save_ei_items_order() {
 function reorder_items() {
     var rows = $('.table.table-main-invoice-edit tbody tr.item,.table.table-main-estimate-edit tbody tr.item, .table.table-main-credit-note-edit tbody tr.item');
     var i = 1;
-    $.each(rows, function() {
+    $.each(rows, function () {
         $(this).find('input.order').val(i);
         i++;
     });
@@ -6451,7 +6451,7 @@ function calculate_total() {
         discount_type = $('select[name="discount_type"]').val();
     $('.tax-area').remove();
 
-    $.each(rows, function() {
+    $.each(rows, function () {
         quantity = $(this).find('[data-quantity]').val();
         if (quantity === '') {
             quantity = 1;
@@ -6467,7 +6467,7 @@ function calculate_total() {
         item_taxes = $(this).find('select.tax').selectpicker('val');
 
         if (item_taxes) {
-            $.each(item_taxes, function(i, taxname) {
+            $.each(item_taxes, function (i, taxname) {
                 taxrate = row.find('select.tax [value="' + taxname + '"]').data('taxrate');
                 calculated_tax = (_amount / 100 * taxrate);
                 if (!taxes.hasOwnProperty(taxname)) {
@@ -6492,7 +6492,7 @@ function calculate_total() {
         total_discount_calculated = discount_fixed;
     }
 
-    $.each(taxes, function(taxname, total_tax) {
+    $.each(taxes, function (taxname, total_tax) {
         if ((discount_percent !== '' && discount_percent != 0) && discount_type == 'before_tax' && discount_total_type.hasClass('discount-type-percent')) {
             total_tax_calculated = (total_tax * discount_percent) / 100;
             total_tax = (total_tax - total_tax_calculated);
@@ -6536,8 +6536,8 @@ function calculate_total() {
 
 // Deletes invoice items
 function delete_item(row, itemid) {
-    $(row).parents('tr').addClass('animated fadeOut', function() {
-        setTimeout(function() {
+    $(row).parents('tr').addClass('animated fadeOut', function () {
+        setTimeout(function () {
             $(row).parents('tr').remove();
             calculate_total();
         }, 50);
@@ -6572,12 +6572,12 @@ function init_currency_symbol() {
 // Delete invoice attachment
 function delete_invoice_attachment(id) {
     if (confirm_delete()) {
-        requestGet('invoices/delete_attachment/' + id).done(function(success) {
+        requestGet('invoices/delete_attachment/' + id).done(function (success) {
             if (success == 1) {
                 $("body").find('[data-attachment-id="' + id + '"]').remove();
                 init_invoice($("body").find('input[name="_attachment_sale_id"]').val());
             }
-        }).fail(function(error) {
+        }).fail(function (error) {
             alert_float('danger', error.responseText);
         });
     }
@@ -6586,12 +6586,12 @@ function delete_invoice_attachment(id) {
 // Delete credit note attachment
 function delete_credit_note_attachment(id) {
     if (confirm_delete()) {
-        requestGet('credit_notes/delete_attachment/' + id).done(function(success) {
+        requestGet('credit_notes/delete_attachment/' + id).done(function (success) {
             if (success == 1) {
                 $("body").find('[data-attachment-id="' + id + '"]').remove();
                 init_credit_note($("body").find('input[name="_attachment_sale_id"]').val());
             }
-        }).fail(function(error) {
+        }).fail(function (error) {
             alert_float('danger', error.responseText);
         });
     }
@@ -6600,13 +6600,13 @@ function delete_credit_note_attachment(id) {
 // Delete estimate attachment
 function delete_estimate_attachment(id) {
     if (confirm_delete()) {
-        requestGet('estimates/delete_attachment/' + id).done(function(success) {
+        requestGet('estimates/delete_attachment/' + id).done(function (success) {
             if (success == 1) {
                 $("body").find('[data-attachment-id="' + id + '"]').remove();
                 var rel_id = $("body").find('input[name="_attachment_sale_id"]').val();
                 $("body").hasClass('estimates-pipeline') ? estimate_pipeline_open(rel_id) : init_estimate(rel_id);
             }
-        }).fail(function(error) {
+        }).fail(function (error) {
             alert_float('danger', error.responseText);
         });
     }
@@ -6615,13 +6615,13 @@ function delete_estimate_attachment(id) {
 // Delete proposal attachment
 function delete_proposal_attachment(id) {
     if (confirm_delete()) {
-        requestGet('proposals/delete_attachment/' + id).done(function(success) {
+        requestGet('proposals/delete_attachment/' + id).done(function (success) {
             if (success == 1) {
                 var rel_id = $("body").find('input[name="_attachment_sale_id"]').val();
                 $("body").find('[data-attachment-id="' + id + '"]').remove();
                 $("body").hasClass('proposals-pipeline') ? proposal_pipeline_open(rel_id) : init_proposal(rel_id);
             }
-        }).fail(function(error) {
+        }).fail(function (error) {
             alert_float('danger', error.responseText);
         });
     }
@@ -6634,7 +6634,7 @@ function init_invoices_total(manual) {
     var _inv_total_inline = $('.invoices-total-inline');
     var _inv_total_href_manual = $('.invoices-total');
 
-    if ($("body").hasClass('invoices-total-manual') && typeof(manual) == 'undefined' &&
+    if ($("body").hasClass('invoices-total-manual') && typeof (manual) == 'undefined' &&
         !_inv_total_href_manual.hasClass('initialized')) {
         return;
     }
@@ -6649,7 +6649,7 @@ function init_invoices_total(manual) {
     _inv_total_href_manual.addClass('initialized');
     var _years = $("body").find('select[name="invoices_total_years"]').selectpicker('val');
     var years = [];
-    $.each(_years, function(i, _y) {
+    $.each(_years, function (i, _y) {
         if (_y !== '') { years.push(_y); }
     });
 
@@ -6662,12 +6662,12 @@ function init_invoices_total(manual) {
 
     var project_id = $('input[name="project_id"]').val();
     var customer_id = $('.customer_profile input[name="userid"]').val();
-    if (typeof(project_id) != 'undefined') {
+    if (typeof (project_id) != 'undefined') {
         data.project_id = project_id;
-    } else if (typeof(customer_id) != 'undefined') {
+    } else if (typeof (customer_id) != 'undefined') {
         data.customer_id = customer_id;
     }
-    $.post(admin_url + 'invoices/get_invoices_total', data).done(function(response) {
+    $.post(admin_url + 'invoices/get_invoices_total', data).done(function (response) {
         $('#invoices_total').html(response);
     });
 }
@@ -6677,7 +6677,7 @@ function init_estimates_total(manual) {
 
     if ($('#estimates_total').length === 0) { return; }
     var _est_total_href_manual = $('.estimates-total');
-    if ($("body").hasClass('estimates-total-manual') && typeof(manual) == 'undefined' &&
+    if ($("body").hasClass('estimates-total-manual') && typeof (manual) == 'undefined' &&
         !_est_total_href_manual.hasClass('initialized')) {
         return;
     }
@@ -6685,7 +6685,7 @@ function init_estimates_total(manual) {
     var currency = $("body").find('select[name="total_currency"]').val();
     var _years = $("body").find('select[name="estimates_total_years"]').selectpicker('val');
     var years = [];
-    $.each(_years, function(i, _y) {
+    $.each(_years, function (i, _y) {
         if (_y !== '') { years.push(_y); }
     });
 
@@ -6694,9 +6694,9 @@ function init_estimates_total(manual) {
 
     var _customer_id = $('.customer_profile input[name="userid"]').val();
     var _project_id = $('input[name="project_id"]').val();
-    if (typeof(_customer_id) != 'undefined') {
+    if (typeof (_customer_id) != 'undefined') {
         customer_id = _customer_id;
-    } else if (typeof(_project_id) != 'undefined') {
+    } else if (typeof (_project_id) != 'undefined') {
         project_id = _project_id;
     }
 
@@ -6706,7 +6706,7 @@ function init_estimates_total(manual) {
         years: years,
         customer_id: customer_id,
         project_id: project_id,
-    }).done(function(response) {
+    }).done(function (response) {
         $('#estimates_total').html(response);
     });
 }
@@ -6718,17 +6718,17 @@ function init_expenses_total() {
     var currency = $("body").find('select[name="expenses_total_currency"]').val();
     var _years = $("body").find('select[name="expenses_total_years"]').selectpicker('val');
     var years = [];
-    $.each(_years, function(i, _y) {
+    $.each(_years, function (i, _y) {
         if (_y !== '') { years.push(_y); }
     });
 
     var customer_id = '';
     var _customer_id = $('.customer_profile input[name="userid"]').val();
-    if (typeof(customer_id) != 'undefined') { customer_id = _customer_id; }
+    if (typeof (customer_id) != 'undefined') { customer_id = _customer_id; }
 
     var project_id = '';
     var _project_id = $('input[name="project_id"]').val();
-    if (typeof(project_id) != 'undefined') { project_id = _project_id; }
+    if (typeof (project_id) != 'undefined') { project_id = _project_id; }
 
     $.post(admin_url + 'expenses/get_expenses_total', {
         currency: currency,
@@ -6736,19 +6736,19 @@ function init_expenses_total() {
         years: years,
         customer_id: customer_id,
         project_id: project_id,
-    }).done(function(response) {
+    }).done(function (response) {
         $('#expenses_total').html(response);
     });
 }
 
 // Validate invoice add/edit form
 function validate_invoice_form(selector) {
-    selector = typeof(selector) == 'undefined' ? '#invoice-form' : selector;
+    selector = typeof (selector) == 'undefined' ? '#invoice-form' : selector;
 
     _validate_form($(selector), {
         clientid: {
             required: {
-                depends: function() {
+                depends: function () {
                     var customerRemoved = $('select#clientid').hasClass('customer-removed');
                     return !customerRemoved;
                 }
@@ -6765,16 +6765,16 @@ function validate_invoice_form(selector) {
             url: admin_url + "invoices/validate_invoice_number",
             type: 'post',
             data: {
-                number: function() {
+                number: function () {
                     return $('input[name="number"]').val();
                 },
-                isedit: function() {
+                isedit: function () {
                     return $('input[name="number"]').data('isedit');
                 },
-                original_number: function() {
+                original_number: function () {
                     return $('input[name="number"]').data('original-number');
                 },
-                date: function() {
+                date: function () {
                     return $('input[name="date"]').val();
                 },
             }
@@ -6786,12 +6786,12 @@ function validate_invoice_form(selector) {
 }
 
 function validate_credit_note_form(selector) {
-    selector = typeof(selector) == 'undefined' ? '#credit-note-form' : selector;
+    selector = typeof (selector) == 'undefined' ? '#credit-note-form' : selector;
 
     _validate_form($(selector), {
         clientid: {
             required: {
-                depends: function() {
+                depends: function () {
                     var customerRemoved = $('select#clientid').hasClass('customer-removed');
                     return !customerRemoved;
                 }
@@ -6809,13 +6809,13 @@ function validate_credit_note_form(selector) {
             url: admin_url + "credit_notes/validate_number",
             type: 'post',
             data: {
-                number: function() {
+                number: function () {
                     return $('input[name="number"]').val();
                 },
-                isedit: function() {
+                isedit: function () {
                     return $('input[name="number"]').data('isedit');
                 },
-                original_number: function() {
+                original_number: function () {
                     return $('input[name="number"]').data('original-number');
                 }
             }
@@ -6829,12 +6829,12 @@ function validate_credit_note_form(selector) {
 // Validates estimate add/edit form
 function validate_estimate_form(selector) {
 
-    selector = typeof(selector) == 'undefined' ? '#estimate-form' : selector;
+    selector = typeof (selector) == 'undefined' ? '#estimate-form' : selector;
 
     _validate_form($(selector), {
         clientid: {
             required: {
-                depends: function() {
+                depends: function () {
                     var customerRemoved = $('select#clientid').hasClass('customer-removed');
                     return !customerRemoved;
                 }
@@ -6852,16 +6852,16 @@ function validate_estimate_form(selector) {
             url: admin_url + "estimates/validate_estimate_number",
             type: 'post',
             data: {
-                number: function() {
+                number: function () {
                     return $('input[name="number"]').val();
                 },
-                isedit: function() {
+                isedit: function () {
                     return $('input[name="number"]').data('isedit');
                 },
-                original_number: function() {
+                original_number: function () {
                     return $('input[name="number"]').data('original-number');
                 },
-                date: function() {
+                date: function () {
                     return $('body').find('.estimate input[name="date"]').val();
                 },
             }
@@ -6897,7 +6897,7 @@ function estimates_pipeline_update(ui, object) {
         var order = [];
         var status = $(ui.item).parents('.pipeline-status').find('li');
         var i = 1;
-        $.each(status, function() {
+        $.each(status, function () {
             order.push([$(this).data('estimate-id'), i]);
             i++;
         });
@@ -6917,7 +6917,7 @@ function proposals_pipeline_update(ui, object) {
         var status = $(ui.item).parents('.pipeline-status').find('li');
 
         var i = 1;
-        $.each(status, function() {
+        $.each(status, function () {
             data.order.push([$(this).data('proposal-id'), i]);
             i++;
         });
@@ -6935,7 +6935,7 @@ function proposals_pipeline() {
 // Open single proposal in pipeline
 function proposal_pipeline_open(id) {
     if (id === '') { return; }
-    requestGet('proposals/pipeline_open/' + id).done(function(response) {
+    requestGet('proposals/pipeline_open/' + id).done(function (response) {
         var visible = $('.proposal-pipeline-modal:visible').length > 0;
         $('#proposal').html(response);
         if (!visible) {
@@ -6952,7 +6952,7 @@ function proposal_pipeline_open(id) {
 // Estimate single open in pipeline
 function estimate_pipeline_open(id) {
     if (id === '') { return; }
-    requestGet('estimates/pipeline_open/' + id).done(function(response) {
+    requestGet('estimates/pipeline_open/' + id).done(function (response) {
         var visible = $('.estimate-pipeline:visible').length > 0;
         $('#estimate').html(response);
         if (!visible) {
@@ -6969,7 +6969,7 @@ function estimate_pipeline_open(id) {
 // Delete estimate note
 function delete_sales_note(wrapper, id) {
     if (confirm_delete()) {
-        requestGetJSON('misc/delete_note/' + id).done(function(response) {
+        requestGetJSON('misc/delete_note/' + id).done(function (response) {
             if (response.success === true || response.success == 'true') {
                 $(wrapper).parents('.sales-note-wrapper').remove();
                 var salesNotesWrapper = $('#sales-notes-wrapper');
@@ -6988,7 +6988,7 @@ function delete_sales_note(wrapper, id) {
 
 // Get all estimate notes
 function get_sales_notes(id, controller) {
-    requestGet(controller + '/get_notes/' + id).done(function(response) {
+    requestGet(controller + '/get_notes/' + id).done(function (response) {
         $('#sales_notes_area').html(response);
         var totalNotesNow = $('#sales-notes-wrapper').attr('data-total');
         if (totalNotesNow > 0) {
@@ -7013,7 +7013,7 @@ function small_table_full_view() {
 function save_sales_number_settings(e) {
     var data = {};
     data.prefix = $("body").find('input[name="s_prefix"]').val();
-    $.post($(e).data('url'), data).done(function(response) {
+    $.post($(e).data('url'), data).done(function (response) {
         response = JSON.parse(response);
         if (response.success && response.message) {
             alert_float('success', response.message);
@@ -7026,8 +7026,8 @@ function save_sales_number_settings(e) {
 function do_prefix_year(date) {
     var date_array = _split_formatted_date_by_separator(date);
 
-    if (typeof(date_array) != 'undefined') {
-        $.each(date_array, function(i, string) {
+    if (typeof (date_array) != 'undefined') {
+        $.each(date_array, function (i, string) {
             if (string.length == 4) {
                 var $pYear = $('#prefix_year');
                 if ($pYear.hasClass('format-n-yy')) {
@@ -7108,7 +7108,7 @@ function init_tabs_scrollable() {
 }
 
 function view_contact_consent(id) {
-    requestGet('clients/consents/' + id).done(function(response) {
+    requestGet('clients/consents/' + id).done(function (response) {
         $('#consent_data').html(response);
         initDataTableInline($('#consentHistoryTable'));
         $('#consentModal').modal('show');
@@ -7122,7 +7122,7 @@ function view_lead_consent(id) {
 
 // Set single notification as read INLINE
 function set_notification_read_inline(id) {
-    requestGet('misc/set_notification_read_inline/' + id).done(function() {
+    requestGet('misc/set_notification_read_inline/' + id).done(function () {
         var notification = $("body").find('.notification-wrapper[data-notification-id="' + id + '"]');
         notification.find('.notification-box,.notification-box-all').removeClass('unread');
         notification.find('.not-mark-as-read-inline').tooltip('destroy').remove();
@@ -7131,7 +7131,7 @@ function set_notification_read_inline(id) {
 
 // Marks all notifications as read INLINE
 function mark_all_notifications_as_read_inline() {
-    requestGet('misc/mark_all_notifications_as_read_inline/').done(function() {
+    requestGet('misc/mark_all_notifications_as_read_inline/').done(function () {
         var notification = $("body").find('.notification-wrapper');
         notification.find('.notification-box,.notification-box-all').removeClass('unread');
         notification.find('.not-mark-as-read-inline').tooltip('destroy').remove();
@@ -7141,7 +7141,7 @@ function mark_all_notifications_as_read_inline() {
 // Deletes activity for sales eq. invoices, estimates.
 function delete_sale_activity(id) {
     if (confirm_delete()) {
-        requestGet('misc/delete_sale_activity/' + id).done(function() {
+        requestGet('misc/delete_sale_activity/' + id).done(function () {
             $("body").find('[data-sale-activity-id="' + id + '"]').remove();
         });
     }
@@ -7149,8 +7149,8 @@ function delete_sale_activity(id) {
 
 // View calendar custom single event
 function view_event(id) {
-    if (typeof(id) == 'undefined') { return; }
-    $.post(admin_url + 'utilities/view_event/' + id).done(function(response) {
+    if (typeof (id) == 'undefined') { return; }
+    $.post(admin_url + 'utilities/view_event/' + id).done(function (response) {
         $('#event').html(response);
         $('#viewEvent').modal('show');
         init_datepicker();
@@ -7162,7 +7162,7 @@ function view_event(id) {
 // Delete calendar event form
 function delete_event(id) {
     if (confirm_delete()) {
-        requestGetJSON('utilities/delete_event/' + id).done(function(response) {
+        requestGetJSON('utilities/delete_event/' + id).done(function (response) {
             if (response.success === true || response.success == 'true') { window.location.reload(); }
         });
     }
@@ -7185,11 +7185,11 @@ function validate_calendar_form() {
 
 // Handles calendar event saving
 function calendar_form_handler(form) {
-    $.post(form.action, $(form).serialize()).done(function(response) {
+    $.post(form.action, $(form).serialize()).done(function (response) {
         response = JSON.parse(response);
         if (response.success === true || response.success == 'true') {
             alert_float('success', response.message);
-            setTimeout(function() {
+            setTimeout(function () {
                 var location = window.location.href;
                 location = location.split('?');
                 window.location.href = location[0];
@@ -7218,7 +7218,7 @@ function add_hotkey(key, func) {
 
 // Fetches notifications
 function fetch_notifications(callback) {
-    requestGetJSON('misc/notifications_check').done(function(response) {
+    requestGetJSON('misc/notifications_check').done(function (response) {
         var nw = notifications_wrapper;
         nw.html(response.html);
         var total = nw.find('ul.notifications').attr('data-total-unread');
@@ -7229,9 +7229,9 @@ function fetch_notifications(callback) {
             nIds = [];
             nIds.push(lastNotification);
         }
-        setTimeout(function() {
+        setTimeout(function () {
             if (nIds.length > 0) {
-                $.each(nIds, function(i, notId) {
+                $.each(nIds, function (i, notId) {
                     var nSelector = 'li[data-notification-id="' + notId + '"]';
                     var $not = nw.find(nSelector);
                     $.notify("", {
@@ -7241,8 +7241,8 @@ function fetch_notifications(callback) {
                         'icon': $not.find('.notification-image').attr('src'),
                         'tag': notId,
                         'closeTime': app_dismiss_desktop_not_after != "0" ? app_dismiss_desktop_not_after * 1000 : null
-                    }).close(function() {
-                        requestGet('misc/set_desktop_notification_read/' + notId).done(function(response) {
+                    }).close(function () {
+                        requestGet('misc/set_desktop_notification_read/' + notId).done(function (response) {
                             var $totalIndicator = nw.find('.icon-total-indicator');
                             nw.find('li[data-notification-id="' + notId + '"] .notification-box').removeClass('unread');
                             var currentTotalNotifications = $totalIndicator.text();
@@ -7256,10 +7256,10 @@ function fetch_notifications(callback) {
                                 $totalIndicator.addClass('hide');
                             }
                         });
-                    }).click(function(e) {
+                    }).click(function (e) {
                         parent.focus();
                         window.focus();
-                        setTimeout(function() {
+                        setTimeout(function () {
                             nw.find(nSelector + ' .notification-link').addClass('desktopClick').click();
                             e.target.close();
                         }, 70);
@@ -7276,7 +7276,7 @@ function init_new_task_comment() {
         tinymce.remove('#task_comment');
     }
 
-    if (typeof(taskCommentAttachmentDropzone) != 'undefined') {
+    if (typeof (taskCommentAttachmentDropzone) != 'undefined') {
         taskCommentAttachmentDropzone.destroy();
     }
 
@@ -7292,7 +7292,7 @@ function init_new_task_comment() {
         parallelUploads: 20,
         maxFiles: 20,
         paramName: 'file',
-        sending: function(file, xhr, formData) {
+        sending: function (file, xhr, formData) {
             formData.append("taskid", $('#addTaskCommentBtn').attr('data-comment-task-id'));
             if (tinyMCE.activeEditor) {
                 formData.append("content", tinyMCE.activeEditor.getContent());
@@ -7300,7 +7300,7 @@ function init_new_task_comment() {
                 formData.append("content", $('#task_comment').val());
             }
         },
-        success: function(files, response) {
+        success: function (files, response) {
             response = JSON.parse(response);
             if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
                 _task_append_html(response.taskHtml);
@@ -7324,13 +7324,13 @@ function init_ajax_search(type, selector, server_data, url) {
     if (ajaxSelector.length) {
         var options = {
             ajax: {
-                url: (typeof(url) == 'undefined' ? admin_url + 'misc/get_relation_data' : url),
-                data: function() {
+                url: (typeof (url) == 'undefined' ? admin_url + 'misc/get_relation_data' : url),
+                data: function () {
                     var data = {};
                     data.type = type;
                     data.rel_id = '';
                     data.q = '{{{q}}}';
-                    if (typeof(server_data) != 'undefined') {
+                    if (typeof (server_data) != 'undefined') {
                         jQuery.extend(data, server_data);
                     }
                     return data;
@@ -7346,7 +7346,7 @@ function init_ajax_search(type, selector, server_data, url) {
             },
             requestDelay: 500,
             cache: false,
-            preprocessData: function(processData) {
+            preprocessData: function (processData) {
                 var bs_data = [];
                 var len = processData.length;
                 for (var i = 0; i < len; i++) {
@@ -7393,17 +7393,17 @@ function _dropzone_defaults() {
         dictMaxFilesExceeded: appLang.you_can_not_upload_any_more_files,
         maxFilesize: (max_php_ini_upload_size_bytes / (1024 * 1024)).toFixed(0),
         acceptedFiles: app_allowed_files,
-        error: function(file, response) {
+        error: function (file, response) {
             alert_float('danger', response);
         },
-        complete: function(file) {
+        complete: function (file) {
             this.files.length && this.removeFile(file);
         },
     };
 }
 
 function onChartClickRedirect(evt, chart, fetchUrl) {
-    if (typeof(fetchUrl) == 'undefined') {
+    if (typeof (fetchUrl) == 'undefined') {
         fetchUrl = 'statusLink';
     }
     var item = chart.getElementAtEvent(evt)[0];
@@ -7429,9 +7429,9 @@ function slugify(string) {
 }
 
 // Delay function
-var delay = (function() {
+var delay = (function () {
     var timer = 0;
-    return function(callback, ms) {
+    return function (callback, ms) {
         clearTimeout(timer);
         timer = setTimeout(callback, ms);
     };
@@ -7439,7 +7439,7 @@ var delay = (function() {
 
 // General helper function for $.get ajax requests
 function requestGet(uri, params) {
-    params = typeof(params) == 'undefined' ? {} : params;
+    params = typeof (params) == 'undefined' ? {} : params;
     var options = {
         type: 'GET',
         url: uri.indexOf(admin_url) > -1 ? uri : admin_url + uri
@@ -7449,7 +7449,7 @@ function requestGet(uri, params) {
 
 // General helper function for $.get ajax requests with dataType JSON
 function requestGetJSON(uri, params) {
-    params = typeof(params) == 'undefined' ? {} : params;
+    params = typeof (params) == 'undefined' ? {} : params;
     params.dataType = 'json';
     return requestGet(uri, params);
 }

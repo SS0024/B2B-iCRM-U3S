@@ -96,8 +96,14 @@ function format_proposal_status($status, $classes = '', $label = true)
     } elseif ($status == 6) {
         $status      = _l('proposal_status_draft');
         $label_class = 'default';
+    }elseif ($status == 7 ) {
+        $status      = _l('proposal_status_Order_Lost');
+        $label_class = 'info';
+        }
+    elseif ($status == 8 ) {
+    $status      = _l('proposal_status_Negotation');
+    $label_class = 'info';
     }
-
     if ($label == true) {
         return '<span class="label label-' . $label_class . ' ' . $classes . ' s-status proposal-status-' . $id . '">' . $status . '</span>';
     }

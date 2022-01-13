@@ -12,6 +12,8 @@ class Inquiries_model extends CRM_Model
     {
         parent::__construct();
         $this->statuses = do_action('before_set_proposal_statuses', [
+            8,
+            7,
             6,
             4,
             1,

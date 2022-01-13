@@ -52,16 +52,16 @@
                               </a>
                            </li>
                            <?php } ?>
-                           <li >
+                           <!-- <li >
                                 <a href="#" data-cview="lead_status" onclick="dt_custom_view('Negotiations','.table-inquiries','lead_status'); return false;">
-                                    <?php echo _l('Negotiations'); ?>
+                                    <?php //echo _l('Negotiations'); ?>
                               </a>
                            </li>
                            <li >
                                 <a href="#" data-cview="lead_status2" onclick="dt_custom_view('Order Lost','.table-inquiries','lead_status2'); return false;">
-                                    <?php echo _l('Order Lost'); ?>
+                                    <?php //echo _l('Order Lost'); ?>
                               </a>
-                           </li>
+                           </li> -->
                            <?php if(count($years) > 0){ ?>
                            <li class="divider"></li>
                            <?php foreach($years as $year){ ?>
