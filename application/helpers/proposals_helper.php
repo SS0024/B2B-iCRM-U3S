@@ -104,6 +104,10 @@ function format_proposal_status($status, $classes = '', $label = true)
     $status      = _l('proposal_status_Negotation');
     $label_class = 'info';
     }
+    elseif ($status == 9 ) {
+        $status      = _l('proposal_status_Partiallyaccepted');
+        $label_class = 'info';
+        }
     if ($label == true) {
         return '<span class="label label-' . $label_class . ' ' . $classes . ' s-status proposal-status-' . $id . '">' . $status . '</span>';
     }

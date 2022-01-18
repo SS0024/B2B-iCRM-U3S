@@ -2458,6 +2458,7 @@ $lang['settings_pdf_font_size']                  = 'Default font size';
 $lang['proposal_status_draft']                   = 'Draft';
 $lang['proposal_status_Order_Lost']                   = 'Order Lost';
 $lang['proposal_status_Negotation']                   = 'Negotation';
+$lang['proposal_status_Partiallyaccepted']            =  'Partially Accepted';
 $lang['custom_field_contacts']                   = 'Contacts';
 $lang['company_primary_email']                   = 'Primary Email';
 $lang['client_register_contact_info']            = 'Primary Contact Information';

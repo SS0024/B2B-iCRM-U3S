@@ -3,30 +3,15 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $baseCurrencySymbol = $this->ci->currencies_model->get_base_currency()->symbol;
-$group_id = $group_cond = '';
-if ($this->ci->input->post('group_id')) {
-    $group_id = $this->ci->input->post('group_id');
-    $group_cond = ' group_tbl.id='.$group_id.' AND ';
-}
-
-$brand_id = $brand_cond = '';
-if ($this->ci->input->post('brand_id')) {
-    $brand_id = $this->ci->input->post('brand_id');
-    $brand_cond = ' brands_tbl.id='.$brand_id.' AND ';
-}
 
 $aColumns = [
     'tblinquiries.id',
     'total',
     'subject',
-    '(SELECT description FROM tblitems_in as items_ WHERE  items_.rel_type = "inquiry" AND items_.rel_id= tblinquiries.id limit 1 ) as item_description',
-    '(SELECT group_id FROM tblitems_in as items_ WHERE  items_.rel_type = "inquiry" AND items_.rel_id= tblinquiries.id limit 1 ) as item_group_id, ',
-    '(SELECT name FROM tblitems_groups as group_tbl WHERE '.$group_cond.'  group_tbl.id= (SELECT group_id FROM tblitems_in as items_ WHERE  items_.rel_type = "inquiry" AND items_.rel_id= tblinquiries.id limit 1 ) limit 1 ) as group_name, ',
-    '(SELECT name FROM tblitems_brands as brands_tbl WHERE '.$brand_cond.'  brands_tbl.id = (SELECT brand FROM tblitems as items_tb WHERE  items_tb.description = (SELECT description FROM tblitems_in as items_ WHERE  items_.rel_type = "inquiry" AND items_.rel_id= tblinquiries.id limit 1 )  limit 1 ) limit 1 ) as brand_name, ',
     'total_tax',
     '(CASE 
-        WHEN tblinquiries.rel_type="lead" THEN (SELECT company FROM tblleads WHERE tblleads.id = tblinquiries.rel_id LIMIT 1)
-        WHEN tblinquiries.rel_type="customer" THEN (SELECT (CASE company WHEN "" THEN (SELECT CONCAT(firstname, " ", lastname) FROM tblcontacts WHERE userid = tblclients.userid and is_primary = 1) ELSE company END) company FROM tblclients where tblclients.userid = tblinquiries.rel_id LIMIT 1)
+        WHEN rel_type="lead" THEN (SELECT company FROM tblleads WHERE tblleads.id = tblinquiries.rel_id LIMIT 1)
+        WHEN rel_type="customer" THEN (SELECT (CASE company WHEN "" THEN (SELECT CONCAT(firstname, " ", lastname) FROM tblcontacts WHERE userid = tblclients.userid and is_primary = 1) ELSE company END) company FROM tblclients where tblclients.userid = tblinquiries.rel_id LIMIT 1)
         END) as customer_name',
     'tblinquiries.devide_gst as devide_gst',
     '1',
@@ -105,7 +90,7 @@ if(isset($_POST['contact_person']) && !empty($_POST['contact_person'])){
     ];
 
     $divConsDetails = get_div_cons_by_type('inquiry', null, $customWhere);
-    $estimateIds = implode(',',array_unique(array_pluck($divConsDetails,'tblinquiries.rel_id')));
+    $estimateIds = implode(',',array_unique(array_pluck($divConsDetails,'rel_id')));
     if(!empty($estimateIds)){
         array_push($where, 'AND tblinquiries.id IN ('.$estimateIds.')');
     }else{
@@ -115,16 +100,6 @@ if(isset($_POST['contact_person']) && !empty($_POST['contact_person'])){
 if(isset($_POST['customer']) && !empty($_POST['customer'])){
     array_push($where, 'AND tblinquiries.rel_id = "'.$_POST['customer'].'" ');
 }
-if(isset($_POST['lead_status']) && !empty($_POST['lead_status'])){
-    array_push($where, 'AND tblinquiries.lead_status = "'.$_POST['lead_status'].'" ');
-}
-if(isset($_POST['lead_status2']) && !empty($_POST['lead_status2'])){
-    array_push($where, 'AND tblinquiries.lead_status = "'.$_POST['lead_status2'].'" ');
-}
-/*error_reporting(E_ALL);
-ini_set('display_errors', TRUE);
-ini_set('display_startup_errors', TRUE);*/
-
 $join          = [];
 $custom_fields = get_table_custom_fields('proposal');
 
@@ -135,36 +110,23 @@ foreach ($custom_fields as $key => $field) {
     array_push($aColumns, 'ctable_' . $key . '.value as ' . $selectAs);
     array_push($join, 'LEFT JOIN tblcustomfieldsvalues as ctable_' . $key . ' ON tblinquiries.id = ctable_' . $key . '.relid AND ctable_' . $key . '.fieldto="' . $field['fieldto'] . '" AND ctable_' . $key . '.fieldid=' . $field['id']);
 }
-// array_push($join, 'LEFT JOIN tblitems_in as items_ ON items_.rel_type = "inquiry"  AND items_.rel_id= tblinquiries.id ');
+
 $aColumns = do_action('proposals_table_sql_columns', $aColumns);
 
 // Fix for big queries. Some hosting have max_join_limit
 if (count($custom_fields) > 4) {
     @$this->ci->db->query('SET SQL_BIG_SELECTS=1');
 }
-$group_by ='';
-if(!empty($group_id) || !empty($brand_id)){
-    $group_by =' group by tblinquiries.id HAVING ';
-}
-if(!empty($group_id)){
-    $group_by .= ' group_name !="" ';
-}
 
-if(!empty($brand_id)){
-    if(!empty($group_id)){
-        $group_by .= ' AND  ';
-    }
-    $group_by .= ' brand_name !="" ';
-}
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     'currency',
-    'tblinquiries.rel_id',
-    'tblinquiries.rel_type',
+    'rel_id',
+    'rel_type',
     'invoice_id',
     'is_rfr',
     'status',
     'hash',
-], $group_by);
+]);
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
@@ -211,26 +173,24 @@ foreach ($rResult as $aRow) {
     $row[] = $toOutput;
 
     $estimateItem = get_items_by_type('inquiry', $aRow['tblinquiries.id'])[0];
-    /*@$this->ci->db->select('*');
+    @$this->ci->db->select('*');
     @$this->ci->db->from('tblitems');
-    @$this->ci->db->where('description', $aRow['item_description']);
-    $recdata = @$this->ci->db->get()->row();*/
+    @$this->ci->db->where('description', $estimateItem['description']);
+    $recdata = @$this->ci->db->get()->row();
 
-    /*@$this->ci->db->select('*');
+    @$this->ci->db->select('*');
     @$this->ci->db->from('tblitems_groups');
-    @$this->ci->db->where('id', $aRow['item_group_id']);
-    $groupdata = @$this->ci->db->get()->row();*/
+    @$this->ci->db->where('id', $estimateItem['group_id']);
+    $groupdata = @$this->ci->db->get()->row();
 
-    /*@$this->ci->db->select('*');
+    @$this->ci->db->select('*');
     @$this->ci->db->from('tblitems_brands');
     @$this->ci->db->where('id', $recdata->brand);
-    $branddata = @$this->ci->db->get()->row();*/
+    $branddata = @$this->ci->db->get()->row();
 
-    // $row[] = $branddata->name;
-    $row[] = $aRow['brand_name'];
+    $row[] = $branddata->name;
 
-    // $row[] = $groupdata->name;
-    $row[] = $aRow['group_name'];
+    $row[] = $groupdata->name;
 
     $row[] = $aRow['adminnote'];
 

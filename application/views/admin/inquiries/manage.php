@@ -17,8 +17,6 @@
                foreach($proposals_sale_agents as $agent){
                 echo form_hidden('sale_agent_'.$agent['sale_agent']);
                }
-               echo form_hidden('lead_status');
-               echo form_hidden('lead_status2');
                echo form_hidden('leads_related');
                echo form_hidden('customers_related');
                echo form_hidden('expired');
@@ -52,16 +50,6 @@
                               </a>
                            </li>
                            <?php } ?>
-                           <!-- <li >
-                                <a href="#" data-cview="lead_status" onclick="dt_custom_view('Negotiations','.table-inquiries','lead_status'); return false;">
-                                    <?php //echo _l('Negotiations'); ?>
-                              </a>
-                           </li>
-                           <li >
-                                <a href="#" data-cview="lead_status2" onclick="dt_custom_view('Order Lost','.table-inquiries','lead_status2'); return false;">
-                                    <?php //echo _l('Order Lost'); ?>
-                              </a>
-                           </li> -->
                            <?php if(count($years) > 0){ ?>
                            <li class="divider"></li>
                            <?php foreach($years as $year){ ?>
@@ -93,8 +81,6 @@
                               <?php echo _l('proposal_expired'); ?>
                               </a>
                            </li>
-                          
-                           
                            <li>
                               <a href="#" data-cview="leads_related" onclick="dt_custom_view('leads_related','.table-inquiries','leads_related'); return false;">
                               <?php echo _l('proposals_leads_related'); ?>
@@ -119,17 +105,18 @@
                              <div class="col-md-12">
                                  <p class="bold"><?php echo _l('filter_by'); ?></p>
                              </div>
-                             <div class="col-md-2">
+                             <div class="col-md-4">
                                  <div class="form-group">
                                      <label for="contact_person"><?php echo _l('Contact Person'); ?></label>
                                      <select name="contact_persons[]" id="contact_person" onchange="" class="selectpicker" multiple data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('Contact person'); ?>">
-                                         <?php foreach($estimates_contact_persons as $contact_person){  ?>
+                                         <?php foreach($estimates_contact_persons as $contact_person){
+                                             ?>
                                              <option value="<?php echo $contact_person['con']; ?>"><?php echo $contact_person['contact_name']; ?></option>
                                          <?php } ?>
                                      </select>
                                  </div>
                              </div>
-                             <div class="col-md-2">
+                             <div class="col-md-4">
                                  <div class="form-group" id="report-time">
                                      <label for="months-report"><?php echo _l('period_datepicker'); ?></label><br />
                                      <select class="selectpicker" name="months-report" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -145,7 +132,7 @@
                                      </select>
                                  </div>
                              </div>
-                             <div class="col-md-3">
+                              <div class="col-md-4"> <!-- customer search -->
                                  <div class="form-group">
                                      <label for="customer_"><?php echo _l('Customer'); ?></label>
                                      <select name="customer" id="customer_" onchange="" class="selectpicker" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('Customer'); ?>">
@@ -159,17 +146,6 @@
                                          <?php } } ?>
                                      </select>
                                  </div>
-                             </div>
-                             <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="customer_"><?php echo _l('Group'); ?></label>
-                                    <?php echo render_select('group_id', $items_groups, array('id', 'name')); ?>
-                                </div>
-                             </div>
-                             <div class="col-md-2">
-                                <div class="form-group">
-                                    <?php echo render_select('brand', $items_brands, array('id', 'name'), 'Brand'); ?>
-                                </div>
                              </div>
                              <div class="col-md-4">
                                  <div id="date-range" class="hide mbot15">
@@ -258,12 +234,6 @@
        if($('select[name="customer"]').length > 0){
            Proposals_ServerParams['customer'] = "[name='customer']"
        }
-       if($('select[name="group_id"]').length > 0){
-           Proposals_ServerParams['group_id'] = "[name='group_id']"
-       }
-       if($('select[name="brand"]').length > 0){
-           Proposals_ServerParams['brand_id'] = "[name='brand']"
-       }
      initDataTable('.table-inquiries', admin_url+'inquiries/table', [2,3,5,6], [2,3,5,6], Proposals_ServerParams, [0, 'desc']);
      init_inquiry();
    });
@@ -315,12 +285,6 @@
        gen_reports();
    });
    $('select[name="customer"]').on('change', function() {
-       gen_reports();
-   });
-   $('select[name="group_id"]').on('change', function() {
-       gen_reports();
-   });
-   $('select[name="brand"]').on('change', function() {
        gen_reports();
    });
 </script>
